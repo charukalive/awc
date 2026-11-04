@@ -83,6 +83,57 @@ The new Bill gazetted in July 2026:
 
 ---
 
+#### Q11: What is a "B-Report" (B-වාර්තාව) and why is it important?
+Under Sections 115 and 136(1)(b) of the Code of Criminal Procedure Act, a **B-Report** is the formal written report that police submit to the Magistrate to initiate a criminal court case.
+* The moment police file the B-Report, the court generates an official **Magistrate's Court Case Number** (e.g. `B/1234/2026`).
+* Once a B-Report is filed, lawyers representing the complainant, pet owner, or an animal welfare organization (like AWC) can file a proxy and motion to intervene, represent the animal's welfare interests, and ensure evidence is properly evaluated.
+
+---
+
+#### Q12: Why can't police prosecute based solely on viral social media posts without witness statements?
+Under Sri Lankan criminal procedure (Section 110 of the CCPA), guilt must be proven beyond reasonable doubt. Social media videos or hearsay are not sufficient on their own without direct witness testimony. An eyewitness statement provides sworn, direct evidence about what was seen, heard, and experienced first-hand, identifying the suspect and giving the prosecution solid ground to stand in court.
+
+---
+
+#### Q13: How do I submit smartphone video or CCTV evidence so the court will accept it?
+Under the **Evidence (Special Provisions) Act, No. 14 of 1995**, electronic recordings must follow the **3-CD & Affidavit Rule**:
+1. **Three (03) identical Compact Discs (CD-R/DVD-R):**
+   * Disc 1: For the Court record (Magistrate).
+   * Disc 2: For the Prosecution (Police / State Counsel).
+   * Disc 3: For the Defense (Accused's counsel).
+2. **Sworn Affidavit (දිවුරුම් ප්‍රකාශය):** Signed before a Justice of the Peace (JP) by the person who recorded the footage, stating the smartphone/CCTV make, model, exact date, time, and location, and swearing that the files are exact, unedited, and unaltered replicas of the original recording.
+
+---
+
+#### Q14: What is the difference between a Notice, a Summons, and a Warrant?
+* **Notice (දැන්වීම):** An administrative request by police to attend a station for an inquiry.
+* **Summons (සිතාසිය):** A formal judicial order signed by a Magistrate commanding a person to appear in court on a specific date. Ignoring a summons leads to an immediate arrest warrant.
+* **Warrant of Arrest (අත්අඩංගුවට ගැනීමේ වරෙන්තුව):** A judicial order directing police to arrest the named person anywhere in Sri Lanka and bring them before court.
+* **Search Warrant (සෝදිසි වරෙන්තුව):** A court order authorizing police to enter private premises to search for cruelty evidence, weapons, or captive animals.
+
+---
+
+#### Q15: What is a "Court Exhibit / Production" (නඩු භාණ්ඩ) and what happens to seized live animals?
+Under Section 425 of the CCPA, physical evidence (weapons, vehicles used in illegal transport, or victim animals) seized by police are produced in court as exhibits. Because living animals cannot be held in police evidence rooms, animal welfare lawyers move the court under **Badulla High Court Rev. 41/2017** to hand over temporary care and custody of the animals to a recognized welfare sanctuary on an indemnity bond, preventing them from being returned to the abuser (*SC Appeal No. 100/2025*).
+
+---
+
+#### Q16: How can citizens use the Right to Information (RTI) Act to investigate animal cases?
+Under the **Right to Information Act No. 12 of 2016**:
+1. Submit **Form RTI 01** to the Information Officer (IO) of the relevant public authority (Police Station, DAPH, DWC, or Local Council).
+2. You can request certified copies of Police Information Book (IB) complaint entries, B-Reports, veterinary post-mortem reports, butcher licenses, and sterilization budget expenditures.
+3. The IO must respond within **14 working days**. If denied, you can file a First Appeal to the Designated Officer (DO) and a Second Appeal to the **Right to Information Commission (RTIC)** in Colombo.
+
+---
+
+#### Q17: Where can I find the direct telephone numbers of all police stations and OICs in Sri Lanka?
+Sri Lanka Police maintains an official online directory with direct numbers for all Police Stations, OIC Crimes, and Divisional SPs:
+👉 **Official Police Telephone Index:** [https://police.lk/telephone-index/](https://police.lk/telephone-index/)
+* **Police Emergency:** Dial **119** (Islandwide 24/7)
+* **Police Headquarters (Colombo):** +94 11 242 1111
+
+---
+
 ### Step-by-Step Citizen Protocol: When Witnessing Cruelty
 
 ```text
