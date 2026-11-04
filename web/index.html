@@ -332,108 +332,108 @@
 
           {/* Main Navigation Header */}
           <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2 sm:gap-4">
               
               {/* Brand Logo & Name */}
-              <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('home')}>
-                <img src="assets/logo.png" alt="AWC Logo" className="h-12 w-auto object-contain" onError={(e)=>{e.target.style.display='none'}} />
-                <div>
-                  <h1 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-white leading-tight">
+              <div className="flex items-center space-x-2.5 sm:space-x-3 cursor-pointer shrink-0" onClick={() => setActiveTab('home')}>
+                <img src="assets/logo.png" alt="AWC Logo" className="h-10 sm:h-12 w-auto object-contain shrink-0" onError={(e)=>{e.target.style.display='none'}} />
+                <div className="shrink-0">
+                  <div className="text-sm sm:text-base md:text-lg font-black text-slate-900 dark:text-white leading-tight whitespace-nowrap">
                     {t.brandName}
-                  </h1>
-                  <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
+                  </div>
+                  <div className="text-[10px] sm:text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider whitespace-nowrap">
                     {t.brandSub}
-                  </p>
+                  </div>
                 </div>
               </div>
 
               {/* Desktop Nav Items */}
-              <nav className="hidden lg:flex items-center space-x-1 text-sm font-medium">
-                <button onClick={() => setActiveTab('home')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'home' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+              <nav className="hidden xl:flex items-center space-x-1 text-xs xl:text-sm font-semibold whitespace-nowrap shrink-0">
+                <button onClick={() => setActiveTab('home')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'home' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.home}
                 </button>
-                <button onClick={() => setActiveTab('knowLaw')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'knowLaw' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                <button onClick={() => setActiveTab('knowLaw')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'knowLaw' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.knowLaw}
                 </button>
-                <button onClick={() => setActiveTab('playbook')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'playbook' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                <button onClick={() => setActiveTab('playbook')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'playbook' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.playbook}
                 </button>
-                <button onClick={() => setActiveTab('cases')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'cases' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                <button onClick={() => setActiveTab('cases')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'cases' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.cases}
                 </button>
-                <button onClick={() => setActiveTab('truthMyth')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'truthMyth' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                <button onClick={() => setActiveTab('truthMyth')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'truthMyth' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.truthMyth}
                 </button>
-                <button onClick={() => setActiveTab('ourWork')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'ourWork' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                <button onClick={() => setActiveTab('ourWork')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'ourWork' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.ourWork}
                 </button>
-                <button onClick={() => setActiveTab('about')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'about' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                <button onClick={() => setActiveTab('about')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'about' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.about}
                 </button>
-                <button onClick={() => setActiveTab('contact')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'contact' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                <button onClick={() => setActiveTab('contact')} className={`px-2.5 py-1.5 rounded-lg transition whitespace-nowrap ${activeTab === 'contact' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
                   {t.nav.contact}
                 </button>
               </nav>
 
-              {/* Utility Buttons: Track, Theme, Language */}
-              <div className="flex items-center space-x-2">
+              {/* Utility Buttons: Track, Theme, Language, Report */}
+              <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
                 
                 {/* Track Button */}
                 <button 
                   onClick={() => setShowTrackModal(true)}
-                  className="hidden sm:inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition"
+                  className="inline-flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition whitespace-nowrap shrink-0"
                 >
                   <i data-lucide="search" className="w-3.5 h-3.5"></i>
-                  <span>{t.nav.track}</span>
+                  <span className="hidden sm:inline">{t.nav.track}</span>
                 </button>
 
                 {/* Theme Toggle */}
                 <button
                   onClick={() => setDarkMode(!darkMode)}
-                  className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                  className="p-1.5 sm:p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition shrink-0"
                   title="Toggle Light / Dark Mode"
                 >
                   {darkMode ? (
-                    <svg className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
                     </svg>
                   ) : (
-                    <svg className="w-5 h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                     </svg>
                   )}
                 </button>
 
                 {/* Language Switcher */}
-                <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5 border border-slate-200 dark:border-slate-700 text-xs font-bold">
-                  <button onClick={() => setLang('en')} className={`px-2 py-1 rounded ${lang === 'en' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>EN</button>
-                  <button onClick={() => setLang('si')} className={`px-2 py-1 rounded ${lang === 'si' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>සිං</button>
-                  <button onClick={() => setLang('ta')} className={`px-2 py-1 rounded ${lang === 'ta' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>த</button>
+                <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5 border border-slate-200 dark:border-slate-700 text-xs font-bold shrink-0">
+                  <button onClick={() => setLang('en')} className={`px-1.5 sm:px-2 py-1 rounded ${lang === 'en' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>EN</button>
+                  <button onClick={() => setLang('si')} className={`px-1.5 sm:px-2 py-1 rounded ${lang === 'si' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>සිං</button>
+                  <button onClick={() => setLang('ta')} className={`px-1.5 sm:px-2 py-1 rounded ${lang === 'ta' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>த</button>
                 </div>
 
                 {/* Quick Action Button in Header */}
                 <button
                   onClick={() => setShowReportModal(true)}
-                  className="hidden md:inline-flex items-center space-x-1.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider px-3.5 py-2 rounded-lg shadow-sm transition"
+                  className="inline-flex items-center space-x-1.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg shadow-sm transition whitespace-nowrap shrink-0"
                 >
-                  <i data-lucide="alert-triangle" className="w-4 h-4"></i>
+                  <i data-lucide="alert-triangle" className="w-3.5 h-3.5"></i>
                   <span>Report</span>
                 </button>
 
               </div>
             </div>
 
-            {/* Mobile Nav Scroller */}
-            <div className="lg:hidden overflow-x-auto py-2 px-4 border-t border-slate-100 dark:border-slate-800 flex space-x-2 text-xs font-semibold">
-              <button onClick={() => setActiveTab('home')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'home' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.home}</button>
-              <button onClick={() => setActiveTab('knowLaw')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'knowLaw' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.knowLaw}</button>
-              <button onClick={() => setActiveTab('playbook')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'playbook' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.playbook}</button>
-              <button onClick={() => setActiveTab('cases')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'cases' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.cases}</button>
-              <button onClick={() => setActiveTab('truthMyth')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'truthMyth' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.truthMyth}</button>
-              <button onClick={() => setActiveTab('ourWork')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'ourWork' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.ourWork}</button>
-              <button onClick={() => setActiveTab('about')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'about' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.about}</button>
-              <button onClick={() => setActiveTab('contact')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'contact' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.contact}</button>
-              <button onClick={() => setShowTrackModal(true)} className="px-2.5 py-1.5 rounded shrink-0 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">{t.nav.track}</button>
+            {/* Sub-header / Scroller for Small & Medium Displays */}
+            <div className="xl:hidden overflow-x-auto py-2.5 px-4 border-t border-slate-100 dark:border-slate-800 flex space-x-2 text-xs font-semibold scrollbar-none">
+              <button onClick={() => setActiveTab('home')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'home' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.home}</button>
+              <button onClick={() => setActiveTab('knowLaw')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'knowLaw' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.knowLaw}</button>
+              <button onClick={() => setActiveTab('playbook')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'playbook' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.playbook}</button>
+              <button onClick={() => setActiveTab('cases')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'cases' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.cases}</button>
+              <button onClick={() => setActiveTab('truthMyth')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'truthMyth' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.truthMyth}</button>
+              <button onClick={() => setActiveTab('ourWork')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'ourWork' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.ourWork}</button>
+              <button onClick={() => setActiveTab('about')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'about' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.about}</button>
+              <button onClick={() => setActiveTab('contact')} className={`px-3 py-1.5 rounded-lg shrink-0 transition whitespace-nowrap ${activeTab === 'contact' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>{t.nav.contact}</button>
+              <button onClick={() => setShowTrackModal(true)} className="px-3 py-1.5 rounded-lg shrink-0 bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200 transition whitespace-nowrap">{t.nav.track}</button>
             </div>
           </header>
 
@@ -442,71 +442,97 @@
             {activeTab === 'home' && (
               <div>
                 {/* Hero Section */}
-                <section className="relative overflow-hidden py-16 lg:py-24 bg-gradient-to-b from-emerald-50/70 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                    
-                    <span className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 mb-6">
-                      <i data-lucide="shield-alert" className="w-3.5 h-3.5"></i>
-                      <span>{t.hero.tag}</span>
-                    </span>
+                <section className="relative overflow-hidden py-12 lg:py-20 bg-gradient-to-b from-emerald-50/80 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                      
+                      {/* Left: Headline & Action Buttons */}
+                      <div className="lg:col-span-7 text-center lg:text-left">
+                        <span className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 mb-6">
+                          <i data-lucide="shield-alert" className="w-3.5 h-3.5"></i>
+                          <span>{t.hero.tag}</span>
+                        </span>
 
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight max-w-4xl mx-auto">
-                      {t.hero.title}
-                    </h1>
+                        <h1 className="text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                          {t.hero.title}
+                        </h1>
 
-                    <p className="mt-6 text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                      {t.hero.subtitle}
-                    </p>
+                        <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+                          {t.hero.subtitle}
+                        </p>
 
-                    <p className="mt-3 text-sm font-semibold text-emerald-700 dark:text-emerald-400 italic">
-                      "{t.motto}"
-                    </p>
+                        <p className="mt-3 text-sm font-semibold text-emerald-700 dark:text-emerald-400 italic">
+                          "{t.motto}"
+                        </p>
 
-                    {/* Primary Action Buttons */}
-                    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
-                      <button
-                        onClick={() => setShowReportModal(true)}
-                        className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white bg-orange-600 hover:bg-orange-700 shadow-lg shadow-orange-600/25 flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 transition"
-                      >
-                        <i data-lucide="alert-octagon" className="w-5 h-5"></i>
-                        <span>{t.hero.reportBtn}</span>
-                      </button>
+                        {/* Primary Action Buttons */}
+                        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 max-w-xl">
+                          <button
+                            onClick={() => setShowReportModal(true)}
+                            className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-white bg-orange-600 hover:bg-orange-700 shadow-lg shadow-orange-600/25 flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 transition text-sm"
+                          >
+                            <i data-lucide="alert-octagon" className="w-4 h-4"></i>
+                            <span>{t.hero.reportBtn}</span>
+                          </button>
 
-                      <button
-                        onClick={() => setShowLegalModal(true)}
-                        className="w-full sm:w-auto px-7 py-4 rounded-xl font-bold text-slate-800 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 shadow-md flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 transition"
-                      >
-                        <i data-lucide="scale" className="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i>
-                        <span>{t.hero.legalBtn}</span>
-                      </button>
+                          <button
+                            onClick={() => setShowLegalModal(true)}
+                            className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-slate-800 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 shadow-md flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 transition text-sm"
+                          >
+                            <i data-lucide="scale" className="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                            <span>{t.hero.legalBtn}</span>
+                          </button>
 
-                      <button
-                        onClick={() => setShowTriageModal(true)}
-                        className="w-full sm:w-auto px-5 py-4 rounded-xl font-semibold text-xs text-emerald-800 dark:text-emerald-300 bg-emerald-100/70 hover:bg-emerald-200/70 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800 flex items-center justify-center space-x-1.5 transition"
-                      >
-                        <i data-lucide="life-buoy" className="w-4 h-4"></i>
-                        <span>{t.hero.triageBtn}</span>
-                      </button>
+                          <button
+                            onClick={() => setShowTriageModal(true)}
+                            className="w-full sm:w-auto px-4 py-3.5 rounded-xl font-semibold text-xs text-emerald-800 dark:text-emerald-300 bg-emerald-100/70 hover:bg-emerald-200/70 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800 flex items-center justify-center space-x-1.5 transition"
+                          >
+                            <i data-lucide="life-buoy" className="w-4 h-4"></i>
+                            <span>{t.hero.triageBtn}</span>
+                          </button>
+                        </div>
+
+                        {/* Emergency Direct Hotlines Banner */}
+                        <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center lg:justify-start items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Police 119:</span>
+                            <span className="text-[10px] text-slate-400">(Cognizable / Sec 12)</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Wildlife Crisis:</span>
+                            <a href="tel:1992" className="text-emerald-700 dark:text-emerald-400 font-extrabold hover:underline">DWC 1992</a>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Rabies Bite:</span>
+                            <span className="font-semibold text-amber-700 dark:text-amber-400">Wash 15m & Hospital</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: Authentic Visual Card */}
+                      <div className="lg:col-span-5">
+                        <div className="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl bg-slate-900 group">
+                          <img 
+                            src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=1000&q=80" 
+                            alt="Sri Lankan Community Animal Protection" 
+                            className="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition duration-700" 
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex flex-col justify-end p-6">
+                            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-600 text-white w-max mb-2 shadow">
+                              <i data-lucide="shield-check" className="w-3.5 h-3.5"></i>
+                              <span>Voice for the Voiceless</span>
+                            </div>
+                            <h3 className="text-xl font-black text-white leading-tight">Sri Lankan Animal Justice</h3>
+                            <p className="text-xs text-slate-300 mt-1">Ground evidence preservation, Magistrate Court legal interventions, and science-led policy reform.</p>
+                            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-emerald-400 font-semibold">
+                              <span>⚖️ Pro-Bono Legal Intake</span>
+                              <span>🛡️ 25 Districts</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
-
-                    {/* Emergency Direct Hotlines Banner */}
-                    <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center items-center gap-6 text-xs text-slate-600 dark:text-slate-400">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Immediate Police:</span>
-                        <a href="tel:119" className="text-red-600 dark:text-red-400 font-extrabold hover:underline">119</a>
-                        <span className="text-[10px] text-slate-400">(Cognizable Crimes / Sec 12)</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Wildlife Crisis:</span>
-                        <a href="tel:1992" className="text-emerald-700 dark:text-emerald-400 font-extrabold hover:underline">DWC 1992</a>
-                        <span className="text-[10px] text-slate-400">/ +94 11 2 888 585</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Rabies Bite:</span>
-                        <span className="font-semibold text-amber-700 dark:text-amber-400">Wash 15 Mins Soap Water & Hospital</span>
-                      </div>
-                    </div>
-
                   </div>
                 </section>
 
@@ -584,80 +610,124 @@
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                       
                       {/* Step 1 */}
-                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold mb-4">
-                            1
+                          <div className="relative h-40 overflow-hidden">
+                            <img 
+                              src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?auto=format&fit=crop&w=600&q=80" 
+                              alt="Capture Evidence" 
+                              className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                            />
+                            <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow">
+                              1
+                            </div>
                           </div>
-                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
-                            {t.actionGuide.step1}
-                          </h4>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {t.actionGuide.step1Desc}
-                          </p>
+                          <div className="p-5">
+                            <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                              {t.actionGuide.step1}
+                            </h4>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                              {t.actionGuide.step1Desc}
+                            </p>
+                          </div>
                         </div>
-                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-blue-600 dark:text-blue-400">
-                          Rule: Never trespass or risk physical confrontation.
+                        <div className="p-5 pt-0">
+                          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                            Rule: Never trespass or risk physical confrontation.
+                          </div>
                         </div>
                       </div>
 
                       {/* Step 2 */}
-                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold mb-4">
-                            2
+                          <div className="relative h-40 overflow-hidden">
+                            <img 
+                              src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80" 
+                              alt="File Police Complaint" 
+                              className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                            />
+                            <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow">
+                              2
+                            </div>
                           </div>
-                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
-                            {t.actionGuide.step2}
-                          </h4>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {t.actionGuide.step2Desc}
-                          </p>
+                          <div className="p-5">
+                            <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                              {t.actionGuide.step2}
+                            </h4>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                              {t.actionGuide.step2Desc}
+                            </p>
+                          </div>
                         </div>
-                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-                          Section 12: Police have power of warrantless arrest.
+                        <div className="p-5 pt-0">
+                          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                            Section 12: Police have power of warrantless arrest.
+                          </div>
                         </div>
                       </div>
 
                       {/* Step 3 */}
-                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold mb-4">
-                            3
+                          <div className="relative h-40 overflow-hidden">
+                            <img 
+                              src="https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80" 
+                              alt="Social Media Mobilization" 
+                              className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                            />
+                            <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold text-sm shadow">
+                              3
+                            </div>
                           </div>
-                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
-                            {t.actionGuide.step3}
-                          </h4>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {t.actionGuide.step3Desc}
-                          </p>
+                          <div className="p-5">
+                            <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                              {t.actionGuide.step3}
+                            </h4>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                              {t.actionGuide.step3Desc}
+                            </p>
+                          </div>
                         </div>
-                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-purple-600 dark:text-purple-400">
-                          Avoid defamation: State facts, not unverified guilt.
+                        <div className="p-5 pt-0">
+                          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-purple-600 dark:text-purple-400">
+                            Avoid defamation: State facts, not unverified guilt.
+                          </div>
                         </div>
                       </div>
 
                       {/* Step 4 */}
-                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-950 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold mb-4">
-                            4
+                          <div className="relative h-40 overflow-hidden">
+                            <img 
+                              src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80" 
+                              alt="AWC Legal Representation" 
+                              className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                            />
+                            <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-orange-600 text-white flex items-center justify-center font-bold text-sm shadow">
+                              4
+                            </div>
                           </div>
-                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
-                            {t.actionGuide.step4}
-                          </h4>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {t.actionGuide.step4Desc}
-                          </p>
+                          <div className="p-5">
+                            <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                              {t.actionGuide.step4}
+                            </h4>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                              {t.actionGuide.step4Desc}
+                            </p>
+                          </div>
                         </div>
-                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                          <button
-                            onClick={() => setShowReportModal(true)}
-                            className="text-xs font-bold text-orange-600 dark:text-orange-400 hover:underline flex items-center space-x-1"
-                          >
-                            <span>Open Intake Form</span>
-                            <span>→</span>
-                          </button>
+                        <div className="p-5 pt-0">
+                          <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+                            <button
+                              onClick={() => setShowReportModal(true)}
+                              className="text-xs font-bold text-orange-600 dark:text-orange-400 hover:underline flex items-center space-x-1"
+                            >
+                              <span>Open Intake Form</span>
+                              <span>→</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
 
@@ -685,12 +755,21 @@
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Case 1: Rani in Sigiriya */}
-                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition">
-                      <div className="p-6">
-                        <div className="flex justify-between items-start mb-3">
-                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition group">
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=600&q=80" 
+                          alt="Rani the Safari Elephant" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded-md bg-blue-600 text-white shadow">
                             Nov 2026 • Sigiriya
                           </span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-start mb-2">
                           <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400">
                             Suspect Arrested
                           </span>
@@ -708,12 +787,21 @@
                     </div>
 
                     {/* Case 2: Tango at Pawtopia */}
-                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition">
-                      <div className="p-6">
-                        <div className="flex justify-between items-start mb-3">
-                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition group">
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80" 
+                          alt="Tango at Pawtopia" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded-md bg-purple-600 text-white shadow">
                             Oct 2026 • Negombo
                           </span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-start mb-2">
                           <span className="text-[10px] font-extrabold text-purple-600 dark:text-purple-400">
                             Bail Monitored
                           </span>
@@ -731,12 +819,21 @@
                     </div>
 
                     {/* Case 3: Thalathuoya Cat Torture */}
-                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition">
-                      <div className="p-6">
-                        <div className="flex justify-between items-start mb-3">
-                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition group">
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" 
+                          alt="Thalathuoya Cat Case" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded-md bg-amber-600 text-white shadow">
                             Aug 2026 • Kandy
                           </span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-start mb-2">
                           <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400">
                             2 Arrested in Kandy MC
                           </span>
@@ -848,7 +945,7 @@
                     <div className="mt-5 p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 text-xs">
                       <div className="font-bold text-red-900 dark:text-red-300 mb-1 flex items-center space-x-1.5">
                         <i data-lucide="alert-circle" className="w-4 h-4 text-red-600"></i>
-                        <span>AWC Legislative Audit (Champa Fernando, Oct 2026): Key Gaps & Concerns</span>
+                        <span>AWC Legislative Audit (Oct 2026): Key Gaps & Concerns</span>
                       </div>
                       <ul className="list-disc list-inside space-y-1 text-slate-700 dark:text-slate-300 mt-2">
                         <li><strong>Clause 19 Blanket Exemptions:</strong> Excludes livestock agriculture, religious/cultural events, and wildlife "reasonable measures" from Chapter I cruelty offenses.</li>
@@ -1103,67 +1200,195 @@
                 </div>
 
                 {/* Team Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   
-                  {/* Member 1 */}
-                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Committee</span>
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Dr. Chamith Nanayakkara</h4>
-                    <p className="text-xs text-slate-500 font-medium">Veterinary Surgeon</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-                      Lead spokesperson on national population management, One Health policy, and Bribery Commission petitioner on sterilization budgets.
-                    </p>
+                  {/* Member 1: Dr. Chamith Nanayakkara */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
+                    <div>
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=600&q=80" 
+                          alt="Dr. Chamith Nanayakkara" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-600 text-white shadow">
+                            Executive Committee
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white">Dr. Chamith Nanayakkara</h4>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">Veterinary Surgeon</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed">
+                          Lead veterinary spokesperson on national population management, One Health rabies policy, and petitioner to the Bribery Commission on sterilization budgets.
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Member 2 */}
-                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Committee</span>
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Champa Fernando</h4>
-                    <p className="text-xs text-slate-500 font-medium">Policy Analyst & Activist</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-                      Involved with the Animal Welfare Bill since its inception; author of the clause-by-clause critique of Draft Bill 48/2026 exposing Clause 19 exemptions.
-                    </p>
+                  {/* Member 2: Thilini Gamage (Linipaws) */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
+                    <div>
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" 
+                          alt="Thilini Gamage - Linipaws" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-600 text-white shadow">
+                            Executive Committee
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white">Thilini Gamage</h4>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">Founder, Linipaws Sanctuary</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed">
+                          Founder of Linipaws Sanctuary, renowned for pioneering street cat rescue, specialized sanctuary care for disabled animals, spay-neuter drives, and nationwide humane advocacy.
+                        </p>
+                        <a 
+                          href="https://linipaws.org" 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="inline-flex items-center space-x-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline mt-3"
+                        >
+                          <span>linipaws.org</span>
+                          <i data-lucide="external-link" className="w-3 h-3"></i>
+                        </a>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Member 3 */}
-                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Committee</span>
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Gihan Dinushka</h4>
-                    <p className="text-xs text-slate-500 font-medium">Field Population Analyst</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-                      Grassroots population analytics spokesperson, critic of state-run dog shelters, and field coordinator.
-                    </p>
+                  {/* Member 3: Mihiri Siriwardena */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
+                    <div>
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80" 
+                          alt="Mihiri Siriwardena" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-600 text-white shadow">
+                            Executive Committee
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white">Mihiri Siriwardena</h4>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">Animal Welfarist</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed">
+                          Dedicated frontline animal welfarist specializing in community canine protection, emergency cruelty rescue triage, and legal defense of animal feeders against intimidation.
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Member 4 */}
-                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Member</span>
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Charuka Wickremesekera</h4>
-                    <p className="text-xs text-slate-500 font-medium">Public Engagement & Media</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-                      Advocate for modernizing archaic penalties and leading public campaigns on social media legal awareness.
-                    </p>
+                  {/* Member 4: Gihan Dinushka */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
+                    <div>
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80" 
+                          alt="Gihan Dinushka" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-600 text-white shadow">
+                            Executive Committee
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white">Gihan Dinushka</h4>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">Field Population Analyst</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed">
+                          Grassroots animal population analytics spokesperson, critic of state-run dog pounds, and field rescue coordinator.
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Member 5 */}
-                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Member</span>
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Madushanka Fernando</h4>
-                    <p className="text-xs text-slate-500 font-medium">Council Liaison</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-                      Participates in ministerial liaison and governmental discussions on advancing the Animal Welfare Bill.
-                    </p>
+                  {/* Member 5: Nethrapani Dias */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
+                    <div>
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80" 
+                          alt="Nethrapani Dias" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-600 text-white shadow">
+                            Legal Counsel
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white">Nethrapani Dias</h4>
+                        <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-0.5">Attorney-at-Law</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed">
+                          Legal counsel advising on Magistrate Court criminal proceedings, B-Report enforcement under Ordinance No. 13 of 1907, and judicial accountability.
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Member 6: Legal Counsel */}
-                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">Legal Counsel</span>
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Sajeewa Gamage</h4>
-                    <p className="text-xs text-slate-500 font-medium">Attorney-at-Law</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-                      Counsel leading criminal interventions in Sigiriya (Rani elephant) and Negombo (Pawtopia Tango case).
-                    </p>
+                  {/* Member 6: Sajeewa Gamage */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col justify-between group">
+                    <div>
+                      <div className="h-44 overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80" 
+                          alt="Sajeewa Gamage" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                        />
+                        <div className="absolute top-3 left-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-600 text-white shadow">
+                            Legal Counsel
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5">
+                        <h4 className="text-base font-bold text-slate-900 dark:text-white">Sajeewa Gamage</h4>
+                        <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-0.5">Attorney-at-Law</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 leading-relaxed">
+                          Counsel leading criminal interventions in Sigiriya (Rani elephant) and Negombo (Pawtopia Tango case).
+                        </p>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Member 7: Charuka Wickremesekera */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                        Executive Member
+                      </span>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Charuka Wickremesekera</h4>
+                      <p className="text-xs text-slate-500 font-medium">Public Engagement & Media</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                        Spearheading public campaign mobilization, civic outreach, and social media animal law education across Sri Lanka.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Member 8: Madushanka Fernando */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                        Executive Member
+                      </span>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Madushanka Fernando</h4>
+                      <p className="text-xs text-slate-500 font-medium">Council Liaison</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                        Participates in ministerial liaison and governmental discussions on advancing the Animal Welfare Bill.
+                      </p>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
