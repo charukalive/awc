@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const Babel = require('@babel/standalone');
 
-const filesToValidate = ['web/index.html', 'web/admin.html', 'web/editor.html'];
+const filesToValidate = ['web/index.html', 'web/admin.html', 'web/editor.html', 'web/media-manager.html'];
 let hasErrors = false;
 
 console.log('--- AWC Preflight HTML/JSX Babel Standalone Validator ---');

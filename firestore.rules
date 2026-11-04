@@ -47,5 +47,10 @@ service cloud.firestore {
       allow create: if true; // Public can submit application
       allow read, update, delete: if isAdmin();
     }
+    // 6. Site Configuration (Dynamic Images, Global Notices)
+    match /siteConfig/{configDoc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

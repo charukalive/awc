@@ -3,7 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
   <title>Animal Welfare Coalition Sri Lanka (AWC) | ශ්‍රී ලංකා සත්ව සුබසාධන සන්ධානය | இலங்கை விலங்கு நலக் கூட்டணி</title>
+  <meta name="title" content="Animal Welfare Coalition Sri Lanka (AWC) - Civil Society Legal Advocacy">
+  <meta name="description" content="Civil society coalition coordinating legal aid, police station interventions, Magistrate Court litigation, and humane stray management advocacy across Sri Lanka.">
+  <meta name="keywords" content="Animal Welfare Sri Lanka, AWC, Animal Cruelty Sri Lanka, Rabies Ordinance, 1907 Ordinance, Animal Law Sri Lanka, Magistrate Court, Dog Population Management">
+  <meta name="author" content="Animal Welfare Coalition Sri Lanka">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook / WhatsApp (Optimized for rich preview < 300KB) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://charukalive.github.io/awc/">
+  <meta property="og:title" content="Animal Welfare Coalition Sri Lanka (AWC)">
+  <meta property="og:description" content="Civil society coalition coordinating legal aid, police station interventions, Magistrate Court litigation, and humane stray management advocacy across Sri Lanka.">
+  <meta property="og:image" content="https://charukalive.github.io/awc/assets/og-preview.png">
+  <meta property="og:image:secure_url" content="https://charukalive.github.io/awc/assets/og-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="600">
+  <meta property="og:image:alt" content="Animal Welfare Coalition Sri Lanka Official Emblem">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="si_LK">
+  <meta property="og:locale:alternate" content="ta_LK">
+  <meta property="og:site_name" content="Animal Welfare Coalition Sri Lanka">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://charukalive.github.io/awc/">
+  <meta name="twitter:title" content="Animal Welfare Coalition Sri Lanka (AWC)">
+  <meta name="twitter:description" content="Civil society coalition coordinating legal aid, police station interventions, and Magistrate Court litigation across Sri Lanka.">
+  <meta name="twitter:image" content="https://charukalive.github.io/awc/assets/og-preview.png">
   <link rel="icon" type="image/png" href="assets/logo.png">
   
   <!-- Tailwind CSS CDN with Dark Mode Support -->
@@ -105,6 +134,30 @@
       const [darkMode, setDarkMode] = useState(() => localStorage.getItem('awc_theme') === 'dark');
       const [activeTab, setActiveTab] = useState('home');
 
+      // Dynamic Custom Images from Firestore / Media Manager
+      const [customImages, setCustomImages] = useState(() => {
+        try {
+          return JSON.parse(localStorage.getItem('awc_custom_images') || '{}');
+        } catch(e) { return {}; }
+      });
+
+      useEffect(() => {
+        if (db) {
+          const unsub = db.collection('siteConfig').doc('images').onSnapshot((doc) => {
+            if (doc.exists) {
+              const data = doc.data();
+              setCustomImages(data);
+              localStorage.setItem('awc_custom_images', JSON.stringify(data));
+            }
+          }, (err) => console.warn("Images sync notice:", err));
+          return () => unsub();
+        }
+      }, []);
+
+      const getImage = (slotKey, defaultUrl) => {
+        return (customImages && customImages[slotKey]) ? customImages[slotKey] : defaultUrl;
+      };
+
       // Modals
       const [showReportModal, setShowReportModal] = useState(false);
       const [showLegalModal, setShowLegalModal] = useState(false);
@@ -157,7 +210,7 @@
         <div className="min-h-screen flex flex-col">
           {/* Top Operational Notice */}
           <div className="bg-slate-900 text-slate-300 text-[11px] sm:text-xs py-1.5 px-4 border-b border-slate-800">
-            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
+            <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
               <div className="flex items-center space-x-2 text-center sm:text-left">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
                 <span>{t.hero.statuteAlert}</span>
@@ -173,11 +226,11 @@
           {/* Sticky 2-Tier Navigation Header (Guarantees zero wrapping & clean layout on all screens) */}
           <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
             {/* Tier 1: Brand & Top Utilities */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
               
               {/* Brand Logo & Name */}
               <div className="flex items-center space-x-3 cursor-pointer shrink-0" onClick={() => setActiveTab('home')}>
-                <img src="assets/logo.png" alt="AWC Logo" className="h-10 sm:h-12 w-auto object-contain shrink-0" onError={(e)=>{e.target.style.display='none'}} />
+                <img src={getImage('site_logo', 'assets/logo.png')} alt="AWC Logo" className="h-10 sm:h-12 w-auto object-contain shrink-0" onError={(e)=>{e.target.style.display='none'}} />
                 <div className="shrink-0">
                   <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight whitespace-nowrap">
                     {t.brandName}
@@ -256,7 +309,7 @@
 
             {/* Tier 2: Dedicated Navigation Tab Bar */}
             <div className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav className="flex items-center space-x-1.5 py-2 overflow-x-auto scrollbar-none text-xs sm:text-sm font-semibold whitespace-nowrap">
                   <button onClick={() => setActiveTab('home')} className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 ${activeTab === 'home' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
                     <i data-lucide="home" className="w-4 h-4"></i>
@@ -301,7 +354,7 @@
               <div>
                 {/* Hero Section */}
                 <section className="relative overflow-hidden py-12 lg:py-16 bg-gradient-to-b from-emerald-50/70 via-white to-slate-50 dark:from-slate-900/90 dark:via-slate-950 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                       
                       {/* Left: Headline & Action Buttons */}
@@ -358,7 +411,7 @@
                       <div className="lg:col-span-5">
                         <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
                           <img 
-                            src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=1000&q=80" 
+                            src={getImage('hero_image', 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=1000&q=80')} 
                             alt="Sri Lanka Community Animal Rescue" 
                             className="w-full h-64 sm:h-72 object-cover"
                           />
@@ -394,7 +447,7 @@
 
                 {/* Remit Section */}
                 <section className="py-12 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl mb-8">
                       <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Transparency & Civic Remit</span>
                       <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -446,7 +499,7 @@
 
                 {/* 4-Step Citizen Action Guide */}
                 <section className="py-12 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl mb-10 text-center sm:text-left">
                       <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Step-by-Step Action</span>
                       <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -548,7 +601,7 @@
 
             {/* Tab: Know the Law */}
             {activeTab === 'knowLaw' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Statutory Knowledge Base</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -565,7 +618,7 @@
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                         <div className="lg:col-span-3">
                           <img 
-                            src={statute.image} 
+                            src={getImage('statute_' + statute.id, statute.image)} 
                             alt={statute.title} 
                             className="w-full h-44 rounded-2xl object-cover shadow-sm"
                             onError={(e) => { e.target.style.display = 'none'; }}
@@ -611,7 +664,7 @@
 
             {/* Tab: Legal Playbook */}
             {activeTab === 'playbook' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Citizen Court Handbook</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -628,7 +681,7 @@
                       <div>
                         <div className="flex items-center space-x-4 mb-4">
                           <img 
-                            src={sec.image} 
+                            src={getImage('playbook_' + sec.id, sec.image)} 
                             alt={sec.title} 
                             className="w-16 h-16 rounded-2xl object-cover shrink-0 shadow-sm"
                             onError={(e) => { e.target.style.display = 'none'; }}
@@ -668,7 +721,7 @@
 
             {/* Tab: Verified Cases & Updates */}
             {activeTab === 'cases' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Verified Precedents</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -685,7 +738,7 @@
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                         <div className="md:col-span-4">
                           <img 
-                            src={c.image} 
+                            src={getImage('case_' + idx, c.image)} 
                             alt={c.title} 
                             className="w-full h-48 sm:h-56 rounded-2xl object-cover shadow-sm"
                             onError={(e) => { e.target.style.display = 'none'; }}
@@ -733,7 +786,7 @@
 
             {/* Tab: Truth vs Myth */}
             {activeTab === 'truthMyth' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Public Education</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -778,7 +831,7 @@
 
             {/* Tab: Our Work & Policy */}
             {activeTab === 'ourWork' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Scientific Reform</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -804,7 +857,7 @@
                     <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                       <div>
                         <img 
-                          src={camp.image} 
+                          src={getImage('camp_' + idx, camp.image)} 
                           alt={camp.title} 
                           className="w-full h-48 object-cover"
                           onError={(e) => { e.target.style.display = 'none'; }}
@@ -829,7 +882,7 @@
 
             {/* Tab: About Us & Leadership Team (Clean Monogram Badge Design - No Pictures as requested!) */}
             {activeTab === 'about' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Executive Committee & Governance</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -892,7 +945,7 @@
 
             {/* Tab: Contact & Police Directory */}
             {activeTab === 'contact' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Civic Contact & Official Channels</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
@@ -991,11 +1044,11 @@
 
           {/* Footer */}
           <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 text-xs">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div>
                   <div className="flex items-center space-x-2 mb-3">
-                    <img src="assets/logo.png" alt="AWC Logo" className="h-8 w-auto object-contain" onError={(e)=>{e.target.style.display='none'}} />
+                    <img src={getImage('site_logo', 'assets/logo.png')} alt="AWC Logo" className="h-8 w-auto object-contain" onError={(e)=>{e.target.style.display='none'}} />
                     <span className="text-base font-black text-white">{t.brandName}</span>
                   </div>
                   <p className="text-slate-400 leading-relaxed">
@@ -1400,7 +1453,7 @@
       );
     }
 
-    // --- Sub-Component: Request Legal Assistance Modal ---
+        // --- Sub-Component: Request Legal Assistance Modal (100% Trilingual) ---
     function LegalAssistanceModal({ lang, onClose }) {
       const [caseType, setCaseType] = useState('magistrate_filing');
       const [courtName, setCourtName] = useState('');
@@ -1411,10 +1464,19 @@
       const [details, setDetails] = useState('');
       const [generatedToken, setGeneratedToken] = useState(null);
 
+      const legalData = (window.AWC_I18N && window.AWC_I18N[lang] && window.AWC_I18N[lang].legalModal) || {
+        badge: 'Legal Aid & Court Coordination',
+        title: 'Request Legal Assistance / Court Coordination',
+        subtitle: 'Coordinating legal counsel for Magistrate Court motions, B-report monitoring, and police station liaison.',
+        cancelBtn: 'Cancel',
+        submitBtn: 'Submit Legal Request',
+        closeBtn: 'Close'
+      };
+
       const handleSubmit = (e) => {
         e.preventDefault();
         if (!phone || !email || !details) {
-          alert('Please enter required phone, email, and case details.');
+          alert(lang === 'si' ? 'කරුණාකර දුරකථන අංකය, ඊමේල් ලිපිනය සහ නඩුවේ විස්තර ඇතුළත් කරන්න.' : lang === 'ta' ? 'தயவுசெய்து தொலைபேசி எண், மின்னஞ்சல் மற்றும் வழக்கு விபரங்களை உள்ளிடவும்.' : 'Please enter required phone, email, and case details.');
           return;
         }
         const token = 'AWC-LEG-' + Math.floor(100000 + Math.random() * 900000);
@@ -1465,44 +1527,44 @@
               title="Close / Cancel"
             >
               <i data-lucide="x" className="w-4 h-4"></i>
-              <span>{lang === 'si' ? 'ඉවත් වන්න (Cancel)' : 'Cancel'}</span>
+              <span>{legalData.cancelBtn || (lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel')}</span>
             </button>
 
             {!generatedToken ? (
               <div>
                 <div className="mb-6 pr-24">
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                    Legal Aid & Court Coordination
+                    {legalData.badge}
                   </span>
                   <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
-                    {lang === 'si' ? 'නීති සහය ඉල්ලුම් කිරීම' : lang === 'ta' ? 'சட்ட உதவி கோரிக்கை' : 'Request Legal Assistance / Court Coordination'}
+                    {legalData.title}
                   </h3>
                   <p className="text-xs text-slate-500 mt-1">
-                    {lang === 'si' ? 'මහේස්ත්‍රාත් අධිකරණයේ පෙනී සිටීම, පොලිස් ලිපි භාරදීම සහ නීතිඥ සම්බන්ධීකරණය.' : 'Coordinating legal counsel for Magistrate Court motions, B-report monitoring, and police station liaison.'}
+                    {legalData.subtitle}
                   </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs">
                   <div>
                     <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      {lang === 'si' ? 'අවශ්‍ය නීතිමය සහය වර්ගය *' : 'Legal Assistance Scope *'}
+                      {lang === 'si' ? 'අවශ්‍ය නීතිමය සහය වර්ගය *' : lang === 'ta' ? 'சட்ட உதவி வகை *' : 'Legal Assistance Scope *'}
                     </label>
                     <select
                       value={caseType}
                       onChange={(e) => setCaseType(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-medium"
                     >
-                      <option value="magistrate_filing">{lang === 'si' ? 'මහේස්ත්‍රාත් අධිකරණයේ නඩුවක් සඳහා නීතිඥ පෙනී සිටීම' : 'Magistrate Court Lawyer Appearance / Motion'}</option>
-                      <option value="police_inaction">{lang === 'si' ? 'පොලීසිය පැමිණිල්ල විභාග නොකිරීම (Police Inaction / Refusal)' : 'Police Inaction / Failure to record IB Entry'}</option>
-                      <option value="witness_protection">{lang === 'si' ? 'සාක්ෂිකරුවන්ට තර්ජන එල්ලවීම (Witness Protection)' : 'Threats to Complainant or Witness'}</option>
-                      <option value="custody_motion">{lang === 'si' ? 'සත්වයා සැකකරුගෙන් මුදාගැනීමේ අධිකරණ නියෝගයක් ඉල්ලීම' : 'Animal Custody & Protection Motion (Prevent Return)'}</option>
+                      <option value="magistrate_filing">{lang === 'si' ? 'මහේස්ත්‍රාත් අධිකරණයේ නඩුවක් සඳහා නීතිඥ පෙනී සිටීම' : lang === 'ta' ? 'நீதவான் நீதிமன்றத்தில் சட்டத்தரணி முன்னிலையாகல்' : 'Magistrate Court Lawyer Appearance / Motion'}</option>
+                      <option value="police_inaction">{lang === 'si' ? 'පොලීසිය පැමිණිල්ල විභාග නොකිරීම (Police Inaction / Refusal)' : lang === 'ta' ? 'பொலிஸார் முறைப்பாட்டை ஏற்க மறுத்தல் (Police Inaction)' : 'Police Inaction / Failure to record IB Entry'}</option>
+                      <option value="witness_protection">{lang === 'si' ? 'සාක්ෂිකරුවන්ට තර්ජන එල්ලවීම (Witness Protection)' : lang === 'ta' ? 'சாட்சிகளுக்கு அச்சுறுத்தல் விடுக்கப்படல் (Witness Protection)' : 'Threats to Complainant or Witness'}</option>
+                      <option value="custody_motion">{lang === 'si' ? 'සත්වයා සැකකරුගෙන් මුදාගැනීමේ අධිකරණ නියෝගයක් ඉල්ලීම' : lang === 'ta' ? 'விலங்கை சந்தேகநபரிடமிருந்து மீட்கும் நீதிமன்ற உத்தரவு' : 'Animal Custody & Protection Motion (Prevent Return)'}</option>
                     </select>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                        {lang === 'si' ? 'අධිකරණය (Magistrate Court)' : 'Magistrate Court (if instituted)'}
+                        {lang === 'si' ? 'අධිකරණය (Magistrate Court)' : lang === 'ta' ? 'நீதவான் நீதிமன்றம்' : 'Magistrate Court (if instituted)'}
                       </label>
                       <input
                         type="text"
@@ -1514,7 +1576,7 @@
                     </div>
                     <div>
                       <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                        {lang === 'si' ? 'පොලිස් ස්ථානය සහ CIB අංකය' : 'Police Station & CIB / IB #'}
+                        {lang === 'si' ? 'පොලිස් ස්ථානය සහ CIB / IB අංකය' : lang === 'ta' ? 'பொலிஸ் நிலையம் & CIB / IB #' : 'Police Station & CIB / IB #'}
                       </label>
                       <input
                         type="text"
@@ -1529,7 +1591,7 @@
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                        {lang === 'si' ? 'දුරකථන අංකය *' : 'Contact Phone Number *'}
+                        {lang === 'si' ? 'දුරකථන අංකය *' : lang === 'ta' ? 'தொலைபேசி எண் *' : 'Contact Phone Number *'}
                       </label>
                       <input
                         type="tel"
@@ -1542,7 +1604,7 @@
                     </div>
                     <div>
                       <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                        {lang === 'si' ? 'ඊමේල් ලිපිනය *' : 'Email Address *'}
+                        {lang === 'si' ? 'ඊමේල් ලිපිනය *' : lang === 'ta' ? 'மின்னஞ்சல் முகவரி *' : 'Email Address *'}
                       </label>
                       <input
                         type="email"
@@ -1557,14 +1619,14 @@
 
                   <div>
                     <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      {lang === 'si' ? 'නඩුවේ සවිස්තරාත්මක පසුබිම *' : 'Case Background & Immediate Legal Needs *'}
+                      {lang === 'si' ? 'නඩුවේ සවිස්තරාත්මක පසුබිම *' : lang === 'ta' ? 'வழக்கின் பின்னணி மற்றும் உடனடி சட்டத் தேவைகள் *' : 'Case Background & Immediate Legal Needs *'}
                     </label>
                     <textarea
                       required
                       rows={4}
                       value={details}
                       onChange={(e) => setDetails(e.target.value)}
-                      placeholder="Explain current legal status, next court hearing date, B-report status, and what intervention is requested..."
+                      placeholder={lang === 'si' ? 'වත්මන් නෛතික තත්ත්වය, මීළඟ නඩු දිනය, බී-වාර්තා තත්ත්වය සහ අවශ්‍ය මැදිහත්වීම පැහැදිලි කරන්න...' : lang === 'ta' ? 'தற்போதைய சட்ட நிலை, அடுத்த நீதிமன்ற திகதி, B-அறிக்கை நிலை மற்றும் தேவையான சட்ட உதவியை விவரிக்கவும்...' : 'Explain current legal status, next court hearing date, B-report status, and what intervention is requested...'}
                       className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
                     />
                   </div>
@@ -1575,13 +1637,13 @@
                       onClick={onClose}
                       className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition"
                     >
-                      {lang === 'si' ? 'අවලංගු කරන්න' : 'Cancel'}
+                      {legalData.cancelBtn || (lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel')}
                     </button>
                     <button
                       type="submit"
                       className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition"
                     >
-                      {lang === 'si' ? 'නීති සහය ඉල්ලුම්පත්‍රය යොමු කරන්න' : 'Submit Legal Request'}
+                      {legalData.submitBtn || (lang === 'si' ? 'නීති සහය ඉල්ලුම්පත්‍රය යොමු කරන්න' : lang === 'ta' ? 'சட்ட உதவி கோருக' : 'Submit Legal Request')}
                     </button>
                   </div>
                 </form>
@@ -1592,17 +1654,17 @@
                   ✓
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 dark:text-white">
-                  Legal Assistance Request Queued
+                  {lang === 'si' ? 'නීති සහය ඉල්ලුම්පත්‍රය සාර්ථකව යොමු විය' : lang === 'ta' ? 'சட்ட உதவி கோரிக்கை பதிவு செய்யப்பட்டது' : 'Legal Assistance Request Queued'}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-                  Your legal assistance ticket has been assigned. Our legal counsel coordinates hearings based on jurisdictional priorities.
+                  {lang === 'si' ? 'ඔබගේ නීති සහය ටිකට්පත පද්ධතියට එක්විය. අධිකරණ බලප්‍රදේශ අනුව අපගේ නීතිඥ කණ්ඩායම සම්බන්ධීකරණය කරනු ඇත.' : lang === 'ta' ? 'உங்கள் சட்ட உதவி கோரிக்கை பதிவு செய்யப்பட்டுள்ளது. அதிகார எல்லைகளுக்கு ஏற்ப சட்டத்தரணிகள் ஒருங்கிணைக்கப்படுவர்.' : 'Your legal assistance ticket has been assigned. Our legal counsel coordinates hearings based on jurisdictional priorities.'}
                 </p>
                 <div className="inline-block p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-2 border-blue-500 text-lg font-mono font-black text-blue-600 dark:text-blue-400 tracking-wider">
                   {generatedToken}
                 </div>
                 <div className="pt-4">
                   <button onClick={onClose} className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs">
-                    Close / අවසන් කරන්න
+                    {legalData.closeBtn || (lang === 'si' ? 'වසන්න' : lang === 'ta' ? 'மூடுக' : 'Close')}
                   </button>
                 </div>
               </div>
@@ -1612,7 +1674,7 @@
       );
     }
 
-    // --- Sub-Component: Track Ticket Modal ---
+        // --- Sub-Component: Track Ticket Modal (100% Trilingual) ---
     function TrackTicketModal({ lang, onClose }) {
       const [searchToken, setSearchToken] = useState('');
       const [ticketResult, setTicketResult] = useState(null);
@@ -1668,20 +1730,21 @@
               type="button"
               onClick={onClose} 
               className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition border border-slate-300 dark:border-slate-700"
+              title="Cancel / Close"
             >
               <i data-lucide="x" className="w-4 h-4"></i>
-              <span>Cancel</span>
+              <span>{lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel'}</span>
             </button>
 
             <div className="mb-6 pr-20">
               <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
-                Ticket Verification
+                {lang === 'si' ? 'පැමිණිලි තත්ත්ව පරීක්ෂාව' : lang === 'ta' ? 'டிக்கெட் நிலை சரிபார்ப்பு' : 'Ticket Verification'}
               </span>
               <h3 className="text-xl font-black text-slate-900 dark:text-white mt-1">
                 {lang === 'si' ? 'පැමිණිල්ලේ තත්ත්වය විමසන්න' : lang === 'ta' ? 'முறைப்பாட்டு நிலைமையை அறிதல்' : 'Track Your Reference Ticket'}
               </h3>
               <p className="text-xs text-slate-500 mt-1">
-                {lang === 'si' ? 'ඔබගේ AWC-TKT හෝ AWC-LEG ටෝකන් අංකය ඇතුළත් කරන්න.' : 'Enter your 6-digit AWC-TKT or AWC-LEG token to check real-time progress.'}
+                {lang === 'si' ? 'ඔබගේ 6-ඉලක්කම් AWC-TKT හෝ AWC-LEG ටෝකන් අංකය ඇතුළත් කරන්න.' : lang === 'ta' ? 'உங்கள் 6 இலக்க AWC-TKT அல்லது AWC-LEG குறியீட்டை உள்ளிடவும்.' : 'Enter your 6-digit AWC-TKT or AWC-LEG token to check real-time progress.'}
               </p>
             </div>
 
@@ -1698,19 +1761,19 @@
                 type="submit"
                 className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow transition"
               >
-                Track
+                {lang === 'si' ? 'විමසන්න' : lang === 'ta' ? 'தேடுக' : 'Track'}
               </button>
             </form>
 
             {loading && (
               <div className="py-6 text-center text-xs text-slate-500">
-                Searching ticket ledger...
+                {lang === 'si' ? 'දත්ත ගබඩාව පරීක්ෂා කරමින්...' : lang === 'ta' ? 'டிக்கெட் விபரங்கள் தேடப்படுகின்றன...' : 'Searching ticket ledger...'}
               </div>
             )}
 
             {!loading && searched && !ticketResult && (
               <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40 text-xs text-rose-800 dark:text-rose-300 text-center">
-                Token not found. Please double-check your code or verify it has synced from your submission email.
+                {lang === 'si' ? 'ටෝකන් අංකය හමු නොවීය. කරුණාකර අංකය නිවැරදි දැයි නැවත පරීක්ෂා කරන්න.' : lang === 'ta' ? 'டிக்கெட் இலக்கம் காணப்படவில்லை. தயவுசெய்து உங்கள் குறியீட்டை மீண்டும் சரிபார்க்கவும்.' : 'Token not found. Please double-check your code or verify it has synced from your submission email.'}
               </div>
             )}
 
@@ -1723,8 +1786,8 @@
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-slate-600 dark:text-slate-300">
-                  <div><strong>Type:</strong> {ticketResult.type}</div>
-                  <div><strong>Jurisdiction:</strong> {ticketResult.district || 'National'}</div>
+                  <div><strong>{lang === 'si' ? 'වර්ගය:' : lang === 'ta' ? 'வகை:' : 'Type:'}</strong> {ticketResult.type}</div>
+                  <div><strong>{lang === 'si' ? 'බලප්‍රදේශය:' : lang === 'ta' ? 'அதிகார எல்லை:' : 'Jurisdiction:'}</strong> {ticketResult.district || 'National'}</div>
                 </div>
 
                 {/* Master Case Linking & Updates */}
@@ -1732,22 +1795,22 @@
                   <div className="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/50 space-y-1 mt-2">
                     <div className="font-bold text-blue-900 dark:text-blue-200 text-xs flex items-center space-x-1.5">
                       <i data-lucide="folder-check" className="w-3.5 h-3.5 text-blue-600"></i>
-                      <span>Master Case: {ticketResult.caseTitle || ticketResult.assignedCaseId}</span>
+                      <span>{lang === 'si' ? 'සම්බන්ධිත ප්‍රධාන නඩුව:' : lang === 'ta' ? 'தொடர்புடைய பிரதான வழக்கு:' : 'Master Case:'} {ticketResult.caseTitle || ticketResult.assignedCaseId}</span>
                     </div>
                     {ticketResult.latestMilestone ? (
                       <p className="text-[11px] text-blue-800 dark:text-blue-300 leading-relaxed pt-1">
-                        <strong>Latest Case Update ({ticketResult.milestoneDate || 'Recent'}):</strong> {ticketResult.latestMilestone}
+                        <strong>{lang === 'si' ? 'නවතම අධිකරණ යාවත්කාලීන කිරීම' : lang === 'ta' ? 'சமீபத்திய நீதிமன்ற புதுப்பிப்பு' : 'Latest Case Update'} ({ticketResult.milestoneDate || 'Recent'}):</strong> {ticketResult.latestMilestone}
                       </p>
                     ) : (
                       <p className="text-[10px] text-blue-600 dark:text-blue-400">
-                        Bundled into master case proceedings. Judicial updates will stream here.
+                        {lang === 'si' ? 'ප්‍රධාන අධිකරණ නඩුවට ඇතුළත් කර ඇත. අධිකරණ තීන්දු මෙහි ප්‍රදර්ශනය වේ.' : lang === 'ta' ? 'பிரதான வழக்குடன் இணைக்கப்பட்டுள்ளது. நீதிமன்ற புதுப்பிப்புகள் இங்கு தோன்றும்.' : 'Bundled into master case proceedings. Judicial updates will stream here.'}
                       </p>
                     )}
                   </div>
                 )}
 
                 <div className="text-[11px] text-slate-500 pt-1">
-                  Logged At: {new Date(ticketResult.createdAt).toLocaleString()}
+                  {lang === 'si' ? 'ලියාපදිංචි දිනය:' : lang === 'ta' ? 'பதிவு செய்யப்பட்ட திகதி:' : 'Logged At:'} {new Date(ticketResult.createdAt).toLocaleString()}
                 </div>
               </div>
             )}
@@ -1758,7 +1821,7 @@
                 onClick={onClose}
                 className="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs"
               >
-                Close
+                {lang === 'si' ? 'වසන්න' : lang === 'ta' ? 'மூடுக' : 'Close'}
               </button>
             </div>
           </div>
@@ -1766,49 +1829,55 @@
       );
     }
 
-    // --- Sub-Component: Emergency Triage Modal ---
+        // --- Sub-Component: Emergency Triage Modal (100% Trilingual) ---
     function EmergencyTriageModal({ lang, onClose }) {
+      const triage = (window.AWC_I18N && window.AWC_I18N[lang] && window.AWC_I18N[lang].triage) || (window.AWC_I18N && window.AWC_I18N.en.triage);
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
             <button 
               type="button"
               onClick={onClose} 
-              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700"
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700 transition"
+              title="Cancel / Close"
             >
               <i data-lucide="x" className="w-4 h-4"></i>
-              <span>Cancel</span>
+              <span>{triage.cancelBtn || (lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel')}</span>
             </button>
 
-            <div className="mb-6 pr-20">
-              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300">
-                First-Response Safety Protocol
+            <div className="mb-6 pr-24">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300 border border-red-300 dark:border-red-800">
+                {triage.badge}
               </span>
-              <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
-                {lang === 'si' ? 'හදිසි අවස්ථා සහ ප්‍රථමාධාර මාර්ගෝපදේශය' : 'Emergency Triage & Safety Protocol'}
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2 leading-tight">
+                {triage.title}
               </h3>
             </div>
 
             <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
               <div className="p-4 rounded-2xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/40">
-                <div className="font-bold text-red-900 dark:text-red-300 text-sm mb-1">1. Active Physical Violence or Assault in Progress</div>
-                <p>Do NOT engage in violent physical confrontation with perpetrators. Film from a secure distance, note vehicle registration plates, and immediately contact your local Police Station OIC.</p>
+                <div className="font-bold text-red-900 dark:text-red-300 text-sm mb-1">{triage.rule1Title}</div>
+                <p>{triage.rule1Desc}</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40">
-                <div className="font-bold text-amber-900 dark:text-amber-300 text-sm mb-1">2. Suspected Poisoning (වස දීම)</div>
-                <p>Rush the animal immediately to the nearest Veterinary Surgeon. Do NOT induce vomiting if the animal is convulsing or unconscious. Preserve any suspected bait containers, food remains, or vomit in clean sealed bags as forensic court exhibits.</p>
+                <div className="font-bold text-amber-900 dark:text-amber-300 text-sm mb-1">{triage.rule2Title}</div>
+                <p>{triage.rule2Desc}</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/40">
-                <div className="font-bold text-blue-900 dark:text-blue-300 text-sm mb-1">3. Road Traffic Accident / Fractured Limb</div>
-                <p>Gently immobilize the animal using a clean towel or flat board to prevent spinal shock. Muzzle gently if fearful, and transport directly to a private or government veterinary clinic.</p>
+                <div className="font-bold text-blue-900 dark:text-blue-300 text-sm mb-1">{triage.rule3Title}</div>
+                <p>{triage.rule3Desc}</p>
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-right">
-              <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs">
-                Close
+            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end space-x-2">
+              <button 
+                type="button"
+                onClick={onClose} 
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition"
+              >
+                {triage.closeBtn || (lang === 'si' ? 'වසන්න' : lang === 'ta' ? 'மூடுக' : 'Close')}
               </button>
             </div>
           </div>
@@ -1971,50 +2040,56 @@ Address: No. 15, Pansala Road, Maharagama.`}
       );
     }
 
-    // --- Sub-Component: SLVC Advisory Modal ---
+        // --- Sub-Component: SLVC Advisory Modal (100% Trilingual) ---
     function SlvcModal({ lang, onClose }) {
+      const slvc = (window.AWC_I18N && window.AWC_I18N[lang] && window.AWC_I18N[lang].slvcProtocol) || (window.AWC_I18N && window.AWC_I18N.en.slvcProtocol);
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
             <button 
               type="button"
               onClick={onClose} 
-              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700"
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700 transition"
+              title="Cancel / Close"
             >
               <i data-lucide="x" className="w-4 h-4"></i>
-              <span>Cancel</span>
+              <span>{lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel'}</span>
             </button>
 
-            <div className="mb-6 pr-20">
-              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                Statutory Regulatory Advisory
+            <div className="mb-6 pr-24">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                {slvc.badge}
               </span>
-              <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
-                {lang === 'si' ? 'පශු වෛද්‍ය නොසැලකිලිමත්කම පිළිබඳ නෛතික ක්‍රියාපටිපාටිය' : 'Veterinary Medical Negligence Protocol (SLVC)'}
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2 leading-tight">
+                {slvc.title}
               </h3>
             </div>
 
             <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-              <p>
-                Veterinary clinical malpractice, surgical negligence, and professional misconduct fall under the exclusive statutory authority of the <strong>Sri Lanka Veterinary Council (SLVC)</strong> established under the Veterinary Surgeons and Practitioners Act.
+              <p className="text-sm">
+                {slvc.desc}
               </p>
 
-              <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 space-y-2">
+              <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 space-y-2.5">
                 <div className="font-bold text-amber-900 dark:text-amber-300 text-sm">
-                  Required Action Steps for Pet Owners:
+                  {lang === 'si' ? 'අනුගමනය කළ යුතු අත්‍යවශ්‍ය පියවර:' : lang === 'ta' ? 'பின்பற்ற வேண்டிய கட்டாய படிகள்:' : 'Required Action Steps for Pet Owners:'}
                 </div>
-                <ul className="list-disc list-inside space-y-1.5">
-                  <li><strong>Step 1:</strong> Prepare a formal written complaint with clinical timeline, veterinary diagnosis cards, receipts, and drug prescriptions.</li>
-                  <li><strong>Step 2:</strong> Email the complete documentation directly to the SLVC Registrar: <span className="font-bold underline text-amber-900 dark:text-amber-200">registrarslvetcouncil@gmail.com</span></li>
-                  <li><strong>Step 3:</strong> Record an Information Book (IB) entry at your local police station regarding property damage or fatal neglect.</li>
-                  <li><strong>Step 4:</strong> If authorities or the clinic refuse an inquiry, forward your case documents to AWC for civil society guidance.</li>
+                <ul className="list-disc list-inside space-y-2">
+                  <li><strong>{slvc.step1}</strong></li>
+                  <li className="pl-4 font-bold text-amber-800 dark:text-amber-200">{slvc.email}</li>
+                  <li><strong>{slvc.step2}</strong></li>
+                  <li><strong>{slvc.step3}</strong></li>
                 </ul>
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-right">
-              <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs">
-                Close
+            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end space-x-2">
+              <button 
+                type="button"
+                onClick={onClose} 
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition"
+              >
+                {lang === 'si' ? 'වසන්න' : lang === 'ta' ? 'மூடுக' : 'Close'}
               </button>
             </div>
           </div>

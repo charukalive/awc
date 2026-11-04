@@ -32,6 +32,13 @@ service firebase.storage {
       allow write: if isAdmin();
     }
 
+    // 2.5 Site Images & Media Manager Uploads (Hero, Statutes, Playbook, Cases, Campaigns)
+    // Public can view/download images; authenticated Admin can upload, update, or remove
+    match /site-images/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     // 3. Citizen Evidence Uploads (Optional direct portal uploads)
     // If enabled in the future, allows citizens to upload photo/video/PDF evidence tagged with their ticket token:
     // - File size capped at 25MB
