@@ -418,19 +418,19 @@ const awcData = {
       "members": [
         {
           "name": "Dr. Chamith Nanayakkara",
-          "role": "Veterinary Surgeon",
+          "role": "Founder, Vets for Future & Association of Veterinarians for Humane Management of Animal Population",
           "badge": "Executive Committee",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=600&q=80",
-          "bio": "Lead veterinary spokesperson on national population management, One Health rabies control, and petitioner to the Bribery Commission on unutilized public sterilization budgets."
+          "initials": "DC",
+          "bio": "Founder of Vets for Future and Association of Veterinarians for Humane Management of Animal Population. Lead veterinary surgeon and spokesperson on One Health rabies management and petitioner to CIABOC on public sterilization funds."
         },
         {
           "name": "Thilini Gamage",
           "role": "Founder, Linipaws Sanctuary",
           "badge": "Executive Committee",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80",
-          "bio": "Founder of Linipaws Sanctuary (linipaws.org), renowned for pioneering specialized feline rescue, sanctuary care for disabled and paralyzed animals, spay-neuter drives, and nationwide humane advocacy.",
+          "initials": "TG",
+          "bio": "Founder of Linipaws Sanctuary (linipaws.org), dedicated to feline rescue, sanctuary care for disabled and paralyzed animals, spay-neuter drives, and nationwide humane advocacy.",
           "link": "https://linipaws.org",
           "linkLabel": "linipaws.org"
         },
@@ -439,46 +439,48 @@ const awcData = {
           "role": "Animal Welfarist",
           "badge": "Executive Committee",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80",
+          "initials": "MS",
           "bio": "Dedicated frontline animal welfarist specializing in community canine protection, emergency cruelty rescue triage, and legal defense of animal feeders against unlawful local intimidation."
         },
         {
           "name": "Gihan Dinushka",
-          "role": "Field Population Analyst",
+          "role": "Founder of Baw Baw Animal Welfare",
           "badge": "Executive Committee",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80",
-          "bio": "Grassroots animal population analytics spokesperson, vocal critic of unregulated state dog impoundment facilities, and community field rescue coordinator."
+          "initials": "GD",
+          "bio": "Founder of Baw Baw Animal Welfare. Direct legal, communications, and field liaison for judicial advocacy, dog population analytics, and cruelty investigations across Sri Lanka."
         },
         {
           "name": "Nethrapani Dias",
-          "role": "Attorney-at-Law",
+          "role": "Attorney-at-Law, Legal Counsel",
           "badge": "Legal Counsel",
           "badgeColor": "bg-blue-600 text-white",
-          "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80",
+          "initials": "ND",
           "bio": "Legal counsel advising on Magistrate Court criminal proceedings, B-Report enforcement under Ordinance No. 13 of 1907, citizen complaint drafting, and judicial accountability."
         },
         {
           "name": "Sajeewa Gamage",
-          "role": "Attorney-at-Law",
+          "role": "Attorney-at-Law, Court Coordinator",
           "badge": "Legal Counsel",
           "badgeColor": "bg-blue-600 text-white",
-          "image": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80",
+          "initials": "SG",
           "bio": "Counsel leading criminal court interventions in landmark animal cruelty cases (including Sigiriya elephant Rani and Negombo Pawtopia)."
         },
         {
-          "name": "Charuka Wickremesekera",
-          "role": "Public Engagement & Media",
+          "name": "Charuka",
+          "role": "Animal Welfarist",
           "badge": "Executive Member",
           "badgeColor": "bg-slate-700 text-white",
-          "bio": "Spearheading civic engagement, public campaign mobilization, and modern digital outreach and animal law awareness across Sri Lanka."
+          "initials": "C",
+          "bio": "Animal Welfarist directing digital infrastructure, public transparency registries, incident triage systems, and verified evidence preservation."
         },
         {
           "name": "Madushanka Fernando",
-          "role": "Council Liaison",
+          "role": "Animal Welfarist",
           "badge": "Executive Member",
           "badgeColor": "bg-slate-700 text-white",
-          "bio": "Leading institutional liaison with local municipal councils, statutory authorities, and parliamentary follow-up on legislative enactment."
+          "initials": "MF",
+          "bio": "Animal Welfarist coordinating field investigations, eyewitness corroboration, and logistical support for police interventions."
         }
       ]
     },
@@ -992,67 +994,69 @@ const awcData = {
       "members": [
         {
           "name": "වෛද්‍ය චමිත් නානායක්කාර",
-          "role": "පශු වෛද්‍ය ශල්‍ය වෛද්‍ය",
+          "role": "නිර්මාතෘ, Vets for Future සහ Association of Veterinarians for Humane Management of Animal Population",
           "badge": "විධායක කමිටුව",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=600&q=80",
-          "bio": "ජාතික සත්ව ගහන කළමනාකරණය, One Health ජලභීතිකා ප්‍රතිපත්තිය පිළිබඳ ප්‍රධාන ප්‍රකාශක සහ වන්ධ්‍යාකරණ අරමුදල් විගණනය සම්බන්ධයෙන් අල්ලස් කොමිසමට පෙත්සම් ඉදිරිපත් කළ වෛද්‍යවරයා."
+          "initials": "චනා",
+          "bio": "Vets for Future සහ Association of Veterinarians for Humane Management of Animal Population සංවිධානවල නිර්මාතෘවරයාය. ජාතික සත්ව ගහන කළමනාකරණය, One Health ජලභීතිකා ප්‍රතිපත්තිය පිළිබඳ ප්‍රධාන ප්‍රකාශක සහ වන්ධ්‍යාකරණ අරමුදල් විගණනය සම්බන්ධයෙන් අල්ලස් කොමිසමට පෙත්සම් ඉදිරිපත් කළ වෛද්‍යවරයා."
         },
         {
           "name": "තිළිණි ගමගේ",
           "role": "ලිනිපෝස් සත්ව රැකවරණයේ නිර්මාතෘ",
           "badge": "විධායක කමිටුව",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80",
+          "initials": "තිග",
           "bio": "ලිනිපෝස් සත්ව සුරැකුම් මධ්‍යස්ථානයේ (linipaws.org) නිර්මාතෘවරියයි. විශේෂයෙන් ආබාධිත සහ අසරණ බළලුන් මුදාගැනීම, වන්ධ්‍යාකරණ සායන මෙහෙයවීම සහ ජාතික සත්ව සුබසාධනය වෙනුවෙන් කැපවූ ක්‍රියාකාරිනියකි.",
           "link": "https://linipaws.org",
           "linkLabel": "linipaws.org වෙත පිවිසෙන්න"
         },
         {
           "name": "මිහිරි සිරිවර්ධන",
-          "role": "සත්ව සුබසාධන ක්‍රියාකාරිනී",
+          "role": "සත්ව සුබසාධන ක්‍රියාකාරිනී (Animal Welfarist)",
           "badge": "විධායක කමිටුව",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80",
+          "initials": "මිසි",
           "bio": "ප්‍රජා සතුන් ආරක්ෂා කිරීම, හදිසි මුදාගැනීම් සම්බන්ධීකරණය සහ සතුන්ට කෑම දෙන අසරණ පුද්ගලයින්ට එරෙහි තර්ජන වලදී නීතිමය සහය ලබාදෙන ප්‍රමුඛ සත්ව සුබසාධන ක්‍රියාකාරිනියකි."
         },
         {
           "name": "ගිහාන් දිනුෂ්ක",
-          "role": "ක්ෂේත්‍ර ගහන විශ්ලේෂක",
+          "role": "නිර්මාතෘ, Baw Baw Animal Welfare",
           "badge": "විධායක කමිටුව",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80",
-          "bio": "ක්ෂේත්‍ර සත්ව ගහන දත්ත විශ්ලේෂක, රජයේ සුනඛ කඳවුරු වලට එරෙහි ප්‍රකාශක සහ ප්‍රජා සත්ව මුදාගැනීම් ක්ෂේත්‍ර සම්බන්ධීකාරක."
+          "initials": "ගිදි",
+          "bio": "Baw Baw Animal Welfare සංවිධානයේ නිර්මාතෘවරයායි. ක්ෂේත්‍ර සත්ව සුබසාධනය, ජනතා දැනුවත් කිරීම, සත්ව හිංසා විමර්ශන සම්බන්ධීකරණය සහ නීතිමය ක්‍රියාමාර්ග සඳහා නිරන්තරයෙන් පෙනී සිටී."
         },
         {
-          "name": "නීතිඥ නේත්‍රපාණී දියස්",
-          "role": "නීති උපදේශක / නීතිඥ",
+          "name": "නේත්‍රාපාණී ඩයස්",
+          "role": "නීතිඥ, නීති උපදේශක (Legal Counsel)",
           "badge": "නීති උපදේශක",
           "badgeColor": "bg-blue-600 text-white",
-          "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80",
-          "bio": "මහේස්ත්‍රාත් අධිකරණ අපරාධ නඩු කටයුතු, 1907 ආඥාපනත යටතේ බී-වාර්තා අධීක්ෂණය සහ පුරවැසි පැමිණිලි ගොනු කිරීම පිළිබඳ නීති උපදේශිකා."
+          "initials": "නේඩ",
+          "bio": "1907 සත්ව හිංසා ආඥාපනත යටතේ මහේස්ත්‍රාත් අධිකරණ නඩු පැවරීම්, පොලිස් බී-වාර්තා අධීක්ෂණය, පුරවැසි පැමිණිලි කෙටුම්පත් කිරීම සහ නීතිමය වගවීම සම්බන්ධයෙන් කටයුතු කරන ප්‍රධාන නීති උපදේශක."
         },
         {
-          "name": "නීතිඥ සජීව ගමගේ",
-          "role": "නීති උපදේශක / නීතිඥ",
+          "name": "සජීව ගමගේ",
+          "role": "නීතිඥ, අධිකරණ සම්බන්ධීකාරක (Court Coordinator)",
           "badge": "නීති උපදේශක",
           "badgeColor": "bg-blue-600 text-white",
-          "image": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80",
-          "bio": "සීගිරියේ 'රාණි' ඇතින්න සහ මීගමුවේ පෝටෝපියා සුනඛ ඝාතන නඩුව ඇතුළු සත්ව හිංසන නඩු ගණනාවක පෙනී සිටි ප්‍රමුඛ නීතිඥවරයා."
+          "initials": "සග",
+          "bio": "සීගිරියේ රාණි ඇතින්නගේ නඩුව සහ මීගමුවේ ටැංගෝ සුනඛ ඝාතන නඩුව ඇතුළු ප්‍රමුඛ මහේස්ත්‍රාත් අධිකරණ නඩු සඳහා සෘජුව මැදිහත්වී පෙනී සිටින නීතිඥ."
         },
         {
-          "name": "චාරුක වික්‍රමසේකර",
-          "role": "මහජන සන්නිවේදන සහ මාධ්‍ය",
+          "name": "චාරුක",
+          "role": "සත්ව සුබසාධන ක්‍රියාකාරී (Animal Welfarist)",
           "badge": "විධායක සාමාජික",
           "badgeColor": "bg-slate-700 text-white",
-          "bio": "සත්ව නීතිමය දැනුවත්භාවය ව්‍යාප්ත කිරීම, සමාජ මාධ්‍ය මෙහෙයුම් සහ පුරවැසි සහභාගීත්වය ප්‍රවර්ධනය කිරීම මෙහෙයවයි."
+          "initials": "චා",
+          "bio": "ඩිජිටල් තාක්ෂණය, මහජන විනිවිදභාවය, පැමිණිලි කළමනාකරණ පද්ධති සහ සත්ව හිංසන සාක්ෂි ලේඛනගත කිරීම මෙහෙයවන සත්ව සුබසාධන ක්‍රියාකාරිකයෙකි."
         },
         {
           "name": "මධුශංක ප්‍රනාන්දු",
-          "role": "සභා සම්බන්ධීකාරක",
+          "role": "සත්ව සුබසාධන ක්‍රියාකාරී (Animal Welfarist)",
           "badge": "විධායක සාමාජික",
           "badgeColor": "bg-slate-700 text-white",
-          "bio": "පළාත් පාලන ආයතන, අමාත්‍යාංශ සහ පාර්ලිමේන්තු මන්ත්‍රීවරුන් සමඟ සත්ව සුබසාධන පනත වෙනුවෙන් සාකච්ඡා මෙහෙයවීම."
+          "initials": "මප්‍ර",
+          "bio": "ක්ෂේත්‍ර විමර්ශන, සාක්ෂිකරුවන් සම්බන්ධීකරණය සහ පොලිස් මැදිහත්වීම් සඳහා සහය දක්වන සත්ව සුබසාධන ක්‍රියාකාරිකයෙකි."
         }
       ]
     },
@@ -1566,67 +1570,69 @@ const awcData = {
       "members": [
         {
           "name": "மருத்துவர் சமித் நாணயக்கார",
-          "role": "கால்நடை அறுவை சிகிச்சை நிபுணர்",
+          "role": "ஸ்தாபகர், Vets for Future & Association of Veterinarians for Humane Management of Animal Population",
           "badge": "நிர்வாகக் குழு",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=600&q=80",
-          "bio": "தேசிய விலங்கு சனத்தொகை முகாமைத்துவம், One Health வெறிநோய் தடுப்புக் கொள்கை மற்றும் கருத்தடை நிதி பயன்பாடு குறித்து இலஞ்ச ஆணைக்குழுவில் மனுத் தாக்கல் செய்த முன்னணி பேச்சாளர்."
+          "initials": "CN",
+          "bio": "Vets for Future மற்றும் Association of Veterinarians for Humane Management of Animal Population அமைப்புகளின் ஸ்தாபகர். தேசிய விலங்கு சனத்தொகை முகாமைத்துவம், One Health வெறிநோய் தடுப்புக் கொள்கை மற்றும் கருத்தடை நிதி பயன்பாடு குறித்து இலஞ்ச ஆணைக்குழுவில் மனுத் தாக்கல் செய்த முன்னணி பேச்சாளர்."
         },
         {
           "name": "திலினி கமகே",
           "role": "லினிபோஸ் சரணாலயத்தின் ஸ்தாபகர்",
           "badge": "நிர்வாகக் குழு",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80",
+          "initials": "TG",
           "bio": "லினிபோஸ் சரணாலயத்தின் (linipaws.org) ஸ்தாபகர். விசேடமாக ஊனமுற்ற மற்றும் பாதிக்கப்பட்ட பூனைகளை மீட்டெடுத்தல், கருத்தடை திட்டங்கள் மற்றும் தேசிய விலங்கு நலனுக்காக அர்ப்பணிப்புடன் செயல்படுபவர்.",
           "link": "https://linipaws.org",
           "linkLabel": "linipaws.org ஐப் பார்வையிடவும்"
         },
         {
-          "name": "மிஹிரி சிரிவர்தன",
-          "role": "விலங்கு நல ஆர்வலர்",
+          "name": "மிஹிரி சிறிவர்தன",
+          "role": "விலங்கு நல ஆர்வலர் (Animal Welfarist)",
           "badge": "நிர்வாகக் குழு",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80",
-          "bio": "சமூக நாய்களைப் பாதுகாத்தல், அவசர மீட்புப் பணிகளை ஒருங்கிணைத்தல் மற்றும் வீதி விலங்குகளுக்கு உணவளிப்பவர்களுக்கு எதிரான அச்சுறுத்தல்களில் சட்ட ரீதியாகப் போராடும் களப் போராளி."
+          "initials": "MS",
+          "bio": "சமூக விலங்குகள் பாதுகாப்பு, அவசர மீட்புப் பணிகள் மற்றும் விலங்குகளுக்கு உணவளிப்போருக்கு எதிரான சட்டவிரோத அச்சுறுத்தல்களின் போது முன்னின்று களப்பணியாற்றும் முன்னணி விலங்கு நல ஆர்வலர்."
         },
         {
           "name": "கிஹான் தினுஷ்க",
-          "role": "கள சனத்தொகை ஆய்வாளர்",
+          "role": "ஸ்தாபகர், Baw Baw Animal Welfare",
           "badge": "நிர்வாகக் குழு",
           "badgeColor": "bg-emerald-600 text-white",
-          "image": "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80",
-          "bio": "கள விலங்கு சனத்தொகை புள்ளிவிபர ஆய்வாளர், அரசாங்க நாய் அடைப்பு முகாம்களுக்கு எதிரான முன்னணி பேச்சாளர் மற்றும் மீட்புப் பணிகளின் ஒருங்கிணைப்பாளர்."
+          "initials": "GD",
+          "bio": "Baw Baw Animal Welfare அமைப்பின் ஸ்தாபகர். கள விலங்கு நலன், மக்கள் விழிப்புணர்வு, விலங்கு வதை விசாரணைகளை ஒருங்கிணைத்தல் மற்றும் சட்ட நடவடிக்கைகளில் முன்னின்று செயல்படுபவர்."
         },
         {
-          "name": "சட்டத்தரணி நேத்ரபாணி டயஸ்",
-          "role": "சட்ட ஆலோசகர் / சட்டத்தரணி",
+          "name": "நேத்ரபாணி டயஸ்",
+          "role": "சட்டத்தரணி, சட்ட ஆலோசகர் (Legal Counsel)",
           "badge": "சட்ட ஆலோசகர்",
           "badgeColor": "bg-blue-600 text-white",
-          "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80",
-          "bio": "நீதவான் நீதிமன்ற குற்றவியல் நடவடிக்கைகள், 1907 சட்டத்தின் கீழ் B-அறிக்கைகளை கண்காணித்தல் மற்றும் பொதுமக்களின் முறைப்பாடுகளைத் தயாரிப்பதில் வழிகாட்டும் சட்டத்தரணி."
+          "initials": "ND",
+          "bio": "1907 ஆம் ஆண்டின் விலங்கு வதைத் தடுப்புச் சட்டத்தின் கீழ் நீதவான் நீதிமன்ற குற்றவியல் நடவடிக்கைகள், பொலிஸ் B-அறிக்கை கண்காணிப்பு மற்றும் மக்கள் முறைப்பாடுகள் தயாரிப்பில் வழிகாட்டும் சட்ட ஆலோசகர்."
         },
         {
-          "name": "சட்டத்தரணி சஜீவ கமகே",
-          "role": "சட்ட ஆலோசகர் / சட்டத்தரணி",
+          "name": "சஜீவ கமகே",
+          "role": "சட்டத்தரணி, நீதிமன்ற ஒருங்கிணைப்பாளர்",
           "badge": "சட்ட ஆலோசகர்",
           "badgeColor": "bg-blue-600 text-white",
-          "image": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80",
-          "bio": "சீகிரியாவின் 'ராணி' யானை மற்றும் நீர்கொழும்பு போட்டோபியா நாய் வதை வழக்கு உட்பட பல முக்கிய வழக்குகளில் ஆஜராகி நீதியைப் பெற்றுக்கொடுத்த சட்டத்தரணி."
+          "initials": "SG",
+          "bio": "சிகிரியா ராணி யானை வழக்கு மற்றும் நீர்கொழும்பு டாங்கோ நாய் கொலை வழக்கு உள்ளிட்ட முக்கிய நீதவான் நீதிமன்ற வழக்குகளில் நேரடியாக முன்னிலையாகும் சட்டத்தரணி."
         },
         {
-          "name": "சாருக விக்கிரமசேகர",
-          "role": "மக்கள் தொடர்பு மற்றும் ஊடகம்",
+          "name": "சாருகா",
+          "role": "விலங்கு நல ஆர்வலர் (Animal Welfarist)",
           "badge": "நிர்வாக உறுப்பினர்",
           "badgeColor": "bg-slate-700 text-white",
-          "bio": "விலங்கு சட்ட விழிப்புணர்வை பரப்புதல், சமூக ஊடக பிரச்சாரங்கள் மற்றும் பொதுமக்களின் பங்களிப்பை ஒருங்கிணைப்பதில் முன்னிலையில் இருப்பவர்."
+          "initials": "C",
+          "bio": "டிஜிட்டல் உட்கட்டமைப்பு, வெளிப்படைத்தன்மை பதிவேடுகள், முறைப்பாட்டு முகாமைத்துவ முறைமைகள் மற்றும் விலங்கு வதை சாட்சியங்களை ஆவணப்படுத்துவதை வழிநடத்தும் விலங்கு நல ஆர்வலர்."
         },
         {
           "name": "மதுஷங்க பெர்னாண்டோ",
-          "role": "சபை ஒருங்கிணைப்பாளர்",
+          "role": "விலங்கு நல ஆர்வலர் (Animal Welfarist)",
           "badge": "நிர்வாக உறுப்பினர்",
           "badgeColor": "bg-slate-700 text-white",
-          "bio": "உள்ளூராட்சி சபைகள், அமைச்சுகள் மற்றும் பாராளுமன்ற உறுப்பினர்களுடன் விலங்கு நலச் சட்டம் தொடர்பாக பேச்சுவார்த்தைகளை முன்னெடுப்பவர்."
+          "initials": "MF",
+          "bio": "கள விசாரணைகள், சாட்சியாளர்களை ஒருங்கிணைத்தல் மற்றும் பொலிஸ் நடவடிக்கைகளுக்கான கள ஆதரவை வழங்கும் விலங்கு நல ஆர்வலர்."
         }
       ]
     },

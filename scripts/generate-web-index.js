@@ -1,7 +1,9 @@
 // scripts/generate-web-index.js
-// Builds the production web/index.html with full trilingual parity, 
-// responsive non-wrapping 2-tier header, rich photography, 
-// and dynamic rendering from window.AWC_I18N.
+// Builds the production web/index.html with:
+// 1. Team cards without personal pictures (clean monogram badge design)
+// 2. Clear Cancel buttons on all modals
+// 3. TrackTicket modal showing linked Master Case updates
+// 4. Full trilingual parity across all tabs
 
 const fs = require('fs');
 const path = require('path');
@@ -204,7 +206,7 @@ const htmlContent = `<!DOCTYPE html>
               {/* Right Controls: Police Directory Button, Track, Theme, Language, Report */}
               <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
                 
-                {/* Prominent Sri Lanka Police Index Link (Requested as prominent tab/pill) */}
+                {/* Prominent Sri Lanka Police Index Link */}
                 <a 
                   href="https://police.lk/telephone-index/" 
                   target="_blank" 
@@ -262,7 +264,7 @@ const htmlContent = `<!DOCTYPE html>
               </div>
             </div>
 
-            {/* Tier 2: Dedicated Navigation Tab Bar (Clean, Non-wrapping, Smooth Horizontal Scrolling) */}
+            {/* Tier 2: Dedicated Navigation Tab Bar */}
             <div className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav className="flex items-center space-x-1.5 py-2 overflow-x-auto scrollbar-none text-xs sm:text-sm font-semibold whitespace-nowrap">
@@ -400,7 +402,7 @@ const htmlContent = `<!DOCTYPE html>
                   </div>
                 </section>
 
-                {/* Remit Section: What AWC Does vs. What AWC Cannot Promise */}
+                {/* Remit Section */}
                 <section className="py-12 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl mb-8">
@@ -414,7 +416,6 @@ const htmlContent = `<!DOCTYPE html>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* What AWC Does */}
                       <div className="p-6 rounded-3xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/40 shadow-sm">
                         <div className="flex items-center space-x-2 text-emerald-800 dark:text-emerald-300 font-bold text-lg mb-4">
                           <i data-lucide="check-circle-2" className="w-5 h-5 text-emerald-600"></i>
@@ -430,7 +431,6 @@ const htmlContent = `<!DOCTYPE html>
                         </ul>
                       </div>
 
-                      {/* What AWC Cannot Promise */}
                       <div className="p-6 rounded-3xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 shadow-sm">
                         <div className="flex items-center space-x-2 text-amber-900 dark:text-amber-300 font-bold text-lg mb-4">
                           <i data-lucide="alert-octagon" className="w-5 h-5 text-amber-600"></i>
@@ -447,7 +447,6 @@ const htmlContent = `<!DOCTYPE html>
                       </div>
                     </div>
 
-                    {/* Notice on Dog Pounds */}
                     <div className="mt-8 p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/40 flex items-start space-x-3 text-xs text-blue-900 dark:text-blue-200">
                       <i data-lucide="info" className="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></i>
                       <span>{t.remit.notice}</span>
@@ -469,72 +468,44 @@ const htmlContent = `<!DOCTYPE html>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {/* Step 1 */}
                       <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-950/60 text-orange-600 flex items-center justify-center font-black mb-4">
-                            1
-                          </div>
-                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">
-                            {t.actionGuide.step1}
-                          </h3>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                            {t.actionGuide.step1Desc}
-                          </p>
+                          <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-950/60 text-orange-600 flex items-center justify-center font-black mb-4">1</div>
+                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">{t.actionGuide.step1}</h3>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{t.actionGuide.step1Desc}</p>
                         </div>
                         <div className="text-[11px] font-bold text-orange-600 dark:text-orange-400 p-2.5 rounded-lg bg-orange-50 dark:bg-orange-950/30">
                           {t.actionGuide.step1Rule}
                         </div>
                       </div>
 
-                      {/* Step 2 */}
                       <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center font-black mb-4">
-                            2
-                          </div>
-                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">
-                            {t.actionGuide.step2}
-                          </h3>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                            {t.actionGuide.step2Desc}
-                          </p>
+                          <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center font-black mb-4">2</div>
+                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">{t.actionGuide.step2}</h3>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{t.actionGuide.step2Desc}</p>
                         </div>
                         <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/30">
                           {t.actionGuide.step2Rule}
                         </div>
                       </div>
 
-                      {/* Step 3 */}
                       <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center font-black mb-4">
-                            3
-                          </div>
-                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">
-                            {t.actionGuide.step3}
-                          </h3>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                            {t.actionGuide.step3Desc}
-                          </p>
+                          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center font-black mb-4">3</div>
+                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">{t.actionGuide.step3}</h3>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{t.actionGuide.step3Desc}</p>
                         </div>
                         <div className="text-[11px] font-bold text-blue-600 dark:text-blue-400 p-2.5 rounded-lg bg-blue-50 dark:bg-blue-950/30">
                           {t.actionGuide.step3Rule}
                         </div>
                       </div>
 
-                      {/* Step 4 */}
                       <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                         <div>
-                          <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 flex items-center justify-center font-black mb-4">
-                            4
-                          </div>
-                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">
-                            {t.actionGuide.step4}
-                          </h3>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                            {t.actionGuide.step4Desc}
-                          </p>
+                          <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 flex items-center justify-center font-black mb-4">4</div>
+                          <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2">{t.actionGuide.step4}</h3>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{t.actionGuide.step4Desc}</p>
                         </div>
                         <button
                           onClick={() => setShowLegalModal(true)}
@@ -545,7 +516,7 @@ const htmlContent = `<!DOCTYPE html>
                       </div>
                     </div>
 
-                    {/* Quick Callout Cards: Sample Complaint & SLVC Protocol */}
+                    {/* Quick Callout Cards */}
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                       <div 
                         onClick={() => setShowSampleDraftModal(true)}
@@ -585,7 +556,7 @@ const htmlContent = `<!DOCTYPE html>
               </div>
             )}
 
-            {/* Tab: Know the Law (Dynamically rendered in EN, SI, TA from t.knowLaw) */}
+            {/* Tab: Know the Law */}
             {activeTab === 'knowLaw' && (
               <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
@@ -602,8 +573,6 @@ const htmlContent = `<!DOCTYPE html>
                   {t.knowLaw.statutes.map((statute, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                        
-                        {/* Statute Image Thumbnail */}
                         <div className="lg:col-span-3">
                           <img 
                             src={statute.image} 
@@ -621,7 +590,6 @@ const htmlContent = `<!DOCTYPE html>
                           </div>
                         </div>
 
-                        {/* Statute Content & Sections */}
                         <div className="lg:col-span-9">
                           <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
                             {statute.title}
@@ -630,7 +598,6 @@ const htmlContent = `<!DOCTYPE html>
                             {statute.summary}
                           </p>
 
-                          {/* Sections Grid */}
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-5">
                             {statute.sections.map((sec, sIdx) => (
                               <div key={sIdx} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs">
@@ -641,12 +608,10 @@ const htmlContent = `<!DOCTYPE html>
                             ))}
                           </div>
 
-                          {/* Critical Audit / Courtroom Tip Box */}
                           <div className="mt-5 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 text-xs text-emerald-950 dark:text-emerald-200">
                             <strong>{lang === 'si' ? 'නෛතික උපායමාර්ගය:' : lang === 'ta' ? 'சட்ட உத்தி:' : 'Strategic Practice:'}</strong> {statute.criticalNote}
                           </div>
                         </div>
-
                       </div>
                     </div>
                   ))}
@@ -654,7 +619,7 @@ const htmlContent = `<!DOCTYPE html>
               </div>
             )}
 
-            {/* Tab: Legal Playbook (B-Report, Witness Statements, 3-CD Rule, Notice/Summons/Warrant, Court Exhibits, RTI Guide) */}
+            {/* Tab: Legal Playbook */}
             {activeTab === 'playbook' && (
               <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
@@ -671,7 +636,6 @@ const htmlContent = `<!DOCTYPE html>
                   {t.playbook.sections.map((sec, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                       <div>
-                        {/* Section Header with Photography Thumbnail */}
                         <div className="flex items-center space-x-4 mb-4">
                           <img 
                             src={sec.image} 
@@ -693,7 +657,6 @@ const htmlContent = `<!DOCTYPE html>
                           {sec.summary}
                         </p>
 
-                        {/* Detailed Bullet Points */}
                         <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300 mb-4 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
                           {sec.points.map((pt, pIdx) => (
                             <li key={pIdx} className="flex items-start space-x-2">
@@ -704,7 +667,6 @@ const htmlContent = `<!DOCTYPE html>
                         </ul>
                       </div>
 
-                      {/* Key Takeaway / Practice Tip */}
                       <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 text-xs font-semibold text-emerald-900 dark:text-emerald-300">
                         {sec.takeaway}
                       </div>
@@ -731,8 +693,6 @@ const htmlContent = `<!DOCTYPE html>
                   {t.cases.list.map((c, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-                        
-                        {/* Case Photo */}
                         <div className="md:col-span-4">
                           <img 
                             src={c.image} 
@@ -748,7 +708,6 @@ const htmlContent = `<!DOCTYPE html>
                           </div>
                         </div>
 
-                        {/* Case Details */}
                         <div className="md:col-span-8">
                           <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">{c.sections}</span>
                           <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
@@ -758,7 +717,6 @@ const htmlContent = `<!DOCTYPE html>
                             {c.facts}
                           </p>
 
-                          {/* Legal Action Taken */}
                           <div className="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs">
                             <span className="font-bold text-slate-900 dark:text-white block mb-1">
                               {lang === 'si' ? 'නීතිමය මැදිහත්වීම සහ පියවර:' : lang === 'ta' ? 'எடுக்கப்பட்ட சட்ட நடவடிக்கை:' : 'AWC Legal Intervention:'}
@@ -768,7 +726,6 @@ const htmlContent = `<!DOCTYPE html>
                             </p>
                           </div>
 
-                          {/* Timeline Progress */}
                           <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-bold">
                             {c.timeline.map((step, sIdx) => (
                               <span key={sIdx} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
@@ -777,7 +734,6 @@ const htmlContent = `<!DOCTYPE html>
                             ))}
                           </div>
                         </div>
-
                       </div>
                     </div>
                   ))}
@@ -802,7 +758,6 @@ const htmlContent = `<!DOCTYPE html>
                   {t.truthMyth.items.map((item, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                       <div>
-                        {/* Myth Header */}
                         <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40 text-xs mb-4">
                           <span className="font-extrabold uppercase tracking-wider text-rose-600 block mb-1">
                             ✕ {lang === 'si' ? 'මිථ්‍යාව (Misconception)' : lang === 'ta' ? 'தவறான கருத்து' : 'Myth'}
@@ -812,7 +767,6 @@ const htmlContent = `<!DOCTYPE html>
                           </p>
                         </div>
 
-                        {/* Truth Header */}
                         <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 text-xs mb-4">
                           <span className="font-extrabold uppercase tracking-wider text-emerald-600 block mb-1">
                             ✓ {lang === 'si' ? 'නෛතික සත්‍යය (Legal Reality)' : lang === 'ta' ? 'சட்ட உண்மை' : 'Legal Reality'}
@@ -823,7 +777,6 @@ const htmlContent = `<!DOCTYPE html>
                         </div>
                       </div>
 
-                      {/* Citation Pill */}
                       <div className="text-[11px] font-mono font-bold text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800">
                         {item.citation}
                       </div>
@@ -846,7 +799,6 @@ const htmlContent = `<!DOCTYPE html>
                   </p>
                 </div>
 
-                {/* Key Metrics */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                   {t.ourWork.stats.map((st, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm text-center">
@@ -857,7 +809,6 @@ const htmlContent = `<!DOCTYPE html>
                   ))}
                 </div>
 
-                {/* 4 Major Strategic Campaigns */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {t.ourWork.campaigns.map((camp, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
@@ -886,7 +837,7 @@ const htmlContent = `<!DOCTYPE html>
               </div>
             )}
 
-            {/* Tab: About Us & Leadership Team */}
+            {/* Tab: About Us & Leadership Team (Clean Monogram Badge Design - No Pictures as requested!) */}
             {activeTab === 'about' && (
               <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
@@ -901,33 +852,37 @@ const htmlContent = `<!DOCTYPE html>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {t.team.members.map((member, idx) => (
-                    <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition">
                       <div>
-                        <img 
-                          src={member.image} 
-                          alt={member.name} 
-                          className="w-full h-48 object-cover"
-                          onError={(e) => { e.target.style.display = 'none'; }}
-                        />
-                        <div className="p-5">
-                          <span className={\`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded block w-fit \${member.badgeColor}\`}>
+                        {/* Distinguished Monogram Avatar Header */}
+                        <div className="flex items-center justify-between mb-4">
+                          <div className={\`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-base shadow-sm \${
+                            idx % 4 === 0 ? 'bg-gradient-to-br from-emerald-500 to-teal-700 text-white' :
+                            idx % 4 === 1 ? 'bg-gradient-to-br from-blue-500 to-indigo-700 text-white' :
+                            idx % 4 === 2 ? 'bg-gradient-to-br from-purple-500 to-violet-700 text-white' :
+                            'bg-gradient-to-br from-amber-500 to-orange-700 text-white'
+                          }\`}>
+                            {member.initials || member.name.substring(0, 2)}
+                          </div>
+                          <span className={\`text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md \${member.badgeColor}\`}>
                             {member.badge}
                           </span>
-                          <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 leading-snug">
-                            {member.name}
-                          </h3>
-                          <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">
-                            {member.role}
-                          </div>
-                          <p className="mt-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {member.bio}
-                          </p>
                         </div>
+
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white leading-snug">
+                          {member.name}
+                        </h3>
+                        <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1 leading-tight">
+                          {member.role}
+                        </div>
+                        <p className="mt-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                          {member.bio}
+                        </p>
                       </div>
                       
                       {/* External Link if Available (e.g. Linipaws.org) */}
                       {member.link && (
-                        <div className="p-5 pt-0">
+                        <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
                           <a 
                             href={member.link} 
                             target="_blank" 
@@ -959,7 +914,6 @@ const htmlContent = `<!DOCTYPE html>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Police Directory Card (Prominent OIC & Station Lookup) */}
                   <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-blue-200 dark:border-blue-900/50 shadow-md flex flex-col justify-between">
                     <div>
                       <div className="flex items-center space-x-3 mb-4">
@@ -996,7 +950,6 @@ const htmlContent = `<!DOCTYPE html>
                     </a>
                   </div>
 
-                  {/* AWC Official Channels Card */}
                   <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                     <div>
                       <div className="flex items-center space-x-3 mb-4">
@@ -1028,7 +981,6 @@ const htmlContent = `<!DOCTYPE html>
                         </div>
                       </div>
 
-                      {/* Strict Warning Banner */}
                       <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 text-xs text-amber-900 dark:text-amber-200">
                         {t.contact.strictWarning}
                       </div>
@@ -1084,7 +1036,7 @@ const htmlContent = `<!DOCTYPE html>
             </div>
           </footer>
 
-          {/* Modals */}
+          {/* Modals with Clear, Prominent Cancel Buttons */}
           {showReportModal && (
             <ReportComplaintModal
               lang={lang}
@@ -1142,7 +1094,6 @@ const htmlContent = `<!DOCTYPE html>
       const [location, setLocation] = useState('');
       const [details, setDetails] = useState('');
       const [incidentDate, setIncidentDate] = useState('');
-      const [consentLaw, setConsentLaw] = useState(false);
       const [consentSocial, setConsentSocial] = useState(false);
       const [generatedToken, setGeneratedToken] = useState(null);
 
@@ -1154,10 +1105,8 @@ const htmlContent = `<!DOCTYPE html>
           alert(lang === 'si' ? 'කරුණාකර දුරකථන අංකය, ඊමේල් ලිපිනය සහ විස්තර ඇතුළත් කරන්න.' : lang === 'ta' ? 'தயவுசெய்து தொலைபேசி எண், மின்னஞ்சல் மற்றும் விபரங்களை உள்ளிடவும்.' : 'Please provide mandatory Phone Number, Email, and details.');
           return;
         }
-        // Generate Token
         const token = 'AWC-TKT-' + Math.floor(100000 + Math.random() * 900000);
         
-        // Save to LocalStorage mock DB
         const newTicket = {
           token,
           type: 'COMPLAINT',
@@ -1178,7 +1127,6 @@ const htmlContent = `<!DOCTYPE html>
         existing.unshift(newTicket);
         localStorage.setItem('awc_tickets', JSON.stringify(existing));
 
-        // Save to Firestore if connected
         if (db) {
           try {
             db.collection('complaints').doc(token).set(newTicket).catch(e => console.warn("Firestore write:", e));
@@ -1202,13 +1150,21 @@ const htmlContent = `<!DOCTYPE html>
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
-            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
-              <i data-lucide="x" className="w-6 h-6"></i>
+            
+            {/* Top-Right Clear Cancel Button */}
+            <button 
+              type="button"
+              onClick={onClose} 
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition border border-slate-300 dark:border-slate-700 shadow-sm"
+              title="Close / Cancel"
+            >
+              <i data-lucide="x" className="w-4 h-4"></i>
+              <span>{lang === 'si' ? 'අවලංගු කරන්න (Cancel)' : lang === 'ta' ? 'இரத்து (Cancel)' : 'Cancel'}</span>
             </button>
 
             {!generatedToken ? (
               <div>
-                <div className="mb-6">
+                <div className="mb-6 pr-24">
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300">
                     Cruelty & Abuse Intake
                   </span>
@@ -1315,7 +1271,7 @@ const htmlContent = `<!DOCTYPE html>
                     </div>
                   </div>
 
-                  {/* Name (Optional / Confidential) */}
+                  {/* Name */}
                   <div>
                     <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
                       {lang === 'si' ? 'ඔබගේ නම (නම හෙළිකිරීමට අකමැති නම් හිස්ව තබන්න)' : lang === 'ta' ? 'உங்கள் பெயர் (விருப்பப்பட்டால்)' : 'Full Name (Leave blank if you wish to remain anonymous)'}
@@ -1359,7 +1315,7 @@ const htmlContent = `<!DOCTYPE html>
                     </div>
                   </div>
 
-                  {/* Incident Narrative */}
+                  {/* Narrative */}
                   <div>
                     <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
                       {lang === 'si' ? 'සිදුවීමේ සම්පූර්ණ විස්තරය *' : lang === 'ta' ? 'சம்பவ விபரம் *' : 'Detailed Incident Description *'}
@@ -1374,7 +1330,7 @@ const htmlContent = `<!DOCTYPE html>
                     />
                   </div>
 
-                  {/* Attachment Instructions */}
+                  {/* Attachment Note */}
                   <div className="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/40 text-[11px] text-blue-900 dark:text-blue-200 flex items-start space-x-2">
                     <i data-lucide="info" className="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
                     <div>
@@ -1385,7 +1341,7 @@ const htmlContent = `<!DOCTYPE html>
                     </div>
                   </div>
 
-                  {/* Checkbox Consents */}
+                  {/* Consent */}
                   <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
                     <label className="flex items-center space-x-2 text-slate-600 dark:text-slate-400 cursor-pointer">
                       <input
@@ -1398,21 +1354,30 @@ const htmlContent = `<!DOCTYPE html>
                     </label>
                   </div>
 
-                  {/* Submit Button */}
-                  <div className="pt-2 flex items-center justify-between">
+                  {/* Submit & Cancel Buttons Footer */}
+                  <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
                     <button
                       type="button"
                       onClick={onShowSample}
                       className="text-xs text-blue-600 dark:text-blue-400 font-bold hover:underline"
                     >
-                      {lang === 'si' ? 'ආදර්ශ ආකෘතිය බලන්න →' : 'View Sample Draft →'}
+                      {lang === 'si' ? 'ආදර්ශ ආකෘතිය බලන්න →' : lang === 'ta' ? 'மாதிரி படிவம் →' : 'View Sample Draft →'}
                     </button>
-                    <button
-                      type="submit"
-                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold text-xs shadow-md hover:shadow-lg transition"
-                    >
-                      {lang === 'si' ? 'පැමිණිල්ල ඉදිරිපත් කරන්න' : 'Submit Cruelty Report'}
-                    </button>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        onClick={onClose}
+                        className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition shadow-sm"
+                      >
+                        {lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து செய்க' : 'Cancel'}
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-extrabold text-xs shadow-md hover:shadow-lg transition"
+                      >
+                        {lang === 'si' ? 'පැමිණිල්ල ඉදිරිපත් කරන්න' : lang === 'ta' ? 'முறைப்பாடு செய்க' : 'Submit Cruelty Report'}
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -1433,9 +1398,9 @@ const htmlContent = `<!DOCTYPE html>
                 <div className="pt-4">
                   <button
                     onClick={onClose}
-                    className="px-6 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs"
+                    className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition"
                   >
-                    Done
+                    Close / අවසන් කරන්න
                   </button>
                 </div>
               </div>
@@ -1501,13 +1466,21 @@ const htmlContent = `<!DOCTYPE html>
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
-            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
-              <i data-lucide="x" className="w-6 h-6"></i>
+            
+            {/* Top-Right Clear Cancel Button */}
+            <button 
+              type="button"
+              onClick={onClose} 
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition border border-slate-300 dark:border-slate-700 shadow-sm"
+              title="Close / Cancel"
+            >
+              <i data-lucide="x" className="w-4 h-4"></i>
+              <span>{lang === 'si' ? 'ඉවත් වන්න (Cancel)' : 'Cancel'}</span>
             </button>
 
             {!generatedToken ? (
               <div>
-                <div className="mb-6">
+                <div className="mb-6 pr-24">
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                     Legal Aid & Court Coordination
                   </span>
@@ -1606,7 +1579,14 @@ const htmlContent = `<!DOCTYPE html>
                     />
                   </div>
 
-                  <div className="pt-2 text-right">
+                  <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end space-x-2">
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition"
+                    >
+                      {lang === 'si' ? 'අවලංගු කරන්න' : 'Cancel'}
+                    </button>
                     <button
                       type="submit"
                       className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition"
@@ -1631,8 +1611,8 @@ const htmlContent = `<!DOCTYPE html>
                   {generatedToken}
                 </div>
                 <div className="pt-4">
-                  <button onClick={onClose} className="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs">
-                    Close
+                  <button onClick={onClose} className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs">
+                    Close / අවසන් කරන්න
                   </button>
                 </div>
               </div>
@@ -1657,7 +1637,6 @@ const htmlContent = `<!DOCTYPE html>
 
         const token = searchToken.trim().toUpperCase();
 
-        // 1. Check Firestore
         if (db) {
           try {
             const doc = await db.collection('ticketStatus').doc(token).get();
@@ -1671,7 +1650,6 @@ const htmlContent = `<!DOCTYPE html>
           }
         }
 
-        // 2. Fallback to LocalStorage
         const local = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
         const found = local.find(t => t.token === token);
         if (found) {
@@ -1681,6 +1659,10 @@ const htmlContent = `<!DOCTYPE html>
             status: found.status,
             district: found.district || found.courtName || 'Sri Lanka',
             category: found.category || found.caseType,
+            assignedCaseId: found.assignedCaseId,
+            caseTitle: found.caseTitle,
+            latestMilestone: found.latestMilestone,
+            milestoneDate: found.milestoneDate,
             createdAt: found.createdAt
           });
         } else {
@@ -1692,11 +1674,16 @@ const htmlContent = `<!DOCTYPE html>
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
-            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
-              <i data-lucide="x" className="w-6 h-6"></i>
+            <button 
+              type="button"
+              onClick={onClose} 
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition border border-slate-300 dark:border-slate-700"
+            >
+              <i data-lucide="x" className="w-4 h-4"></i>
+              <span>Cancel</span>
             </button>
 
-            <div className="mb-6">
+            <div className="mb-6 pr-20">
               <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
                 Ticket Verification
               </span>
@@ -1749,11 +1736,41 @@ const htmlContent = `<!DOCTYPE html>
                   <div><strong>Type:</strong> {ticketResult.type}</div>
                   <div><strong>Jurisdiction:</strong> {ticketResult.district || 'National'}</div>
                 </div>
+
+                {/* Master Case Linking & Updates */}
+                {ticketResult.assignedCaseId && (
+                  <div className="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/50 space-y-1 mt-2">
+                    <div className="font-bold text-blue-900 dark:text-blue-200 text-xs flex items-center space-x-1.5">
+                      <i data-lucide="folder-check" className="w-3.5 h-3.5 text-blue-600"></i>
+                      <span>Master Case: {ticketResult.caseTitle || ticketResult.assignedCaseId}</span>
+                    </div>
+                    {ticketResult.latestMilestone ? (
+                      <p className="text-[11px] text-blue-800 dark:text-blue-300 leading-relaxed pt-1">
+                        <strong>Latest Case Update ({ticketResult.milestoneDate || 'Recent'}):</strong> {ticketResult.latestMilestone}
+                      </p>
+                    ) : (
+                      <p className="text-[10px] text-blue-600 dark:text-blue-400">
+                        Bundled into master case proceedings. Judicial updates will stream here.
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 <div className="text-[11px] text-slate-500 pt-1">
                   Logged At: {new Date(ticketResult.createdAt).toLocaleString()}
                 </div>
               </div>
             )}
+
+            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-right">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -1764,11 +1781,16 @@ const htmlContent = `<!DOCTYPE html>
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
-            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
-              <i data-lucide="x" className="w-6 h-6"></i>
+            <button 
+              type="button"
+              onClick={onClose} 
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700"
+            >
+              <i data-lucide="x" className="w-4 h-4"></i>
+              <span>Cancel</span>
             </button>
 
-            <div className="mb-6">
+            <div className="mb-6 pr-20">
               <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300">
                 First-Response Safety Protocol
               </span>
@@ -1793,6 +1815,12 @@ const htmlContent = `<!DOCTYPE html>
                 <p>Gently immobilize the animal using a clean towel or flat board to prevent spinal shock. Muzzle gently if fearful, and transport directly to a private or government veterinary clinic.</p>
               </div>
             </div>
+
+            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-right">
+              <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs">
+                Close
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -1813,11 +1841,16 @@ const htmlContent = `<!DOCTYPE html>
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
-            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
-              <i data-lucide="x" className="w-6 h-6"></i>
+            <button 
+              type="button"
+              onClick={onClose} 
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700"
+            >
+              <i data-lucide="x" className="w-4 h-4"></i>
+              <span>Cancel</span>
             </button>
 
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 pr-24">
               <div>
                 <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   Drafting Guide
@@ -1926,12 +1959,22 @@ Address: No. 15, Pansala Road, Maharagama.\`}
               <span className="text-xs text-slate-500">
                 {lang === 'si' ? 'මෙම ආකෘතිය පිටපත් කර ඔබගේ තොරතුරු සමඟ පොලීසියට භාරදෙන්න.' : 'Copy and adapt this text for your local police station.'}
               </span>
-              <button
-                onClick={copyToClipboard}
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition"
-              >
-                {copied ? '✓ Copied' : 'Copy Text'}
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={copyToClipboard}
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-sm"
+                >
+                  {copied ? '✓ Copied' : 'Copy Text'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1943,11 +1986,16 @@ Address: No. 15, Pansala Road, Maharagama.\`}
       return (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
-            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
-              <i data-lucide="x" className="w-6 h-6"></i>
+            <button 
+              type="button"
+              onClick={onClose} 
+              className="absolute top-5 right-5 inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700"
+            >
+              <i data-lucide="x" className="w-4 h-4"></i>
+              <span>Cancel</span>
             </button>
 
-            <div className="mb-6">
+            <div className="mb-6 pr-20">
               <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                 Statutory Regulatory Advisory
               </span>
@@ -1973,6 +2021,12 @@ Address: No. 15, Pansala Road, Maharagama.\`}
                 </ul>
               </div>
             </div>
+
+            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-right">
+              <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs">
+                Close
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -1987,4 +2041,4 @@ Address: No. 15, Pansala Road, Maharagama.\`}
 
 const outputPath = path.resolve(__dirname, '..', 'web', 'index.html');
 fs.writeFileSync(outputPath, htmlContent, 'utf8');
-console.log('Successfully wrote web/index.html (' + Buffer.byteLength(htmlContent, 'utf8') + ' bytes)');
+console.log('Successfully wrote updated web/index.html (' + Buffer.byteLength(htmlContent, 'utf8') + ' bytes)');
