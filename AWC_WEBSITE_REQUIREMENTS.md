@@ -7,6 +7,7 @@
 * **Admin Account:** `awcsrilanka@gmail.com` (Firestore / Firebase Authentication)
 * **Official Social Channel:** `fb.com/awcsrilanka` (Integrated feed / social link)
 * **Phone / Hotline Policy:** **NO mobile number or phone hotline** displayed (strict ticket & email based support only)
+* **Strict Anti-Fundraising & Phone Ban:** **DO NOT** mention donations, fundraising, or any phone/WhatsApp numbers (including `072 918 9002`). The platform is strictly for advocacy, incident complaints, legal assistance, public education, and case tracking.
 * **Visual Theme:** Full **Light and Dark mode** support
 * **Languages (Trilingual):**
   1. English
