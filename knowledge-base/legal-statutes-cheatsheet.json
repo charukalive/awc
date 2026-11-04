@@ -1,0 +1,202 @@
+{
+  "statutes": [
+    {
+      "id": "1907-ord-13",
+      "shortName": "Prevention of Cruelty to Animals Ordinance No. 13 of 1907",
+      "category": "Cruelty & Animal Welfare",
+      "sections": [
+        {
+          "section": "Section 2(1)",
+          "title": "Cruelty, Beating, Overloading, and Improper Transport",
+          "offence": "Cruelly beating, ill-treating, overloading, torturing, or transporting any animal in a manner causing unnecessary pain.",
+          "penalty": "Fine up to Rs. 100 or imprisonment up to 3 months (simple or rigorous) or both."
+        },
+        {
+          "section": "Section 3",
+          "title": "Starvation and Severe Neglect",
+          "offence": "Allowing an animal to suffer from starvation, mutilation, or serious neglect.",
+          "penalty": "Fine up to Rs. 100 (repeat offence: up to Rs. 200 or 3 months imprisonment)."
+        },
+        {
+          "section": "Section 4",
+          "title": "Cruel Killing",
+          "offence": "Killing an animal in an unnecessarily cruel manner.",
+          "penalty": "Fine up to Rs. 100 and/or imprisonment up to 6 months."
+        },
+        {
+          "section": "Section 5",
+          "title": "Working Unfit or Diseased Animals",
+          "offence": "Working or employing any animal unfit for work due to wound, disease, or exhaustion.",
+          "penalty": "Fine up to Rs. 100 and/or imprisonment up to 6 months."
+        },
+        {
+          "section": "Section 7",
+          "title": "Abandonment on Streets",
+          "offence": "Abandoning diseased or disabled animals on public roads or streets to die.",
+          "penalty": "Fine up to Rs. 100 or imprisonment up to 3 months."
+        },
+        {
+          "section": "Section 8",
+          "title": "Statute of Limitations (3 Months)",
+          "rule": "Every prosecution must be instituted within THREE MONTHS from the date of the offence."
+        },
+        {
+          "section": "Section 12",
+          "title": "Cognizable Offence (Arrest Without Warrant)",
+          "power": "All offences under this Ordinance are cognizable. Police officers may arrest offenders without a warrant."
+        }
+      ]
+    },
+    {
+      "id": "animals-act-1958",
+      "shortName": "Animals Act No. 29 of 1958 & Gazette No. 1629/17 (2009)",
+      "category": "Livestock & Transport",
+      "sections": [
+        {
+          "section": "Section 8 & Gazette 1629/17",
+          "title": "Mandatory Ear Tags & Cattle Vouchers",
+          "requirement": "All cattle/buffalo over 18 months must carry ear tags and a Cattle Voucher (Schedule 06) signed before the GVS."
+        },
+        {
+          "section": "Gazette 1629/17 Schedule 01-05",
+          "title": "Mandatory Livestock Transport Documents",
+          "requirement": "Requires DS Transport Permit (Sched 01), GVS Health Cert (Sched 03), Vehicle Fitness Cert (Sched 04 & 05), loading ramp, and 30x4 inch red-on-white signboard."
+        },
+        {
+          "section": "Act No. 19 of 2026",
+          "title": "2026 Expansion to Small Ruminants & Pigs",
+          "requirement": "Extends Part II mandatory transport permits, vehicle inspection, and movement tracking to goats, sheep, and pigs."
+        }
+      ]
+    },
+    {
+      "id": "butchers-ord-1893",
+      "shortName": "Butchers Ordinance No. 9 of 1893 (Amendments: 2005, 2008)",
+      "category": "Slaughter & Meat Trade",
+      "sections": [
+        {
+          "section": "Sections 4-11",
+          "title": "Mandatory Butcher Licensing",
+          "requirement": "Annual license required from Municipal Mayor or Local Council Chairman. Unlicensed butchery carries fines up to Rs. 20,000."
+        },
+        {
+          "section": "Section 18 & 20 (2008 Amendment)",
+          "title": "Absolute Ban on Slaughter of Pregnant or Lactating Cows",
+          "penalty": "Mandatory fine of Rs. 50,000 and imprisonment up to 3 years."
+        }
+      ]
+    },
+    {
+      "id": "dangerous-animals-1921",
+      "shortName": "Dangerous Animals Ordinance No. 38 of 1921 (Amended by Act No. 40 of 2022)",
+      "category": "Public Safety",
+      "sections": [
+        {
+          "section": "Section 7(4)(a)",
+          "title": "Negligent Control of Ferocious Animals",
+          "penalty": "Penalty raised in Nov 2022 from Rs. 1,000 to Rs. 250,000."
+        }
+      ]
+    },
+    {
+      "id": "ffpo-1937",
+      "shortName": "Fauna and Flora Protection Ordinance No. 2 of 1937 (FFPO)",
+      "category": "Wildlife & Conservation",
+      "sections": [
+        {
+          "section": "Part II & Section 22A",
+          "title": "Protection of Elephants and Tamed Elephant Registration",
+          "requirement": "Strict protection of wild elephants. Mandatory DWC registration for captive elephants."
+        }
+      ]
+    },
+    {
+      "id": "penal-code",
+      "shortName": "Penal Code of Sri Lanka",
+      "category": "Criminal Law",
+      "sections": [
+        {
+          "section": "Section 282",
+          "title": "Negligent Handling of Animals Endangering Humans",
+          "penalty": "Imprisonment up to 6 months and/or fine."
+        },
+        {
+          "section": "Section 411",
+          "title": "Mischief by Killing or Maiming Animals (Valued Rs. 10+)",
+          "penalty": "Imprisonment up to 2 years and/or fine."
+        },
+        {
+          "section": "Section 412",
+          "title": "Mischief by Killing or Maiming Cattle, Horses, Elephants",
+          "penalty": "Imprisonment up to 5 years and/or fine."
+        }
+      ]
+    },
+    {
+      "id": "animal-welfare-bill-2026",
+      "shortName": "Animal Welfare Bill (Gazetted July 2026)",
+      "category": "Modern Welfare Reform",
+      "sections": [
+        {
+          "section": "Core Principle",
+          "title": "Statutory Duty of Care",
+          "description": "Obliges animal custodians to meet essential welfare needs (nutrition, environment, healthcare, normal behavior)."
+        },
+        {
+          "section": "Penalties",
+          "title": "Substantially Increased Sanctions",
+          "penalty": "Fines up to Rs. 500,000 and imprisonment up to 3 years."
+        },
+        {
+          "section": "Clause 47",
+          "title": "National Animal Welfare Authority & 20 Regulated Fields",
+          "description": "Establishes NAWA and regulates commercial breeding, pet shops, fighting, and transport."
+        }
+      ]
+    }
+  ],
+  "caseLaws": [
+    {
+      "citation": "Madawela v. Rawther (1914) 17 NLR 302",
+      "judge": "De Sampayo, J.",
+      "principle": "Captive wild animals (such as a captured Dugong) are legally protected as 'animals' under the 1907 Cruelty Ordinance."
+    },
+    {
+      "citation": "Jayasinghe v. Silva (1921) 23 NLR 28",
+      "judge": "De Sampayo, J.",
+      "principle": "Vicarious liability: Master/owner has an absolute duty of active supervision over working animals; oral orders to carters do not excuse liability."
+    },
+    {
+      "citation": "Inspector SPCA Nawalapitiya v. Punchirala (1921) 24 NLR 202",
+      "judge": "Schneider, J.",
+      "principle": "Beating a cornered wild elk with clubs constitutes illegal cruelty under Section 2 of Ordinance No. 13 of 1907."
+    },
+    {
+      "citation": "Mendis v. Hunucumbura (1928) 29 NLR 380",
+      "judge": "Garvin, J.",
+      "principle": "Shooting a trespassing cow on private land causes unnecessary pain and is a punishable criminal offence under Section 4(1)(b)."
+    },
+    {
+      "citation": "Nizar v. Sub-Inspector Kirinda (CA 861/85)",
+      "court": "Court of Appeal",
+      "principle": "Courts possess legal power to confiscate vehicles used for illegal cattle transport."
+    },
+    {
+      "citation": "Badulla High Court Rev. 41/2017",
+      "court": "High Court of Badulla",
+      "principle": "Magistrates may grant temporary care and custody of cruelty victims to recognized animal welfare organizations on a bond pending trial."
+    },
+    {
+      "citation": "SC Appeal No. 100/2025",
+      "court": "Supreme Court of Sri Lanka",
+      "caseName": "Justice for Animals and Nature v. OIC Udawalawa Police",
+      "principle": "Magistrate order releasing cruelly transported buffaloes back to convicted perpetrators is illegal and set aside."
+    },
+    {
+      "citation": "CA (PHC) APN 22/2018",
+      "court": "Court of Appeal",
+      "caseName": "Irangani De Silva v. OIC Ella",
+      "principle": "Cattle vouchers required to prove lawful ownership; animal welfare societies have recognized locus standi to intervene in court."
+    }
+  ]
+}
