@@ -400,14 +400,14 @@ const awcData = {
         },
         {
           "title": "Opposition to Lethal State Shelters vs. Humane CNVR",
-          "desc": "AWC actively opposes the establishment of government-run dog shelters (such as the failed Rs. 80M Trincomalee shelter and Wennappuwa Sunaka Sevana), where high density triggers fatal viral outbreaks and dog-on-dog trauma. Instead, AWC champions systematic sterilization, vaccination, and in May 2026 proposed municipal canine crematoriums in urban centers to provide dignified end-of-life care for companion and street animals.",
+          "desc": "AWC actively opposes the establishment of government-run dog shelters (such as the failed Rs. 80M Trincomalee shelter and Wennappuwa Sunaka Sevana), where high density triggers fatal viral outbreaks and dog-on-dog trauma. Instead, AWC champions systematic sterilization, vaccination, and in May 2026 champions systematic sterilization, mass rabies vaccination, and strict veterinary standards for population management.",
           "badge": "Humane Population Control",
           "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80"
         },
         {
-          "title": "Municipal Canine Crematorium Initiative",
-          "desc": "In May 2026, AWC formally submitted a policy proposal to municipal and urban councils advocating the establishment of dedicated municipal companion animal crematoriums. Providing hygienic, affordable cremation services prevents deceased pets from being dumped in waterways, preserves public sanitation, and fosters dignified community compassion.",
-          "badge": "Urban Environmental Sanitation",
+          "title": "400+ Animal Cruelty Legal Involvements within Last 365 Days",
+          "desc": "Over the past 365 days, AWC legal counsel and field coordinators actively intervened in over 400 verified animal cruelty incidents across Sri Lanka—directing police station Information Book (IB) entries, Magistrate Court B-reports, animal rescue custody orders, and criminal prosecutions under the 1907 Ordinance and Penal Code.",
+          "badge": "Frontline Legal Enforcement",
           "image": "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=800&q=80"
         }
       ]
@@ -600,7 +600,7 @@ const awcData = {
     }
   },
   "si": {
-    "brandName": "සත්ව සුබසාධන සන්ධානය",
+    "brandName": "සත්ව සුබසාධන සංසදය",
     "brandSub": "ශ්‍රී ලංකාව (AWC)",
     "motto": "මිනිස්-සත්ව ගැටුමට මානුෂීය විසඳුම් උදෙසා එක්වෙමු. අසරණ සතුන්ගේ හඬ වෙමු.",
     "nav": {
@@ -633,7 +633,7 @@ const awcData = {
         "මහේස්ත්‍රාත් අධිකරණ හමුවේ අගතියට පත් සතුන් සහ හිමිකරුවන් වෙනුවෙන් නීතිඥ සහය සම්බන්ධීකරණය කිරීම.",
         "පොලිස් ස්ථාන වෙත නිල නීතිමය ඉල්ලීම් ලිපි භාරදීම සඳහා ප්‍රාදේශීය ස්වේච්ඡා ජාලය මෙහෙයවීම.",
         "ජලභීතිකා මර්දන සහ වන්ධ්‍යාකරණ ප්‍රතිපාදන නිසි ලෙස භාවිත නොකිරීම සම්බන්ධයෙන් අල්ලස් කොමිසම හමුවේ නීතිමය ක්‍රියාමාර්ග ගැනීම.",
-        "මානුෂීය CNVR (එන්නත් හා වන්ධ්‍යාකරණ) වැඩසටහන් සහ සුනඛ ආදාහනාගාර පිහිටුවීම වෙනුවෙන් පෙනී සිටීම."
+        "මානුෂීය CNVR (එන්නත් හා වන්ධ්‍යාකරණ) වැඩසටහන් සහ විද්‍යාත්මක CNVR (එන්නත් හා වන්ධ්‍යාකරණ) වැඩසටහන් ක්‍රියාත්මක කිරීම වෙනුවෙන් AWC පෙනී සිටියි."
       ],
       "cannotTitle": "AWC වෙතින් පොරොන්දු විය නොහැකි දේ",
       "cannotList": [
@@ -1001,8 +1001,8 @@ const awcData = {
           "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80"
         },
         {
-          "title": "නාගරික සුනඛ ආදාහනාගාර පිහිටුවීමේ යෝජනාව",
-          "desc": "2026 මැයි මාසයේදී AWC විසින් මහනගර සභා වෙත නිල ප්‍රතිපත්ති ලේඛනයක් භාරදෙමින් මියයන සුරතල් සහ වීදි සතුන් සඳහා මානුෂීය සහ සනීපාරක්ෂක සුනඛ ආදාහනාගාර පිහිටුවීමට යෝජනා කරන ලදී. එමඟින් සිරුරු ජලාශවලට දැමීම වැළකී පරිසරය සුරැකේ.",
+          "title": "පසුගිය දින 365 තුළ සත්ව හිංසා සිදුවීම් 400+ කට අධික නෛතික මැදිහත්වීම්",
+          "desc": "පසුගිය දින 365 තුළ දිවයින පුරා සත්ව හිංසා සහ කෲරත්ව සිදුවීම් 400 කට අධික සංඛ්‍යාවක් සඳහා AWC නීතිඥ කණ්ඩායම සහ ක්ෂේත්‍ර සම්බන්ධීකාරකවරුන් සෘජුව මැදිහත් විය. පොලිස් ස්ථානවල පැමිණිලි සටහන් කිරීම, මහේස්ත්‍රාත් අධිකරණවල බී-වාර්තා අධීක්ෂණය, සතුන් සැකකරුවන්ගෙන් මුදාගැනීමේ නියෝග සහ 1907 ආඥාපනත හා දණ්ඩ නීති සංග්‍රහය යටතේ නඩු පැවරීම් ඒ අතර වේ.",
           "badge": "පාරිසරික සනීපාරක්ෂාව",
           "image": "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=800&q=80"
         }
@@ -1144,7 +1144,7 @@ const awcData = {
       "policeBtn": "නිල පොලිස් නාමාවලිය විවෘත කරන්න (police.lk) ↗",
       "policeNotice": "සෘජු වෙබ් සබැඳිය: https://police.lk/telephone-index/",
       "awcTitle": "AWC නිල සන්නිවේදන පද්ධතිය",
-      "awcDesc": "සත්ව සුබසාධන සන්ධානය ඩිජිටල් තාක්ෂණය ඔස්සේ ක්‍රියාත්මක වේ. පැමිණිලි ඉදිරිපත් කිරීම සහ නීති ආධාර සඳහා අපගේ පද්ධතිය ඔස්සේ ටිකට්පතක් ලබාගන්න.",
+      "awcDesc": "සත්ව සුබසාධන සංසදය ඩිජිටල් තාක්ෂණය ඔස්සේ ක්‍රියාත්මක වේ. පැමිණිලි ඉදිරිපත් කිරීම සහ නීති ආධාර සඳහා අපගේ පද්ධතිය ඔස්සේ ටිකට්පතක් ලබාගන්න.",
       "awcEmail": "නිල විද්‍යුත් තැපෑල: awcsrilanka@gmail.com",
       "awcFacebook": "නිල ෆේස්බුක් පිටුව: fb.com/awcsrilanka",
       "strictWarning": "දැඩි මෙහෙයුම් ප්‍රතිපත්තිය: AWC සතුව දුරකථන හොට්ලයින් හෝ හදිසි ඇමතුම් මධ්‍යස්ථාන නොමැත. සියලුම ඡායාරූප, වීඩියෝ සහ දිවුරුම් ප්‍රකාශ ටිකට් අංකය සඳහන් කර ඊමේල් කළ යුතුය."
@@ -1172,7 +1172,7 @@ const awcData = {
       "officialEmail": "නිල විද්‍යුත් තැපෑල: awcsrilanka@gmail.com",
       "facebook": "නිල ෆේස්බුක් පිටුව: fb.com/awcsrilanka",
       "noHotline": "විශේෂ දැනුම්දීම: AWC සතුව දුරකථන හොට්ලයින් නොමැත. සියලු තොරතුරු ටිකට්පත් සහ ඊමේල් හරහා පමණක් සිදුකෙරේ.",
-      "copyright": "© 2026 සත්ව සුබසාධන සන්ධානය ශ්‍රී ලංකාව. සියලු හිමිකම් ඇවිරිණි."
+      "copyright": "© 2026 සත්ව සුබසාධන සංසදය ශ්‍රී ලංකාව. සියලු හිමිකම් ඇවිරිණි."
     },
     "triage": {
       "badge": "හදිසි අවස්ථා සහ ප්‍රථමාධාර මාර්ගෝපදේශය",
@@ -1597,7 +1597,7 @@ const awcData = {
           "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80"
         },
         {
-          "title": "நகர்ப்புற செல்லப்பிராணிகளுக்கான மின் தகன மையங்கள் திட்டம்",
+          "title": "கடந்த 365 நாட்களில் 400+ விலங்கு வதை சட்ட தலையீடுகள்",
           "desc": "2026 மே மாதத்தில் மாநகர சபைகளுக்கு உத்தியோகபூர்வ முன்மொழிவை சமர்ப்பித்த AWC, இறக்கும் செல்லப்பிராணிகள் மற்றும் வீதி விலங்குகளுக்கு கௌரவமான மற்றும் சுகாதாரமான தகன மையங்களை அமைக்கக் கோரியது. இது உடல்கள் நீர்நிலைகளில் வீசப்படுவதைத் தடுத்து சூழலைப் பாதுகாக்கும்.",
           "badge": "சுற்றுச்சூழல் சுகாதாரம்",
           "image": "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=800&q=80"

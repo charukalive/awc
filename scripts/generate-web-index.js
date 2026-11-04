@@ -14,7 +14,7 @@ const htmlContent = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Primary Meta Tags -->
-  <title>Animal Welfare Coalition Sri Lanka (AWC) | ශ්‍රී ලංකා සත්ව සුබසාධන සන්ධානය | இலங்கை விலங்கு நலக் கூட்டணி</title>
+  <title>Animal Welfare Coalition Sri Lanka (AWC) | ශ්‍රී ලංකා සත්ව සුබසාධන සංසදය | இலங்கை விலங்கு நலக் கூட்டணி</title>
   <meta name="title" content="Animal Welfare Coalition Sri Lanka (AWC) - Civil Society Legal Advocacy">
   <meta name="description" content="Civil society coalition coordinating legal aid, police station interventions, Magistrate Court litigation, and humane stray management advocacy across Sri Lanka.">
   <meta name="keywords" content="Animal Welfare Sri Lanka, AWC, Animal Cruelty Sri Lanka, Rabies Ordinance, 1907 Ordinance, Animal Law Sri Lanka, Magistrate Court, Dog Population Management">
@@ -1104,6 +1104,30 @@ const htmlContent = `<!DOCTYPE html>
             </div>
           </footer>
 
+          
+          {/* Floating Facebook Community Button with Pulsing Live Indicator */}
+          <a 
+            href="https://fb.com/awcsrilanka" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="fixed bottom-6 right-6 z-40 flex items-center space-x-2.5 bg-[#1877F2] hover:bg-[#0c63d4] text-white px-4 py-2.5 sm:py-3 rounded-full shadow-2xl shadow-blue-600/40 hover:shadow-blue-600/60 transition-all duration-200 transform hover:scale-105 border border-blue-400/30 group"
+            title="Follow AWC on Facebook for Recent Updates"
+          >
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+            </span>
+            <svg className="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            <div className="text-left font-bold text-xs pr-1 leading-tight">
+              <div className="text-[10px] uppercase font-extrabold tracking-wider text-blue-200">
+                {lang === 'si' ? 'නවතම යාවත්කාලීන' : lang === 'ta' ? 'சமீபத்திய தகவல்' : 'Recent Updates'}
+              </div>
+              <div className="text-xs font-black">fb.com/awcsrilanka ↗</div>
+            </div>
+          </a>
+
           {/* Modals with Clear, Prominent Cancel Buttons */}
           {showReportModal && (
             <ReportComplaintModal
@@ -1165,9 +1189,23 @@ const htmlContent = `<!DOCTYPE html>
       const [consentSocial, setConsentSocial] = useState(false);
       const [generatedToken, setGeneratedToken] = useState(null);
 
+      // Attachments & Evidence Links state
+      const [evidenceLink, setEvidenceLink] = useState('');
+      const [evidenceFiles, setEvidenceFiles] = useState([]);
+      const [isUploading, setIsUploading] = useState(false);
+
       const isMedNegligence = category === 'medical_negligence';
 
-      const handleSubmit = (e) => {
+      const handleFilesSelected = (e) => {
+        const files = Array.from(e.target.files);
+        const valid = files.filter(f => f.size <= 10 * 1024 * 1024);
+        if (valid.length < files.length) {
+          alert(lang === 'si' ? 'සමහර ගොනු 10MB සීමාව ඉක්මවා ඇති බැවින් ඉවත් කරන ලදී.' : lang === 'ta' ? 'சில கோப்புகள் 10MB இற்கு மேல் உள்ளதால் நீக்கப்பட்டன.' : 'Some files exceed the 10MB limit and were removed.');
+        }
+        setEvidenceFiles(valid);
+      };
+
+      const handleSubmit = async (e) => {
         e.preventDefault();
         if (!phone || !email || !details) {
           alert(lang === 'si' ? 'කරුණාකර දුරකථන අංකය, ඊමේල් ලිපිනය සහ විස්තර ඇතුළත් කරන්න.' : lang === 'ta' ? 'தயவுசெய்து தொலைபேசி எண், மின்னஞ்சல் மற்றும் விபரங்களை உள்ளிடவும்.' : 'Please provide mandatory Phone Number, Email, and details.');
@@ -1175,6 +1213,31 @@ const htmlContent = `<!DOCTYPE html>
         }
         const token = 'AWC-TKT-' + Math.floor(100000 + Math.random() * 900000);
         
+        // Upload direct files to Firebase Storage if available
+        let uploadedAttachments = [];
+        if (evidenceFiles.length > 0 && typeof firebase !== 'undefined' && firebase.storage) {
+          setIsUploading(true);
+          const storage = firebase.storage();
+          for (let i = 0; i < evidenceFiles.length; i++) {
+            const file = evidenceFiles[i];
+            const ext = file.name.split('.').pop() || 'jpg';
+            const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+            const storagePath = 'evidence/' + token + '/' + Date.now() + '_' + cleanName;
+            try {
+              const snap = await storage.ref(storagePath).put(file, { contentType: file.type });
+              const downloadUrl = await snap.ref.getDownloadURL();
+              uploadedAttachments.push({
+                name: file.name,
+                url: downloadUrl,
+                size: file.size
+              });
+            } catch (err) {
+              console.warn("Attachment upload warning:", err);
+            }
+          }
+          setIsUploading(false);
+        }
+
         const newTicket = {
           token,
           type: 'COMPLAINT',
@@ -1186,11 +1249,14 @@ const htmlContent = `<!DOCTYPE html>
           location,
           details,
           incidentDate,
+          evidenceLink: evidenceLink.trim(),
+          attachments: uploadedAttachments,
           consentSocial,
           createdAt: new Date().toISOString(),
           status: 'RECEIVED',
           notes: []
         };
+
         const existing = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
         existing.unshift(newTicket);
         localStorage.setItem('awc_tickets', JSON.stringify(existing));
@@ -1204,6 +1270,8 @@ const htmlContent = `<!DOCTYPE html>
               category,
               district,
               location,
+              hasEvidenceLink: Boolean(evidenceLink.trim()),
+              attachmentCount: uploadedAttachments.length,
               status: 'RECEIVED',
               createdAt: new Date().toISOString()
             }).catch(e => console.warn("Firestore status write:", e));
@@ -1227,7 +1295,7 @@ const htmlContent = `<!DOCTYPE html>
               title="Close / Cancel"
             >
               <i data-lucide="x" className="w-4 h-4"></i>
-              <span>{lang === 'si' ? 'අවලංගු කරන්න (Cancel)' : lang === 'ta' ? 'இரத்து (Cancel)' : 'Cancel'}</span>
+              <span>{lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel'}</span>
             </button>
 
             {!generatedToken ? (
@@ -1398,14 +1466,51 @@ const htmlContent = `<!DOCTYPE html>
                     />
                   </div>
 
-                  {/* Attachment Note */}
-                  <div className="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/40 text-[11px] text-blue-900 dark:text-blue-200 flex items-start space-x-2">
-                    <i data-lucide="info" className="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
+                  {/* ACTIVE FEATURE: Attachments & Cloud Links */}
+                  <div className="space-y-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+                    <div className="font-bold text-slate-800 dark:text-slate-200 text-xs flex items-center justify-between">
+                      <span className="flex items-center space-x-1.5">
+                        <i data-lucide="paperclip" className="w-4 h-4 text-emerald-600"></i>
+                        <span>{lang === 'si' ? 'සාක්ෂි ලේඛන සහ ඡායාරූප (Attachments & Links)' : lang === 'ta' ? 'சான்றாதாரங்கள் மற்றும் இணைப்புகள்' : 'Evidence Attachments & Cloud Links (Optional)'}</span>
+                      </span>
+                      <span className="text-[10px] font-normal text-slate-500">Max 10MB</span>
+                    </div>
+
+                    {/* Direct Upload (Photos/PDF) */}
                     <div>
-                      <strong>{lang === 'si' ? 'ඡායාරූප සහ වීඩියෝ සාක්ෂි:' : lang === 'ta' ? 'புகைப்படங்கள் & வீடியோக்கள்:' : 'Evidence Preservation:'}</strong>
-                      <div className="mt-0.5">
-                        {lang === 'si' ? 'පැමිණිල්ල යොමුකළ පසු ලැබෙන ටෝකන් අංකය (Token) සඳහන් කර ඡායාරූප හා වීඩියෝ awcsrilanka@gmail.com වෙත ඊමේල් කරන්න.' : 'Email clear photos/videos to awcsrilanka@gmail.com quoting your token reference.'}
-                      </div>
+                      <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">
+                        {lang === 'si' ? 'ඡායාරූප / පශු වෛද්‍ය වාර්තා / ලේඛන (Direct Upload):' : lang === 'ta' ? 'புகைப்படங்கள் / மருத்துவ ஆவணங்கள் (நேரடி பதிவேற்றம்):' : 'Upload Photos / Veterinary Reports / Diagnosis Slips (PNG, JPG, PDF):'}
+                      </label>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*,application/pdf"
+                        onChange={handleFilesSelected}
+                        className="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-100 dark:file:bg-emerald-950 file:text-emerald-800 dark:file:text-emerald-300 hover:file:bg-emerald-200 cursor-pointer"
+                      />
+                      {evidenceFiles.length > 0 && (
+                        <div className="mt-1.5 flex flex-wrap gap-1 text-[11px] text-emerald-700 dark:text-emerald-400 font-medium">
+                          <span>✓ {evidenceFiles.length} {lang === 'si' ? 'ගොනු තෝරාගෙන ඇත' : lang === 'ta' ? 'கோப்புகள் தேர்ந்தெடுக்கப்பட்டன' : 'file(s) selected'}:</span>
+                          <span className="text-slate-500">({evidenceFiles.map(f => f.name).join(', ')})</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Cloud Link (Google Drive, YouTube, OneDrive, iCloud) */}
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">
+                        {lang === 'si' ? 'වීඩියෝ දර්ශන සහිත Google Drive / YouTube / Cloud සබැඳිය (Video Link):' : lang === 'ta' ? 'வீடியோ ஆதாரம் அடங்கிய Google Drive / YouTube / Cloud இணைப்பு:' : 'Video Footage / Cloud Folder Link (Google Drive, YouTube, OneDrive, iCloud):'}
+                      </label>
+                      <input
+                        type="url"
+                        value={evidenceLink}
+                        onChange={(e) => setEvidenceLink(e.target.value)}
+                        placeholder="https://drive.google.com/... or https://youtube.com/..."
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-mono outline-none focus:ring-2 focus:ring-emerald-500"
+                      />
+                      <p className="text-[10px] text-slate-500 mt-0.5">
+                        {lang === 'si' ? 'විශාල වීඩියෝ දර්ශන තිබේ නම්, Google Drive හෝ YouTube සබැඳිය මෙහි දක්වන්න.' : lang === 'ta' ? 'பெரிய வீடியோக்கள் இருப்பின் Google Drive அல்லது YouTube இணைப்பை இங்கு உள்ளிடவும்.' : 'For large high-resolution video footage, pasting a Google Drive link or YouTube unlisted video link is highly recommended.'}
+                      </p>
                     </div>
                   </div>
 
@@ -1418,32 +1523,42 @@ const htmlContent = `<!DOCTYPE html>
                         onChange={(e) => setConsentSocial(e.target.checked)}
                         className="rounded text-emerald-600 focus:ring-emerald-500"
                       />
-                      <span>{lang === 'si' ? 'සමාජ දැනුවත්භාවය සඳහා පුද්ගලික තොරතුරු රහිතව ප්‍රසිද්ධ කිරීමට අවසර දෙමි.' : 'Consent to publish anonymized case awareness updates.'}</span>
+                      <span>
+                        {lang === 'si' ? 'අවශ්‍ය නම් මෙම සිදුවීම සාක්ෂි සහිතව මාධ්‍යයට හෝ සමාජ මාධ්‍ය වෙත මුදාහැරීමට මාගේ එකඟතාවය පළ කරමි.' : 'I grant consent to publish verified aspects of this complaint to social/civic media to protect the animal.'}
+                      </span>
                     </label>
                   </div>
 
-                  {/* Submit & Cancel Buttons Footer */}
-                  <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                  {/* Action Buttons */}
+                  <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-between items-center gap-3">
                     <button
                       type="button"
                       onClick={onShowSample}
-                      className="text-xs text-blue-600 dark:text-blue-400 font-bold hover:underline"
+                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline"
                     >
-                      {lang === 'si' ? 'ආදර්ශ ආකෘතිය බලන්න →' : lang === 'ta' ? 'மாதிரி படிவம் →' : 'View Sample Draft →'}
+                      <i data-lucide="file-text" className="w-4 h-4"></i>
+                      <span>{lang === 'si' ? 'ආදර්ශ පැමිණිලි ආකෘතිය බලන්න ↗' : lang === 'ta' ? 'மாதிரி முறைப்பாடு படிவம் ↗' : 'View Sample Complaint Draft ↗'}</span>
                     </button>
-                    <div className="flex items-center space-x-2">
+
+                    <div className="flex space-x-2">
                       <button
                         type="button"
                         onClick={onClose}
-                        className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition shadow-sm"
+                        className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition"
                       >
-                        {lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து செய்க' : 'Cancel'}
+                        {lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel'}
                       </button>
                       <button
                         type="submit"
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-extrabold text-xs shadow-md hover:shadow-lg transition"
+                        disabled={isUploading}
+                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold text-xs shadow-md transition flex items-center space-x-1.5"
                       >
-                        {lang === 'si' ? 'පැමිණිල්ල ඉදිරිපත් කරන්න' : lang === 'ta' ? 'முறைப்பாடு செய்க' : 'Submit Cruelty Report'}
+                        {isUploading && <span className="animate-spin mr-1">⟳</span>}
+                        <span>
+                          {isUploading 
+                            ? (lang === 'si' ? 'ගොනු උඩුගත කරමින්...' : 'Uploading Evidence...') 
+                            : (lang === 'si' ? 'පැමිණිල්ල යොමු කරන්න' : lang === 'ta' ? 'முறைப்பாட்டை சமர்ப்பிக்க' : 'Submit Official Complaint')}
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -1455,20 +1570,20 @@ const htmlContent = `<!DOCTYPE html>
                   ✓
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 dark:text-white">
-                  {lang === 'si' ? 'පැමිණිල්ල සාර්ථකව ලියාපදිංචි විය' : 'Complaint Successfully Registered'}
+                  {lang === 'si' ? 'පැමිණිල්ල සාර්ථකව ලියාපදිංචි විය' : lang === 'ta' ? 'முறைப்பாடு வெற்றிகரமாக பதிவானது' : 'Complaint Successfully Logged'}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-                  {lang === 'si' ? 'ඔබගේ රහස්‍ය ටෝකන් අංකය පහත දැක්වේ. සාක්ෂි ඊමේල් කිරීමේදී සහ ප්‍රගතිය විමසීමේදී මෙය භාවිතා කරන්න.' : 'Your confidential reference token is generated below. Quote this token when sending photos to awcsrilanka@gmail.com and for tracking.'}
+                  {lang === 'si' ? 'ඔබගේ පැමිණිල්ල රහස්‍ය පෝලිමට ඇතුළත් විය. ඉදිරි පරීක්ෂණ සහ නීතිමය ක්‍රියාමාර්ග සඳහා පහත ටෝකන් අංකය සුරක්ෂිතව තබාගන්න.' : 'Your incident report has been securely queued. Use the tracking token below to monitor police actions and legal docket progress.'}
                 </p>
                 <div className="inline-block p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border-2 border-emerald-500 text-lg font-mono font-black text-emerald-600 dark:text-emerald-400 tracking-wider">
                   {generatedToken}
                 </div>
-                <div className="pt-4">
-                  <button
-                    onClick={onClose}
-                    className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition"
+                <div className="pt-4 flex justify-center space-x-2">
+                  <button 
+                    onClick={onClose} 
+                    className="px-6 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs"
                   >
-                    Close / අවසන් කරන්න
+                    {lang === 'si' ? 'වසන්න' : lang === 'ta' ? 'மூடுக' : 'Close'}
                   </button>
                 </div>
               </div>
@@ -1478,7 +1593,7 @@ const htmlContent = `<!DOCTYPE html>
       );
     }
 
-        // --- Sub-Component: Request Legal Assistance Modal (100% Trilingual) ---
+    // --- Sub-Component: Request Legal Assistance Modal (100% Trilingual) ---
     function LegalAssistanceModal({ lang, onClose }) {
       const [caseType, setCaseType] = useState('magistrate_filing');
       const [courtName, setCourtName] = useState('');
@@ -1956,7 +2071,7 @@ const htmlContent = `<!DOCTYPE html>
             <div id="sample-complaint-text" className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 font-mono whitespace-pre-line leading-relaxed max-h-[55vh] overflow-y-auto">
               {sampleLang === 'si' && \`දිනය: 2026 අගෝස්තු 20
 
-ස්ථානාධිපතිතුමා, පොලිස් ස්ථානය / සත්ව සුබසාධන සන්ධානය (AWC)
+ස්ථානාධිපතිතුමා, පොලිස් ස්ථානය / සත්ව සුබසාධන සංසදය (AWC)
 
 ගරු මහත්මයා/මහත්මිය,
 
