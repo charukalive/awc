@@ -1,11 +1,19 @@
 // scripts/test-babel-admin.js
-// Preflight Static Verification Script for Zero-Build HTML files using Babel Standalone
-
 const fs = require('fs');
 const path = require('path');
 const Babel = require('@babel/standalone');
 
-const filesToValidate = ['web/index.html', 'web/admin.html', 'web/editor.html', 'web/media-manager.html'];
+const filesToValidate = [
+  'web/index.html',
+  'web/admin.html',
+  'web/editor.html',
+  'web/media-manager.html',
+  'index.html',
+  'admin.html',
+  'editor.html',
+  'media-manager.html'
+];
+
 let hasErrors = false;
 
 console.log('--- AWC Preflight HTML/JSX Babel Standalone Validator ---');
@@ -46,6 +54,6 @@ if (hasErrors) {
   console.error('\nPreflight check failed with errors.');
   process.exit(1);
 } else {
-  console.log('\nAll web files passed real Babel compilation successfully!');
+  console.log('\nAll web & root files passed real Babel compilation successfully!');
   process.exit(0);
 }

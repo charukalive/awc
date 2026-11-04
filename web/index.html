@@ -226,7 +226,7 @@
           {/* Sticky 2-Tier Navigation Header (Guarantees zero wrapping & clean layout on all screens) */}
           <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
             {/* Tier 1: Brand & Top Utilities */}
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
               
               {/* Brand Logo & Name */}
               <div className="flex items-center space-x-3 cursor-pointer shrink-0" onClick={() => setActiveTab('home')}>
@@ -309,8 +309,8 @@
 
             {/* Tier 2: Dedicated Navigation Tab Bar */}
             <div className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md">
-              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav className="flex items-center space-x-1.5 py-2 overflow-x-auto scrollbar-none text-xs sm:text-sm font-semibold whitespace-nowrap">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav className="flex flex-wrap items-center justify-start sm:justify-center gap-1.5 sm:gap-2 py-2 text-xs sm:text-sm font-semibold">
                   <button onClick={() => setActiveTab('home')} className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 ${activeTab === 'home' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
                     <i data-lucide="home" className="w-4 h-4"></i>
                     <span>{t.nav.home}</span>
@@ -676,7 +676,7 @@
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {t.playbook.sections.map((sec, idx) => (
+                  {(t.playbook.sections || []).map((sec, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                       <div>
                         <div className="flex items-center space-x-4 mb-4">
@@ -688,7 +688,7 @@
                           />
                           <div>
                             <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
-                              {sec.citation}
+                              {sec.badge || sec.citation}
                             </span>
                             <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-1 leading-snug">
                               {sec.title}
@@ -697,11 +697,11 @@
                         </div>
 
                         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                          {sec.summary}
+                          {sec.desc || sec.summary}
                         </p>
 
                         <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300 mb-4 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
-                          {sec.points.map((pt, pIdx) => (
+                          {(sec.takeaways || sec.points || []).map((pt, pIdx) => (
                             <li key={pIdx} className="flex items-start space-x-2">
                               <span className="text-emerald-600 font-bold shrink-0">✓</span>
                               <span>{pt}</span>
@@ -711,7 +711,7 @@
                       </div>
 
                       <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 text-xs font-semibold text-emerald-900 dark:text-emerald-300">
-                        {sec.takeaway}
+                        {Array.isArray(sec.takeaways) && sec.takeaways[0] ? sec.takeaways[0] : (sec.takeaway || sec.desc || '')}
                       </div>
                     </div>
                   ))}
@@ -733,7 +733,7 @@
                 </div>
 
                 <div className="space-y-8">
-                  {t.cases.list.map((c, idx) => (
+                  {(t.cases.list || []).map((c, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                         <div className="md:col-span-4">
@@ -752,30 +752,45 @@
                         </div>
 
                         <div className="md:col-span-8">
-                          <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">{c.sections}</span>
+                          <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">{c.date || c.sections}</span>
                           <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
                             {c.title}
                           </h3>
                           <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                            {c.facts}
+                            {c.desc || c.facts}
                           </p>
 
-                          <div className="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs">
-                            <span className="font-bold text-slate-900 dark:text-white block mb-1">
-                              {lang === 'si' ? 'නීතිමය මැදිහත්වීම සහ පියවර:' : lang === 'ta' ? 'எடுக்கப்பட்ட சட்ட நடவடிக்கை:' : 'AWC Legal Intervention:'}
-                            </span>
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                              {c.action}
-                            </p>
-                          </div>
-
-                          <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-bold">
-                            {c.timeline.map((step, sIdx) => (
-                              <span key={sIdx} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                                {step}
+                          {c.focus && (
+                            <div className="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs">
+                              <span className="font-bold text-slate-900 dark:text-white block mb-1">
+                                {lang === 'si' ? 'නීතිමය මැදිහත්වීම සහ නෛතික අවධානය:' : lang === 'ta' ? 'சட்ட உத்தி மற்றும் முக்கிய கவனம்:' : 'Legal Strategy & Precedent Focus:'}
                               </span>
-                            ))}
-                          </div>
+                              <p className="text-emerald-700 dark:text-emerald-400 font-semibold leading-relaxed">
+                                {c.focus}
+                              </p>
+                            </div>
+                          )}
+
+                          {c.action && !c.focus && (
+                            <div className="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 text-xs">
+                              <span className="font-bold text-slate-900 dark:text-white block mb-1">
+                                {lang === 'si' ? 'නීතිමය මැදිහත්වීම:' : lang === 'ta' ? 'සட்ட நடவடிக்கை:' : 'AWC Legal Intervention:'}
+                              </span>
+                              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                                {c.action}
+                              </p>
+                            </div>
+                          )}
+
+                          {c.timeline && Array.isArray(c.timeline) && c.timeline.length > 0 && (
+                            <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-bold">
+                              {c.timeline.map((step, sIdx) => (
+                                <span key={sIdx} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                                  {step}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -882,7 +897,7 @@
 
             {/* Tab: About Us & Leadership Team (Clean Monogram Badge Design - No Pictures as requested!) */}
             {activeTab === 'about' && (
-              <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="py-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mb-8">
                   <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Executive Committee & Governance</span>
                   <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
