@@ -43,6 +43,11 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Firebase SDKs (Compat CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap');
     
@@ -59,6 +64,28 @@
   <!-- Main Application Script -->
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
+
+    // --- Firebase Configuration ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqubiF5BLjNnol5HkcOdTcq156co4s27o",
+      authDomain: "vfflk-a543e.firebaseapp.com",
+      projectId: "vfflk-a543e",
+      storageBucket: "vfflk-a543e.firebasestorage.app",
+      messagingSenderId: "61010073715",
+      appId: "1:61010073715:web:423ca808e5a56e0f3a3206"
+    };
+
+    let db = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        db = firebase.firestore();
+      }
+    } catch (e) {
+      console.warn("Firebase initialization notice:", e);
+    }
 
     // --- Translations Dictionary (English, Sinhala, Tamil) ---
     const i18n = {
@@ -1402,6 +1429,24 @@
         existing.unshift(newTicket);
         localStorage.setItem('awc_tickets', JSON.stringify(existing));
 
+        // Save to Firestore if connected
+        if (db) {
+          try {
+            db.collection('complaints').doc(token).set(newTicket).catch(e => console.warn("Firestore write:", e));
+            db.collection('ticketStatus').doc(token).set({
+              token,
+              type: 'COMPLAINT',
+              category,
+              district,
+              location,
+              status: 'RECEIVED',
+              createdAt: new Date().toISOString()
+            }).catch(e => console.warn("Firestore status write:", e));
+          } catch (err) {
+            console.warn("Firestore error:", err);
+          }
+        }
+
         setGeneratedToken(token);
       };
 
@@ -1708,6 +1753,21 @@
         const existing = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
         existing.unshift(newTicket);
         localStorage.setItem('awc_tickets', JSON.stringify(existing));
+
+        if (db) {
+          try {
+            db.collection('legalRequests').doc(token).set(newTicket).catch(e => console.warn("Firestore error:", e));
+            db.collection('ticketStatus').doc(token).set({
+              token,
+              type: 'LEGAL_ASSISTANCE',
+              status: 'RECEIVED',
+              createdAt: new Date().toISOString()
+            }).catch(e => console.warn("Firestore error:", e));
+          } catch (e) {
+            console.warn("Firestore sync:", e);
+          }
+        }
+
         setGeneratedToken(token);
       };
 
@@ -1791,8 +1851,25 @@
 
       const handleSearch = (e) => {
         e.preventDefault();
+        const cleanToken = token.trim().toUpperCase();
+
+        if (db) {
+          db.collection('ticketStatus').doc(cleanToken).get().then(doc => {
+            if (doc.exists) {
+              setResult(doc.data());
+              setNotFound(false);
+            } else {
+              fallbackSearch(cleanToken);
+            }
+          }).catch(() => fallbackSearch(cleanToken));
+        } else {
+          fallbackSearch(cleanToken);
+        }
+      };
+
+      const fallbackSearch = (cleanToken) => {
         const existing = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
-        const found = existing.find(t => t.token.trim().toUpperCase() === token.trim().toUpperCase());
+        const found = existing.find(t => t.token.trim().toUpperCase() === cleanToken);
         if (found) {
           setResult(found);
           setNotFound(false);

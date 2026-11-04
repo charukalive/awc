@@ -2,41 +2,50 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Admin Verification Function
+    // Admin Verification: checks if logged-in user is awcsrilanka@gmail.com
     function isAdmin() {
       return request.auth != null && (
         request.auth.token.email == 'awcsrilanka@gmail.com' ||
-        request.auth.token.admin == true ||
-        exists(/databases/$(database)/documents/artifacts/$(appId)/public/data/admins/$(request.auth.uid))
+        request.auth.token.admin == true
       );
     }
 
-    // 1. Private Incident Complaints & Legal Tickets (Public can CREATE with mandatory contact details; Read/Update Admin only)
-    match /data/complaints/{ticketId} {
+    // 1. Cruelty & Abuse Complaints:
+    // Any citizen can submit (create-only) with mandatory fields.
+    // Reading, updating, and managing complaints is strictly restricted to Admin.
+    match /complaints/{ticketId} {
       allow create: if request.resource.data.keys().hasAll(['phone', 'email', 'details', 'token']);
       allow read, update, delete: if isAdmin();
     }
 
-    match /data/legalRequests/{ticketId} {
+    // 2. Legal Assistance Requests:
+    // Any citizen can submit (create-only) with mandatory fields.
+    // Reading and updating is strictly restricted to Admin.
+    match /legalRequests/{ticketId} {
       allow create: if request.resource.data.keys().hasAll(['phone', 'email', 'details', 'token']);
       allow read, update, delete: if isAdmin();
     }
 
-    // 2. Public Read-Only Case Projections & Timelines (Visible to public, writable only by admin)
-    match /public/data/cases/{caseId} {
+    // 3. Master Cases & Legal Milestones (Public Projection):
+    // Public can view/read verified case timelines.
+    // Only Admin can create or update cases.
+    match /cases/{caseId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // 3. Public Ticket Status Tracker Projection (Only safe status fields exposed to public by token)
-    match /public/data/ticketStatus/{token} {
+    // 4. Ticket Status Lookup (Sanitized Citizen Tracking):
+    // Public can read the status of their token without logging in.
+    // Only Admin can update the tracking status.
+    match /ticketStatus/{token} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // 4. Admin whitelist and metadata
-    match /artifacts/{appId}/public/data/admins/{adminId} {
-      allow read, write: if isAdmin();
+    // 5. System Audit Logs & Volunteers (Admin Only)
+    match /volunteers/{volunteerId} {
+      allow create: if true; // Public can submit application
+      allow read, update, delete: if isAdmin();
     }
   }
 }

@@ -33,6 +33,11 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Firebase SDKs (Compat CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -44,6 +49,28 @@
 
   <script type="text/babel">
     const { useState, useEffect } = React;
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqubiF5BLjNnol5HkcOdTcq156co4s27o",
+      authDomain: "vfflk-a543e.firebaseapp.com",
+      projectId: "vfflk-a543e",
+      storageBucket: "vfflk-a543e.firebasestorage.app",
+      messagingSenderId: "61010073715",
+      appId: "1:61010073715:web:423ca808e5a56e0f3a3206"
+    };
+
+    let db = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        db = firebase.firestore();
+      }
+    } catch (e) {
+      console.warn("Firebase initialization notice in Editor:", e);
+    }
 
     const STAGES = [
       { key: 'RECEIVED', label: '1. Received' },
@@ -93,21 +120,24 @@
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
       }, [isDirty]);
 
-      // Load record from localStorage
-      const loadRecord = (id) => {
+      const populateTicketFields = (found) => {
+        setTicket(found);
+        setStatus(found.status || 'RECEIVED');
+        setPoliceStation(found.policeStation || '');
+        setCibNumber(found.cibNumber || '');
+        setBReportNo(found.bReportNo || '');
+        setAssignedLawyer(found.assignedLawyer || '');
+        setInternalNotes(found.internalNotes || '');
+        setSelectedStatutes(found.selectedStatutes || ['1907_SEC_2']);
+        setPublishToPublic(found.publishToPublic || false);
+        setPublicSummary(found.publicSummary || '');
+      };
+
+      const fallbackLoad = (id) => {
         const tickets = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
         const found = tickets.find(t => t.token === id);
         if (found) {
-          setTicket(found);
-          setStatus(found.status || 'RECEIVED');
-          setPoliceStation(found.policeStation || '');
-          setCibNumber(found.cibNumber || '');
-          setBReportNo(found.bReportNo || '');
-          setAssignedLawyer(found.assignedLawyer || '');
-          setInternalNotes(found.internalNotes || '');
-          setSelectedStatutes(found.selectedStatutes || ['1907_SEC_2']);
-          setPublishToPublic(found.publishToPublic || false);
-          setPublicSummary(found.publicSummary || '');
+          populateTicketFields(found);
         } else {
           // Check if it is a Master Case
           const cases = JSON.parse(localStorage.getItem('awc_cases') || '[]');
@@ -127,26 +157,61 @@
         }
       };
 
+      // Load record from Firestore or localStorage
+      const loadRecord = (id) => {
+        if (db) {
+          const coll = id.startsWith('AWC-LEG-') ? 'legalRequests' : (id.startsWith('CASE-') ? 'cases' : 'complaints');
+          db.collection(coll).doc(id).get().then(doc => {
+            if (doc.exists) {
+              const data = doc.data();
+              if (coll === 'cases') {
+                setTicket({
+                  token: doc.id,
+                  name: data.title,
+                  type: 'MASTER_CASE',
+                  location: data.location,
+                  district: data.district,
+                  details: data.summary
+                });
+                setStatus(data.status || 'RECEIVED');
+                setPublicSummary(data.summary || '');
+              } else {
+                populateTicketFields({ ...data, token: doc.id });
+              }
+            } else {
+              fallbackLoad(id);
+            }
+          }).catch(err => {
+            console.warn("Firestore fetch error:", err);
+            fallbackLoad(id);
+          });
+        } else {
+          fallbackLoad(id);
+        }
+      };
+
       // Handle Save & Cross-Window Dispatch
-      const handleSave = () => {
+      const handleSave = async () => {
         setIsSaving(true);
         try {
+          const updateData = {
+            status,
+            policeStation,
+            cibNumber,
+            bReportNo,
+            assignedLawyer,
+            internalNotes,
+            selectedStatutes,
+            publishToPublic,
+            publicSummary,
+            updatedAt: new Date().toISOString()
+          };
+
+          // Save locally
           const tickets = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
           const idx = tickets.findIndex(t => t.token === recordId);
           if (idx !== -1) {
-            tickets[idx] = {
-              ...tickets[idx],
-              status,
-              policeStation,
-              cibNumber,
-              bReportNo,
-              assignedLawyer,
-              internalNotes,
-              selectedStatutes,
-              publishToPublic,
-              publicSummary,
-              updatedAt: new Date().toISOString()
-            };
+            tickets[idx] = { ...tickets[idx], ...updateData };
             localStorage.setItem('awc_tickets', JSON.stringify(tickets));
           } else {
             // Update Master Case
@@ -163,6 +228,21 @@
             }
           }
 
+          // Save to Firestore
+          if (db) {
+            const coll = recordId.startsWith('AWC-LEG-') ? 'legalRequests' : (recordId.startsWith('CASE-') ? 'cases' : 'complaints');
+            await db.collection(coll).doc(recordId).set(updateData, { merge: true });
+
+            // Synchronize public tracking projection
+            if (!recordId.startsWith('CASE-')) {
+              await db.collection('ticketStatus').doc(recordId).set({
+                status,
+                lastUpdated: new Date().toISOString(),
+                ...(publishToPublic ? { publicSummary } : {})
+              }, { merge: true });
+            }
+          }
+
           setIsDirty(false);
 
           // Broadcast postMessage to Parent admin.html
@@ -174,10 +254,13 @@
             }, '*');
           }
 
-          setSaveToast('Record saved & synced to parent console!');
+          setSaveToast('Record saved & synced to Firestore and Parent Console!');
           setTimeout(() => setSaveToast(null), 3500);
         } catch (err) {
-          alert('Failed to save: ' + err.message);
+          console.warn("Save note:", err);
+          setSaveToast('Saved locally (' + (err.message || 'offline') + ')');
+          setTimeout(() => setSaveToast(null), 3500);
+          setIsDirty(false);
         } finally {
           setIsSaving(false);
         }

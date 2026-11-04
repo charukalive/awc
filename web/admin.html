@@ -35,6 +35,11 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Firebase SDKs (Compat CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -48,6 +53,30 @@
     const { useState, useEffect } = React;
 
     const ADMIN_EMAIL = 'awcsrilanka@gmail.com';
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqubiF5BLjNnol5HkcOdTcq156co4s27o",
+      authDomain: "vfflk-a543e.firebaseapp.com",
+      projectId: "vfflk-a543e",
+      storageBucket: "vfflk-a543e.firebasestorage.app",
+      messagingSenderId: "61010073715",
+      appId: "1:61010073715:web:423ca808e5a56e0f3a3206"
+    };
+
+    let db = null;
+    let auth = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        db = firebase.firestore();
+        auth = firebase.auth();
+      }
+    } catch (e) {
+      console.warn("Firebase initialization notice:", e);
+    }
 
     function AdminApp() {
       const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -165,6 +194,71 @@
         }
       }, []);
 
+      // Auth State Observer
+      useEffect(() => {
+        if (auth) {
+          const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user && user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+              setIsAuthenticated(true);
+              sessionStorage.setItem('awc_admin_auth', 'true');
+            }
+          });
+          return () => unsubscribe();
+        }
+      }, []);
+
+      // Realtime Firestore synchronization for Complaints, Legal Requests, and Cases
+      useEffect(() => {
+        if (!isAuthenticated || !db) return;
+
+        const unsubComplaints = db.collection('complaints').onSnapshot((snapshot) => {
+          const firestoreComplaints = [];
+          snapshot.forEach(doc => {
+            firestoreComplaints.push({ ...doc.data(), token: doc.id, type: doc.data().type || 'COMPLAINT' });
+          });
+          if (firestoreComplaints.length > 0) {
+            setTickets(prev => {
+              const nonComplaints = prev.filter(t => t.type !== 'COMPLAINT');
+              const merged = [...firestoreComplaints, ...nonComplaints];
+              localStorage.setItem('awc_tickets', JSON.stringify(merged));
+              return merged;
+            });
+          }
+        }, (err) => console.warn("Complaints stream note:", err.message));
+
+        const unsubLegal = db.collection('legalRequests').onSnapshot((snapshot) => {
+          const firestoreLegal = [];
+          snapshot.forEach(doc => {
+            firestoreLegal.push({ ...doc.data(), token: doc.id, type: doc.data().type || 'LEGAL_ASSISTANCE' });
+          });
+          if (firestoreLegal.length > 0) {
+            setTickets(prev => {
+              const nonLegal = prev.filter(t => t.type !== 'LEGAL_ASSISTANCE');
+              const merged = [...prev.filter(t => t.type === 'COMPLAINT'), ...firestoreLegal];
+              localStorage.setItem('awc_tickets', JSON.stringify(merged));
+              return merged;
+            });
+          }
+        }, (err) => console.warn("Legal requests stream note:", err.message));
+
+        const unsubCases = db.collection('cases').onSnapshot((snapshot) => {
+          const firestoreCases = [];
+          snapshot.forEach(doc => {
+            firestoreCases.push({ ...doc.data(), id: doc.id });
+          });
+          if (firestoreCases.length > 0) {
+            setCases(firestoreCases);
+            localStorage.setItem('awc_cases', JSON.stringify(firestoreCases));
+          }
+        }, (err) => console.warn("Cases stream note:", err.message));
+
+        return () => {
+          unsubComplaints();
+          unsubLegal();
+          unsubCases();
+        };
+      }, [isAuthenticated]);
+
       // Cross-Window postMessage Listener (from standalone editor.html)
       useEffect(() => {
         const handleCrossWindowMessage = (event) => {
@@ -186,18 +280,43 @@
       });
 
       // Login Handler
-      const handleLogin = (e) => {
+      const handleLogin = async (e) => {
         e.preventDefault();
-        if (loginEmail.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-          setIsAuthenticated(true);
-          sessionStorage.setItem('awc_admin_auth', 'true');
-          setLoginError('');
-        } else {
+        setLoginError('');
+
+        if (loginEmail.trim().toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
           setLoginError(`Unauthorized. You must sign in as ${ADMIN_EMAIL}.`);
+          return;
         }
+
+        if (auth && loginPassword) {
+          try {
+            await auth.signInWithEmailAndPassword(loginEmail.trim(), loginPassword);
+            setIsAuthenticated(true);
+            sessionStorage.setItem('awc_admin_auth', 'true');
+            return;
+          } catch (err) {
+            console.warn("Firebase Auth signIn notice:", err);
+            if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+              setLoginError(`Firebase Auth failed: ${err.message}. (Ensure awcsrilanka@gmail.com is created in Firebase Console Authentication).`);
+              return;
+            }
+          }
+        }
+
+        // Demo / offline fallback
+        setIsAuthenticated(true);
+        sessionStorage.setItem('awc_admin_auth', 'true');
       };
 
-      const handleLogout = () => {
+      const handleLogout = async () => {
+        if (auth) {
+          try {
+            await auth.signOut();
+          } catch (e) {
+            console.warn("Sign out notice:", e);
+          }
+        }
         setIsAuthenticated(false);
         sessionStorage.removeItem('awc_admin_auth');
       };
@@ -208,10 +327,11 @@
       };
 
       // Create Master Case
-      const handleCreateCase = (e) => {
+      const handleCreateCase = async (e) => {
         e.preventDefault();
+        const caseId = 'CASE-' + Math.floor(100 + Math.random() * 900);
         const newCase = {
-          id: 'CASE-' + Math.floor(100 + Math.random() * 900),
+          id: caseId,
           title: caseTitle,
           location: caseLocation,
           district: 'Colombo',
@@ -219,11 +339,21 @@
           summary: caseSummary,
           timeline: [
             { date: new Date().toISOString().split('T')[0], status: 'REPORTED', note: 'Master Case opened by AWC Coordinator.' }
-          ]
+          ],
+          createdAt: new Date().toISOString()
         };
         const updated = [newCase, ...cases];
         setCases(updated);
         localStorage.setItem('awc_cases', JSON.stringify(updated));
+
+        if (db) {
+          try {
+            await db.collection('cases').doc(caseId).set(newCase);
+          } catch (err) {
+            console.warn("Firestore case write error:", err);
+          }
+        }
+
         setShowNewCaseModal(false);
         setCaseTitle('');
         setCaseLocation('');
