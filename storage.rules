@@ -1,0 +1,53 @@
+rules_version = '2';
+
+// Firebase Cloud Storage Security Rules
+// Project: vfflk-a543e
+// Bucket: vfflk-a543e.firebasestorage.app
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper: Check if caller is authenticated as the designated AWC Admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'awcsrilanka@gmail.com' ||
+        request.auth.token.admin == true
+      );
+    }
+
+    // 1. Administrative Case Files & Legal Exhibits (Court B-Reports, 3-CD Affidavits, Dossiers)
+    // Read, write, and delete strictly restricted to awcsrilanka@gmail.com
+    match /dossiers/{allPaths=**} {
+      allow read, write: if isAdmin();
+    }
+
+    match /cases/{caseId}/{allPaths=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // 2. Public Documents & Educational Materials (e.g., RTI forms, statute guides, public flyers)
+    // Public can view/download; only Admin can upload or modify
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 3. Citizen Evidence Uploads (Optional direct portal uploads)
+    // If enabled in the future, allows citizens to upload photo/video/PDF evidence tagged with their ticket token:
+    // - File size capped at 25MB
+    // - Only safe MIME types allowed (images, videos, PDFs)
+    match /evidence/{ticketToken}/{fileName} {
+      allow create: if request.resource.size < 25 * 1024 * 1024
+                    && (request.resource.contentType.matches('image/.*')
+                        || request.resource.contentType.matches('video/.*')
+                        || request.resource.contentType == 'application/pdf');
+      // Only Admin can inspect or download raw evidence files
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 4. Deny all other unmatched paths by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
