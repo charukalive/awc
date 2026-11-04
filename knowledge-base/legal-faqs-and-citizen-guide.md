@@ -161,3 +161,123 @@ Step 5: Submit a Case Dossier to AWC
 • Submit the evidence and CIB number via the AWC Incident Portal.
 • AWC legal coordinators can review the facts, link with volunteer lawyers, and support Magistrate Court follow-through.
 ```
+
+
+---
+
+### 8. How to Draft a Formal Complaint (ආදර්ශ පැමිණිලි ආකෘතිය / மாதிரி முறைப்பாடு படிவம்)
+
+When submitting an animal cruelty or abuse complaint to AWC or the Police, use this comprehensive, court-tested structure:
+
+#### Sinhala (සිංහල ආකෘතිය):
+> සත්ව හිංසනයක්, කෲරත්වයක් හෝ අසරණ සතෙකුට සිදුවන අසාධාරණයක් සම්බන්ධයෙන් පැමිණිලි කිරීමට අවශ්‍ය නම්, කරුණාකර අදාළ සම්පූර්ණ විස්තර අප වෙත යොමු කරන්න.
+>
+> 💡 **පැමිණිල්ලක් සැකසිය යුතු සවිස්තරාත්මක ආකෘතිය (උදාහරණයක්):**
+>
+> **දිනය:** 2026 අගෝස්තු 20  
+> **වෙත:** සත්ව සුබසාධන සන්ධානය (AWC) / ස්ථානාධිපතිතුමා, පොලිස් ස්ථානය  
+>
+> **ගරු මහත්මයා/මහත්මිය,**  
+>
+> **පැමිණිල්ල:** වීදි සුනඛයෙකුට අමානුෂික ලෙස පහර දීම සම්බන්ධවයි.  
+>
+> මහරගම, පන්සල පාර, අංක 15 ලිපිනයේ පදිංචි කේ. ඒ. නිමල් වන මා විසින් මෙම පැමිණිල්ල ඉදිරිපත් කරමි.  
+>
+> **සිදුවීමේ විස්තරය:**  
+> 2026 අගෝස්තු 20 වන දින උදෑසන 10.00 ට පමණ මහරගම, පන්සල පාරේදී මාගේ අසල්වැසි නිවසක පදිංචි පුද්ගලයෙකු විසින් පාරේ ගමන් කරමින් සිටි අසරණ වීදි සුනඛයෙකුට කිසිදු හේතුවක් නොමැතිව යකඩ පොල්ලකින් අමානුෂික ලෙස පහර දෙන ලදී. ඉන් සතාගේ පසුපස පාදයකට දැඩි ලෙස තුවාල සිදුවී ඇති අතර, සතා මේ වන විටත් නැගිටගත නොහැකිව එම ස්ථානයේම අසරණව සිටී.  
+>
+> **සැකකරු පිළිබඳ තොරතුරු:**  
+> නම: සුනිල් ප්‍රනාන්දු (අල්ලපු ගෙදර පුද්ගලයා)  
+> ලිපිනය: අංක 17, පන්සල පාර, මහරගම.  
+>
+> **සාක්ෂි:**  
+> මෙම පහරදීම සිදුවන අවස්ථාවේදී මාගේ ජංගම දුරකථනයෙන් පටිගත කරගත් වීඩියෝවක් සහ තුවාල වූ සතාගේ ඡායාරූප කිහිපයක් මෙම ටෝකන් අංකය සඳහන් කරමින් awcsrilanka@gmail.com වෙත යොමු කරමි. මීට අමතරව තවත් අසල්වැසියන් දෙදෙනෙකුද මෙම සිදුවීම දුටු බව වැඩිදුරටත් දන්වා සිටිමි.  
+>
+> කරුණාකර මේ සම්බන්ධයෙන් සොයාබලා අදාළ නීතිමය පියවර ගැනීමට සහය වන ලෙස කාරුණිකව ඉල්ලා සිටිමි.  
+>
+> **මෙයට විශ්වාසී,**  
+> (අත්සන)  
+> නම: කේ. ඒ. නිමල්  
+> දුරකථන අංකය: 07X XXX XXXX  
+> ලිපිනය: අංක 15, පන්සල පාර, මහරගම.  
+
+---
+
+#### English (English Format):
+> If you need to report an incident of animal cruelty, abuse, or injustice toward a helpless animal, please submit the complete details following this format:
+>
+> 💡 **Detailed Complaint Draft Format (Example):**
+>
+> **Date:** August 20, 2026  
+> **To:** Animal Welfare Coalition (AWC) / Officer-in-Charge, Police Station  
+>
+> **Dear Sir / Madam,**  
+>
+> **Complaint:** Inhumane and Cruel Assault on a Community Street Dog.  
+>
+> I, K. A. Nimal, residing at No. 15, Pansala Road, Maharagama, hereby lodge this formal complaint.  
+>
+> **Incident Description:**  
+> On August 20, 2026, at approximately 10:00 AM, along Pansala Road, Maharagama, a resident from a neighbouring house brutally struck a helpless community street dog walking on the road with an iron rod without any provocation. As a direct result of this assault, the animal suffered severe traumatic injury to its left hind leg, and is currently unable to stand, lying helpless at the scene.  
+>
+> **Suspect Information:**  
+> Name: Sunil Fernando (Neighbour)  
+> Address: No. 17, Pansala Road, Maharagama.  
+>
+> **Evidence:**  
+> I am emailing video footage recorded on my smartphone during the incident, together with photographs of the injured animal, referencing my generated reference token to **awcsrilanka@gmail.com**. In addition, two other neighbours witnessed this assault and are willing to provide formal witness statements.  
+>
+> I kindly request that you investigate this matter and assist in taking appropriate legal action under the Prevention of Cruelty to Animals Ordinance.  
+>
+> **Yours faithfully,**  
+> (Signature)  
+> Name: K. A. Nimal  
+> Telephone: 07X XXX XXXX  
+> Address: No. 15, Pansala Road, Maharagama.  
+
+---
+
+#### Tamil (தமிழ் மாதிரி படிவம்):
+> விலங்கு வதை, கொடுமை அல்லது உதவியற்ற விலங்குக்கு இழைக்கப்படும் அநீதி தொடர்பில் முறைப்பாடு செய்ய விரும்பினால், தயவுசெய்து அனைத்து முழுமையான விபரங்களையும் எமக்கு சமர்ப்பிக்கவும்:
+>
+> 💡 **முறைப்பாடு தயாரிப்பதற்கான விரிவான மாதிரி படிவம் (உதாரணம்):**
+>
+> **திகதி:** 2026 ஆகஸ்ட் 20  
+> **பெறுநர்:** விலங்கு நலக் கூட்டணி (AWC) / நிலையப் பொறுப்பதிகாரி, பொலிஸ் நிலையம்  
+>
+> **மதிப்பிற்குரிய ஐயா / அம்மையீர்,**  
+>
+> **முறைப்பாடு:** வீதி நாய் ஒன்றுக்கு கொடூரமாக தாக்கியமை தொடர்பானது.  
+>
+> மகரகம, பன்சல வீதி, இலக்கம் 15 இல் வசிக்கும் கே. ஏ. நிமால் ஆகிய நான் இம்முறைப்பாட்டை சமர்ப்பிக்கின்றேன்.  
+>
+> **சம்பவத்தின் விபரம்:**  
+> 2026 ஆகஸ்ட் 20 ஆம் திகதி காலை 10:00 மணியளவில் மகரகம, பன்சல வீதியில், எனது அயல் வீட்டில் வசிக்கும் நபர் ஒருவர், வீதியில் சென்று கொண்டிருந்த உதவியற்ற வீதி நாய் ஒன்றை எந்தவித காரணமும் இன்றி இரும்பு கம்பியினால் கொடூரமாக தாக்கினார். இதனால் அந்த நாயின் பின்னங்காலில் பலத்த காயம் ஏற்பட்டுள்ளதுடன், விலங்கு தற்போது வரை எழும்ப முடியாமல் அதே இடத்தில் உதவியற்ற நிலையில் உள்ளது.  
+>
+> **சந்தேகநபர் பற்றிய விபரங்கள்:**  
+> பெயர்: சுனில் பெர்னாண்டோ (அயல் வீட்டு நபர்)  
+> முகவரி: இலக்கம் 17, பன்சல வீதி, மகரகம.  
+>
+> **சாட்சியங்கள்:**  
+> இத்தாக்குதல் இடம்பெற்ற போது எனது கையடக்கத் தொலைபேசியில் பதிவு செய்யப்பட்ட வீடியோ மற்றும் காயமடைந்த விலங்கின் புகைப்படங்களை எனது டோக்கன் இலக்கத்தைக் குறிப்பிட்டு **awcsrilanka@gmail.com** இற்கு அனுப்பி வைக்கின்றேன். அத்துடன் மேலும் இரு அயலவர்கள் இச்சம்பவத்தை நேரில் கண்டனர் என்பதையும் தெரிவித்துக் கொள்கின்றேன்.  
+>
+> தயவுசெய்து இது தொடர்பில் விசாரித்து உரிய சட்ட நடவடிக்கை எடுக்க உதவுமாறு கேட்டுக்கொள்கின்றேன்.  
+>
+> **இங்ஙனம்,**  
+> (கையொப்பம்)  
+> பெயர்: கே. ஏ. நிமால்  
+> தொலைபேசி இலக்கம்: 07X XXX XXXX  
+> முகவரி: இலக்கம் 15, பன்சல வீதி, மகரகம.  
+
+---
+
+### 9. Special Advisory: Veterinary Medical Negligence Protocol
+*(පශු වෛද්‍ය නොසැලකිලිමත්කම / கால்நடை மருத்துவ அலட்சியம்)*
+
+If the complaint relates to veterinary surgical malpractice, clinical negligence, or unauthorized veterinary practice:
+
+1. **Direct Scope Notice:** Direct veterinary clinical malpractice falls under the statutory regulatory jurisdiction of the **Sri Lanka Veterinary Council (SLVC)**, established under the Veterinary Surgeons and Practitioners Act No. 46 of 1956. It is outside AWC's direct casework scope.
+2. **Step 1 - File with SLVC:** Send a formal written complaint with medical treatment slips, prescriptions, and veterinary bills directly to the Registrar of the Sri Lanka Veterinary Council via email:  
+   👉 **`registrarslvetcouncil@gmail.com`**
+3. **Step 2 - Lodge a Police Complaint:** File a formal Information Book entry at your local police station if fraud, unauthorized surgery, or criminal negligence is suspected.
+4. **Step 3 - Forward to AWC:** If no official response or inquiry is conducted by the authorities after submitting to SLVC and the Police, you may forward your reference numbers and case dossier to **`awcsrilanka@gmail.com`** for guidance.
