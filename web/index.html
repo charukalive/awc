@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal Welfare Coalition Sri Lanka (AWC) | ශ්‍රී ලංකා සත්ව සුභසාධන සන්ධානය</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- Tailwind CSS CDN with Dark Mode Support -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+              dark: '#0f291e'
+            },
+            accent: {
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React 18 & Babel CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', sans-serif;
+    }
+    
+    .scroll-smooth { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200">
+  <div id="root"></div>
+
+  <!-- Main Application Script -->
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+
+    // --- Translations Dictionary (English, Sinhala, Tamil) ---
+    const i18n = {
+      en: {
+        brandName: "Animal Welfare Coalition",
+        brandSub: "Sri Lanka",
+        motto: "United for humane solutions to human-animal conflict. Be the voice for the voiceless.",
+        nav: {
+          home: "Home",
+          knowLaw: "Know the Law",
+          playbook: "Legal & Court Playbook",
+          cases: "Cases & Updates",
+          truthMyth: "Truth vs Myth",
+          ourWork: "Our Work & Policy",
+          about: "About & Team",
+          contact: "Contact & Police",
+          track: "Track Ticket"
+        },
+        hero: {
+          tag: "Advocacy • Legal Action • Policy Reform",
+          title: "A Voice for Animals. A Clear Path to Action.",
+          subtitle: "We coordinate cruelty complaints, deploy legal counsel, follow Magistrate Court proceedings, and lobby for humane national policies across Sri Lanka.",
+          reportBtn: "Report Cruelty / Complaint",
+          legalBtn: "Request Legal Assistance",
+          triageBtn: "Emergency Triage Guide",
+          statuteAlert: "Active Law: 1907 Cruelty Ordinance | Reform Bill (L.D. O 60/2025) Gazetted"
+        },
+        remit: {
+          title: "Our Operational Mandate: What AWC Does vs. Cannot Promise",
+          doesTitle: "What AWC Does",
+          doesList: [
+            "Assists in filing formal Police Information Book (IB) entries under Section 2 & 12 of Ordinance No. 13 of 1907.",
+            "Deploys legal counsel to represent victim animals and pet owners in Magistrate's Courts.",
+            "Coordinates volunteer networks to hand-deliver legal demand letters to local police stations.",
+            "Audits state budgets and petitions oversight bodies (e.g. Bribery Commission) on rabies & animal welfare funds.",
+            "Advocates for humane CNVR (Catch-Neuter-Vaccinate-Release) and municipal canine crematoriums."
+          ],
+          cannotTitle: "What AWC Cannot Promise",
+          cannotList: [
+            "AWC DOES NOT operate a 24/7 emergency animal ambulance or vehicle dispatch fleet.",
+            "AWC DOES NOT operate physical animal shelters or pet adoption centres.",
+            "AWC DOES NOT provide free routine veterinary treatment or hospital admission.",
+            "AWC CANNOT guarantee immediate court convictions or extra-judicial confiscations."
+          ]
+        },
+        actionGuide: {
+          title: "What to Do When You Witness Animal Cruelty",
+          subtitle: "A practical 4-step civic action guide for every citizen in Sri Lanka",
+          step1: "1. Capture & Preserve Evidence",
+          step1Desc: "Take clear photos and video from a safe distance. Note vehicle registration numbers, exact time, date, location landmarks, and witness names.",
+          step2: "2. File a Formal Police Complaint",
+          step2Desc: "Visit your local station. Insist on recording an Information Book (IB) entry under Ordinance No. 13 of 1907. It is a COGNIZABLE OFFENCE under Section 12 (police can arrest without a warrant). Get your CIB number.",
+          step3: "3. Share Responsibly",
+          step3Desc: "Raise community awareness on social media without making unverified personal allegations that could compromise court proceedings.",
+          step4: "4. Approach AWC for Legal Aid",
+          step4Desc: "If police fail to act or if the case goes to court, submit your ticket token to AWC for lawyer coordination and judicial follow-up."
+        },
+        footer: {
+          desc: "The Animal Welfare Coalition (AWC – Sri Lanka) is a civil-society coalition of animal protection organizations, legal counsel, veterinarians, and grassroots activists.",
+          officialEmail: "Official Inquiries: awcsrilanka@gmail.com",
+          facebook: "Official Facebook: fb.com/awcsrilanka",
+          noHotline: "Strict Policy: AWC has NO phone hotline. All inquiries and evidence attachments are handled via tickets and email.",
+          copyright: "© 2026 Animal Welfare Coalition Sri Lanka. All Rights Reserved."
+        }
+      },
+      si: {
+        brandName: "සත්ව සුබසාධන සන්ධානය",
+        brandSub: "ශ්‍රී ලංකාව (AWC)",
+        motto: "මිනිස්-සත්ව ගැටුමට මානුෂීය විසඳුම් උදෙසා එක්වෙමු. අසරණ සතුන්ගේ හඬ වෙමු.",
+        nav: {
+          home: "මුල් පිටුව",
+          knowLaw: "සත්ව නීතිය",
+          playbook: "අධිකරණ හා පොලිස් මාර්ගෝපදේශය",
+          cases: "නඩු හා යාවත්කාලීන",
+          truthMyth: "සත්‍යය සහ මිථ්‍යාව",
+          ourWork: "අපගේ කාර්යභාරය",
+          about: "අප ගැන සහ කණ්ඩායම",
+          contact: "සම්බන්ධීකරණය සහ පොලීසිය",
+          track: "පැමිණිල්ල විමසන්න"
+        },
+        hero: {
+          tag: "නීතිමය මැදිහත්වීම • ප්‍රතිපත්ති ප්‍රතිසංස්කරණය • සමාජ දැනුවත්භාවය",
+          title: "සතුන් වෙනුවෙන් හඬක්. ක්‍රියාවට නැංවෙන මාවතක්.",
+          subtitle: "අපි සත්ව කෲරත්වයන්ට එරෙහිව පොලිස් පැමිණිලි ගොනු කිරීම, නීතිඥ සහය ලබාදීම, මහේස්ත්‍රාත් අධිකරණ නඩු කටයුතු නිරීක්ෂණය සහ ජාතික ප්‍රතිපත්ති සම්පාදනය සඳහා පෙනී සිටිමු.",
+          reportBtn: "කෲරත්වයක් පැමිණිලි කරන්න",
+          legalBtn: "නීති ආධාර ඉල්ලුම් කරන්න",
+          triageBtn: "හදිසි උපදෙස් මාර්ගෝපදේශය",
+          statuteAlert: "ක්‍රියාත්මක නීතිය: 1907 සත්ව හිංසා ආඥාපනත | නව පනත් කෙටුම්පත ගැසට් කර ඇත"
+        },
+        remit: {
+          title: "අපගේ මෙහෙවර සීමාවන්: AWC ඉටුකරන දේ සහ කළ නොහැකි දේ",
+          doesTitle: "AWC මඟින් සිදුකරන දේ",
+          doesList: [
+            "1907 අංක 13 දරන සත්ව හිංසා ආඥාපනතේ 2 හා 12 වගන්ති යටතේ විධිමත් පොලිස් පැමිණිලි ගොනු කිරීමට සහය වීම.",
+            "මහේස්ත්‍රාත් අධිකරණ හමුවේ අගතියට පත් සතුන් සහ හිමිකරුවන් වෙනුවෙන් නීතිඥ සහය සම්බන්ධීකරණය කිරීම.",
+            "පොලිස් ස්ථාන වෙත නිල නීතිමය ඉල්ලීම් ලිපි භාරදීම සඳහා ප්‍රාදේශීය ස්වේච්ඡා ජාලය මෙහෙයවීම.",
+            "ජලභීතිකා මර්දන සහ වන්ධ්‍යාකරණ ප්‍රතිපාදන නිසි ලෙස භාවිත නොකිරීම සම්බන්ධයෙන් අල්ලස් කොමිසම හමුවේ නීතිමය ක්‍රියාමාර්ග ගැනීම.",
+            "මානුෂීය CNVR (එන්නත් හා වන්ධ්‍යාකරණ) වැඩසටහන් සහ සුනඛ ආදාහනාගාර පිහිටුවීම වෙනුවෙන් පෙනී සිටීම."
+          ],
+          cannotTitle: "AWC වෙතින් පොරොන්දු විය නොහැකි දේ",
+          cannotList: [
+            "AWC සතුව පැය 24 පුරා ක්‍රියාත්මක සත්ව ගිලන්රථ හෝ හදිසි මුදාගැනීමේ රථ වාහන නොමැත.",
+            "AWC විසින් සත්ව රැකවරණ මධ්‍යස්ථාන (Shelters) හෝ සුනඛ නවාතැන් පවත්වාගෙන යනු නොලැබේ.",
+            "නොමිලේ පශු වෛද්‍ය ප්‍රතිකාර හෝ නේවාසික සායනික පහසුකම් ලබාදීමේ හැකියාවක් නොමැත.",
+            "නීතිමය ක්‍රියාවලියකින් තොරව ක්ෂණිකව සතුන් රාජසන්තක කිරීම හෝ අධිකරණ තීන්දු ලබාදීම කළ නොහැක."
+          ]
+        },
+        actionGuide: {
+          title: "සත්ව හිංසනයක් දුටු විට ඔබ කළ යුත්තේ කුමක්ද?",
+          subtitle: "ශ්‍රී ලංකාවේ සෑම පුරවැසියෙකුම දැනගත යුතු පියවර 4ක ක්‍රියාකාරී මාර්ගෝපදේශය",
+          step1: "1. සාක්ෂි සුරක්ෂිතව ලබාගන්න",
+          step1Desc: "ආරක්ෂිත දුරක සිට ඡායාරූප සහ වීඩියෝ ලබාගන්න. වාහන අංක, වේලාව, දිනය, ස්ථානය සහ සාක්ෂිකරුවන්ගේ විස්තර සටහන් කරගන්න.",
+          step2: "2. පොලිස් පැමිණිල්ලක් දමන්න",
+          step2Desc: "ළඟම පොලිස් ස්ථානයට ගොස් 1907 අංක 13 දරන පනත යටතේ පැමිණිල්ල සටහන් කරන්න. 12 වන වගන්තිය අනුව මෙය වොරන්ට් රහිතව අත්අඩංගුවට ගත හැකි සංඥය වරදකි. CIB අංකය ලබාගන්න.",
+          step3: "3. වගකීමෙන් සමාජගත කරන්න",
+          step3Desc: "නඩු කටයුතුවලට බාධා නොවන පරිදි, අසත්‍ය පුද්ගලික අපහාස වලින් තොරව සත්‍ය කරුණු පමණක් සමාජ මාධ්‍ය හරහා දැනුවත් කරන්න.",
+          step4: "4. AWC නීති සහය පතන්න",
+          step4Desc: "පොලීසිය ක්‍රියාත්මක නොවන්නේ නම් හෝ නඩුව අධිකරණයට යන්නේ නම්, නීතිඥ සහය සහ පසු විපරම් සඳහා අපගේ පද්ධතියට පැමිණිල්ල යොමු කරන්න."
+        },
+        footer: {
+          desc: "ශ්‍රී ලංකා සත්ව සුභසාධන සන්ධානය යනු සත්ව හිමිකම් ක්‍රියාකාරීන්, නීතිඥවරුන් සහ පශු වෛද්‍යවරුන්ගෙන් සමන්විත ස්වේච්ඡා මහජන සන්ධානයකි.",
+          officialEmail: "නිල විද්‍යුත් තැපෑල: awcsrilanka@gmail.com",
+          facebook: "නිල ෆේස්බුක් පිටුව: fb.com/awcsrilanka",
+          noHotline: "විශේෂ දැනුම්දීම: AWC සතුව දුරකථන හොට්ලයින් නොමැත. සියලු තොරතුරු ටිකට්පත් සහ ඊමේල් හරහා පමණක් සිදුකෙරේ.",
+          copyright: "© 2026 සත්ව සුබසාධන සන්ධානය ශ්‍රී ලංකාව. සියලු හිමිකම් ඇවිරිණි."
+        }
+      },
+      ta: {
+        brandName: "விலங்கு நலக் கூட்டணி",
+        brandSub: "இலங்கை (AWC)",
+        motto: "மனித-விலங்கு முரண்பாடுகளுக்கு மனிதாபிமான தீர்வுகள். வாயில்லா ஜீவன்களின் குரல் ஆவோம்.",
+        nav: {
+          home: "முகப்பு",
+          knowLaw: "விலங்கு சட்டம்",
+          playbook: "நீதிமன்ற நடைமுறை வழிகாட்டி",
+          cases: "வழக்குகளும் புதுப்பிப்புகளும்",
+          truthMyth: "உண்மை vs கட்டுக்கதை",
+          ourWork: "எமது பணிகள்",
+          about: "எங்களைப் பற்றி",
+          contact: "தொடர்பு & பொலிஸ் விபரம்",
+          track: "நிலைமையை அறிதல்"
+        },
+        hero: {
+          tag: "சட்ட நடவடிக்கை • கொள்கை சீர்திருத்தம் • மக்கள் விழிப்புணர்வு",
+          title: "விலங்குகளுக்கான குரல். சட்ட ரீதியான செயன்முறை.",
+          subtitle: "இலங்கையில் விலங்கு வதைக்கு எதிராக பொலிஸ் முறைப்பாடுகள் செய்தல், சட்டத்தரணிகளை நெறிப்படுத்தல், மற்றும் தேசிய கொள்கை சீர்திருத்தங்களுக்காக நாம் பணியாற்றுகிறோம்.",
+          reportBtn: "வதை பற்றி முறைப்பாடு செய்க",
+          legalBtn: "சட்ட உதவி கோரிக்கை",
+          triageBtn: "அவசர வழிகாட்டல்",
+          statuteAlert: "நடைமுறைச் சட்டம்: 1907 கட்டளைச் சட்டம் | 2026 புதிய வரைபு வர்த்தமானியில்"
+        },
+        remit: {
+          title: "எமது எல்லைகள்: AWC செய்யக்கூடியவை மற்றும் செய்ய முடியாதவை",
+          doesTitle: "AWC முன்னெடுக்கும் பணிகள்",
+          doesList: [
+            "1907 ஆம் ஆண்டின் 13 ஆம் இலக்க கட்டளைச் சட்டத்தின் கீழ் பொலிஸ் முறைப்பாடுகளைப் பதிவு செய்ய உதவுதல்.",
+            "பாதிக்கப்பட்ட விலங்குகள் சார்பாக நீதவான் நீதிமன்றங்களில் சட்டத்தரணிகளை முன்னிலைப்படுத்தல்.",
+            "கிராமிய பொலிஸ் நிலையங்களுக்கு உத்தியோகபூர்வ சட்டக் கடிதங்களை கையளிக்க தொண்டர்களை நெறிப்படுத்தல்.",
+            "வெறிநோய் தடுப்பு நிதி தவறாகப் பயன்படுத்தப்படுவதற்கு எதிராக இலஞ்ச ஆணைக்குழுவில் சட்ட நடவடிக்கை எடுத்தல்."
+          ],
+          cannotTitle: "AWC செய்ய முடியாதவை",
+          cannotList: [
+            "AWC 24 மணி நேர ஆம்புலன்ஸ் அல்லது விலங்கு மீட்பு வாகனங்களை இயக்கவில்லை.",
+            "AWC விலங்கு காப்பகங்கள் (Shelters) எதனையும் பராமரிக்கவில்லை.",
+            "இலவச கால்நடை மருத்துவ சிகிச்சை அல்லது வைத்தியசாலை அனுமதியை வழங்க முடியாது.",
+            "நீதிமன்ற உத்தரவின்றி விலங்குகளை நேரடியாகப் பறிமுதல் செய்ய முடியாது."
+          ]
+        },
+        actionGuide: {
+          title: "விலங்கு வதையைக் கண்டால் நீங்கள் என்ன செய்ய வேண்டும்?",
+          subtitle: "ஒவ்வொரு பிரஜையும் தெரிந்து கொள்ள வேண்டிய 4 படிநிலைகள்",
+          step1: "1. சாட்சியங்களைச் சேகரிக்கவும்",
+          step1Desc: "பாதுகாப்பான தூரத்திலிருந்து புகைப்படங்கள் மற்றும் வீடியோக்களை எடுக்கவும். வாகன இலக்கங்கள் மற்றும் நேரத்தை குறித்துக்கொள்ளவும்.",
+          step2: "2. பொலிஸில் முறைப்பாடு செய்யவும்",
+          step2Desc: "1907 ஆம் ஆண்டின் 13 ஆம் இலக்க சட்டத்தின் கீழ் முறைப்பாடு செய்க. பிரிவு 12 இன் படி பிடியாணையின்றி கைது செய்ய பொலிஸாருக்கு அதிகாரம் உண்டு. CIB இலக்கத்தைப் பெறவும்.",
+          step3: "3. சமூக வலைத்தளங்களில் பகிரவும்",
+          step3Desc: "தனிப்பட்ட அவதூறுகளைத் தவிர்த்து, உண்மைத் தகவல்களை மட்டும் சமூக விழிப்புணர்விற்காகப் பகிரவும்.",
+          step4: "4. AWC இன் சட்ட உதவியைப் பெறவும்",
+          step4Desc: "பொலிஸார் நடவடிக்கை எடுக்கத் தவறினால், எமது முறைப்பாட்டுப் படிவத்தின் ஊடாக AWC இன் சட்ட வழிகாட்டலைப் பெறவும்."
+        },
+        footer: {
+          desc: "இலங்கை விலங்கு நலக் கூட்டணி என்பது விலங்கு நல ஆர்வலர்கள், சட்டத்தரணிகள் மற்றும் கால்நடை மருத்துவர்களின் தன்னார்வக் கூட்டமைப்பாகும்.",
+          officialEmail: "உத்தியோகபூர்வ மின்னஞ்சல்: awcsrilanka@gmail.com",
+          facebook: "முகநூல் பக்கம்: fb.com/awcsrilanka",
+          noHotline: "கவனத்திற்கு: AWC இற்கு தொலைபேசி அழைப்பு மையம் இல்லை. அனைத்து விபரங்களும் இணையப் படிவம் மற்றும் மின்னஞ்சல் ஊடாகவே கையாளப்படும்.",
+          copyright: "© 2026 விலங்கு நலக் கூட்டணி இலங்கை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+        }
+      }
+    };
+
+    // --- Main App Component ---
+    function App() {
+      const [lang, setLang] = useState('en');
+      const [darkMode, setDarkMode] = useState(false);
+      const [activeTab, setActiveTab] = useState('home');
+      
+      // Modals
+      const [showReportModal, setShowReportModal] = useState(false);
+      const [showLegalModal, setShowLegalModal] = useState(false);
+      const [showTrackModal, setShowTrackModal] = useState(false);
+      const [showTriageModal, setShowTriageModal] = useState(false);
+      const [showSampleDraftModal, setShowSampleDraftModal] = useState(false);
+      
+      // Token tracking state
+      const [searchToken, setSearchToken] = useState('');
+      const [trackingResult, setTrackingResult] = useState(null);
+
+      // Current content translation shortcut
+      const t = i18n[lang];
+
+      // Handle Dark Mode
+      useEffect(() => {
+        if (darkMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }, [darkMode]);
+
+      // Initialize Lucide Icons after render
+      useEffect(() => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      });
+
+      return (
+        <div className="min-h-screen flex flex-col transition-colors duration-200">
+          
+          {/* Top Announcement Bar */}
+          <div className="bg-emerald-900 text-emerald-100 px-4 py-2 text-xs md:text-sm font-medium flex justify-between items-center border-b border-emerald-800">
+            <div className="flex items-center space-x-2 truncate">
+              <span className="bg-emerald-600 text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Status</span>
+              <span className="truncate">{t.hero.statuteAlert}</span>
+            </div>
+            <div className="flex items-center space-x-4 pl-2 shrink-0">
+              <a href="https://facebook.com/AWCSriLanka" target="_blank" rel="noreferrer" className="hover:text-white flex items-center space-x-1">
+                <span>fb.com/awcsrilanka</span>
+              </a>
+              <span className="hidden md:inline text-emerald-400">|</span>
+              <span className="hidden md:inline font-mono">awcsrilanka@gmail.com</span>
+            </div>
+          </div>
+
+          {/* Main Navigation Header */}
+          <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+              
+              {/* Brand Logo & Name */}
+              <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('home')}>
+                <img src="assets/logo.png" alt="AWC Logo" className="h-12 w-auto object-contain" onError={(e)=>{e.target.style.display='none'}} />
+                <div>
+                  <h1 className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-white leading-tight">
+                    {t.brandName}
+                  </h1>
+                  <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
+                    {t.brandSub}
+                  </p>
+                </div>
+              </div>
+
+              {/* Desktop Nav Items */}
+              <nav className="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                <button onClick={() => setActiveTab('home')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'home' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.home}
+                </button>
+                <button onClick={() => setActiveTab('knowLaw')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'knowLaw' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.knowLaw}
+                </button>
+                <button onClick={() => setActiveTab('playbook')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'playbook' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.playbook}
+                </button>
+                <button onClick={() => setActiveTab('cases')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'cases' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.cases}
+                </button>
+                <button onClick={() => setActiveTab('truthMyth')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'truthMyth' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.truthMyth}
+                </button>
+                <button onClick={() => setActiveTab('ourWork')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'ourWork' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.ourWork}
+                </button>
+                <button onClick={() => setActiveTab('about')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'about' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.about}
+                </button>
+                <button onClick={() => setActiveTab('contact')} className={`px-3 py-2 rounded-lg transition ${activeTab === 'contact' ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-slate-800' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600'}`}>
+                  {t.nav.contact}
+                </button>
+              </nav>
+
+              {/* Utility Buttons: Track, Theme, Language */}
+              <div className="flex items-center space-x-2">
+                
+                {/* Track Button */}
+                <button 
+                  onClick={() => setShowTrackModal(true)}
+                  className="hidden sm:inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition"
+                >
+                  <i data-lucide="search" className="w-3.5 h-3.5"></i>
+                  <span>{t.nav.track}</span>
+                </button>
+
+                {/* Theme Toggle */}
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                  title="Toggle Light / Dark Mode"
+                >
+                  {darkMode ? (
+                    <svg className="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                    </svg>
+                  )}
+                </button>
+
+                {/* Language Switcher */}
+                <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5 border border-slate-200 dark:border-slate-700 text-xs font-bold">
+                  <button onClick={() => setLang('en')} className={`px-2 py-1 rounded ${lang === 'en' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>EN</button>
+                  <button onClick={() => setLang('si')} className={`px-2 py-1 rounded ${lang === 'si' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>සිං</button>
+                  <button onClick={() => setLang('ta')} className={`px-2 py-1 rounded ${lang === 'ta' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500'}`}>த</button>
+                </div>
+
+                {/* Quick Action Button in Header */}
+                <button
+                  onClick={() => setShowReportModal(true)}
+                  className="hidden md:inline-flex items-center space-x-1.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider px-3.5 py-2 rounded-lg shadow-sm transition"
+                >
+                  <i data-lucide="alert-triangle" className="w-4 h-4"></i>
+                  <span>Report</span>
+                </button>
+
+              </div>
+            </div>
+
+            {/* Mobile Nav Scroller */}
+            <div className="lg:hidden overflow-x-auto py-2 px-4 border-t border-slate-100 dark:border-slate-800 flex space-x-2 text-xs font-semibold">
+              <button onClick={() => setActiveTab('home')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'home' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.home}</button>
+              <button onClick={() => setActiveTab('knowLaw')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'knowLaw' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.knowLaw}</button>
+              <button onClick={() => setActiveTab('playbook')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'playbook' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.playbook}</button>
+              <button onClick={() => setActiveTab('cases')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'cases' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.cases}</button>
+              <button onClick={() => setActiveTab('truthMyth')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'truthMyth' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.truthMyth}</button>
+              <button onClick={() => setActiveTab('ourWork')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'ourWork' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.ourWork}</button>
+              <button onClick={() => setActiveTab('about')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'about' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.about}</button>
+              <button onClick={() => setActiveTab('contact')} className={`px-2.5 py-1.5 rounded shrink-0 ${activeTab === 'contact' ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800'}`}>{t.nav.contact}</button>
+              <button onClick={() => setShowTrackModal(true)} className="px-2.5 py-1.5 rounded shrink-0 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">{t.nav.track}</button>
+            </div>
+          </header>
+
+          {/* Body Content Area based on Active Tab */}
+          <main className="flex-1">
+            {activeTab === 'home' && (
+              <div>
+                {/* Hero Section */}
+                <section className="relative overflow-hidden py-16 lg:py-24 bg-gradient-to-b from-emerald-50/70 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    
+                    <span className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 mb-6">
+                      <i data-lucide="shield-alert" className="w-3.5 h-3.5"></i>
+                      <span>{t.hero.tag}</span>
+                    </span>
+
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                      {t.hero.title}
+                    </h1>
+
+                    <p className="mt-6 text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                      {t.hero.subtitle}
+                    </p>
+
+                    <p className="mt-3 text-sm font-semibold text-emerald-700 dark:text-emerald-400 italic">
+                      "{t.motto}"
+                    </p>
+
+                    {/* Primary Action Buttons */}
+                    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
+                      <button
+                        onClick={() => setShowReportModal(true)}
+                        className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white bg-orange-600 hover:bg-orange-700 shadow-lg shadow-orange-600/25 flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 transition"
+                      >
+                        <i data-lucide="alert-octagon" className="w-5 h-5"></i>
+                        <span>{t.hero.reportBtn}</span>
+                      </button>
+
+                      <button
+                        onClick={() => setShowLegalModal(true)}
+                        className="w-full sm:w-auto px-7 py-4 rounded-xl font-bold text-slate-800 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 shadow-md flex items-center justify-center space-x-2 transform hover:-translate-y-0.5 transition"
+                      >
+                        <i data-lucide="scale" className="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i>
+                        <span>{t.hero.legalBtn}</span>
+                      </button>
+
+                      <button
+                        onClick={() => setShowTriageModal(true)}
+                        className="w-full sm:w-auto px-5 py-4 rounded-xl font-semibold text-xs text-emerald-800 dark:text-emerald-300 bg-emerald-100/70 hover:bg-emerald-200/70 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800 flex items-center justify-center space-x-1.5 transition"
+                      >
+                        <i data-lucide="life-buoy" className="w-4 h-4"></i>
+                        <span>{t.hero.triageBtn}</span>
+                      </button>
+                    </div>
+
+                    {/* Emergency Direct Hotlines Banner */}
+                    <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center items-center gap-6 text-xs text-slate-600 dark:text-slate-400">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Immediate Police:</span>
+                        <a href="tel:119" className="text-red-600 dark:text-red-400 font-extrabold hover:underline">119</a>
+                        <span className="text-[10px] text-slate-400">(Cognizable Crimes / Sec 12)</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Wildlife Crisis:</span>
+                        <a href="tel:1992" className="text-emerald-700 dark:text-emerald-400 font-extrabold hover:underline">DWC 1992</a>
+                        <span className="text-[10px] text-slate-400">/ +94 11 2 888 585</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Rabies Bite:</span>
+                        <span className="font-semibold text-amber-700 dark:text-amber-400">Wash 15 Mins Soap Water & Hospital</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </section>
+
+                {/* Operational Remit: What AWC Does vs. Cannot Promise */}
+                <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="text-center max-w-3xl mx-auto mb-12">
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+                      {t.remit.title}
+                    </h2>
+                    <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
+                      Setting honest, evidence-based expectations so distressed citizens understand how we help.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* What AWC Does */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-emerald-200 dark:border-emerald-900/40 shadow-sm relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl -mr-6 -mt-6"></div>
+                      <div className="flex items-center space-x-3 mb-6">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-700 dark:text-emerald-400">
+                          <i data-lucide="check-circle-2" className="w-6 h-6"></i>
+                        </div>
+                        <h3 className="text-xl font-bold text-emerald-900 dark:text-emerald-300">
+                          {t.remit.doesTitle}
+                        </h3>
+                      </div>
+                      <ul className="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                        {t.remit.doesList.map((item, idx) => (
+                          <li key={idx} className="flex items-start space-x-3">
+                            <span className="text-emerald-500 font-bold mt-0.5">✓</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* What AWC Cannot Promise */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden">
+                      <div className="flex items-center space-x-3 mb-6">
+                        <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950 flex items-center justify-center text-red-600 dark:text-red-400">
+                          <i data-lucide="slash" className="w-6 h-6"></i>
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                          {t.remit.cannotTitle}
+                        </h3>
+                      </div>
+                      <ul className="space-y-4 text-sm text-slate-600 dark:text-slate-400">
+                        {t.remit.cannotList.map((item, idx) => (
+                          <li key={idx} className="flex items-start space-x-3">
+                            <span className="text-red-500 font-bold mt-0.5">✕</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 text-xs text-amber-800 dark:text-amber-300">
+                        <strong>Public Notice:</strong> AWC actively campaigns against the construction of centralized government dog pounds/orphanages, which documented evidence proves turn into lethal disease traps.
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* 4-Step Action Playbook */}
+                <section className="py-16 bg-slate-100 dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center max-w-3xl mx-auto mb-12">
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Citizen Action Plan</span>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                        {t.actionGuide.title}
+                      </h2>
+                      <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                        {t.actionGuide.subtitle}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      
+                      {/* Step 1 */}
+                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                        <div>
+                          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold mb-4">
+                            1
+                          </div>
+                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                            {t.actionGuide.step1}
+                          </h4>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {t.actionGuide.step1Desc}
+                          </p>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-blue-600 dark:text-blue-400">
+                          Rule: Never trespass or risk physical confrontation.
+                        </div>
+                      </div>
+
+                      {/* Step 2 */}
+                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                        <div>
+                          <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold mb-4">
+                            2
+                          </div>
+                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                            {t.actionGuide.step2}
+                          </h4>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {t.actionGuide.step2Desc}
+                          </p>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                          Section 12: Police have power of warrantless arrest.
+                        </div>
+                      </div>
+
+                      {/* Step 3 */}
+                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                        <div>
+                          <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold mb-4">
+                            3
+                          </div>
+                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                            {t.actionGuide.step3}
+                          </h4>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {t.actionGuide.step3Desc}
+                          </p>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-purple-600 dark:text-purple-400">
+                          Avoid defamation: State facts, not unverified guilt.
+                        </div>
+                      </div>
+
+                      {/* Step 4 */}
+                      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                        <div>
+                          <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-950 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold mb-4">
+                            4
+                          </div>
+                          <h4 className="font-bold text-base text-slate-900 dark:text-white mb-2">
+                            {t.actionGuide.step4}
+                          </h4>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {t.actionGuide.step4Desc}
+                          </p>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                          <button
+                            onClick={() => setShowReportModal(true)}
+                            className="text-xs font-bold text-orange-600 dark:text-orange-400 hover:underline flex items-center space-x-1"
+                          >
+                            <span>Open Intake Form</span>
+                            <span>→</span>
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </section>
+
+                {/* Seeded Public Cases Showcase */}
+                <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                    <div>
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Recent Interventions</span>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                        Verified Legal Cases & Field Campaigns
+                      </h2>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab('cases')}
+                      className="mt-4 md:mt-0 inline-flex items-center space-x-1.5 text-sm font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400"
+                    >
+                      <span>View All Documented Cases</span>
+                      <span>→</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Case 1: Rani in Sigiriya */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition">
+                      <div className="p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
+                            Nov 2026 • Sigiriya
+                          </span>
+                          <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400">
+                            Suspect Arrested
+                          </span>
+                        </div>
+                        <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                          Rani the Safari Elephant Assault
+                        </h4>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                          Following viral footage of a captive elephant beaten with bullhooks to force tourist rides, AWC counsel Sajeewa Gamage intervened at Sigiriya Police. DWC officers arrested the main suspect for evening court production.
+                        </p>
+                        <div className="text-[11px] font-medium text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-3">
+                          Focus: Captive elephant welfare & tourism regulation under FFPO Sec 22A.
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Case 2: Tango at Pawtopia */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition">
+                      <div className="p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                            Oct 2026 • Negombo
+                          </span>
+                          <span className="text-[10px] font-extrabold text-purple-600 dark:text-purple-400">
+                            Bail Monitored
+                          </span>
+                        </div>
+                        <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                          Tango at Pawtopia Pet Boarding
+                        </h4>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                          Fatal shovel assault on a boarded dog. AWC legal team requested Katana police to frame charges for Criminal Breach of Trust and Harbouring an Offender alongside the 1907 Ordinance. Owner and employee arrested.
+                        </p>
+                        <div className="text-[11px] font-medium text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-3">
+                          Focus: Commercial kennel regulation & breach of custodial trust.
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Case 3: Thalathuoya Cat Torture */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md transition">
+                      <div className="p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                            Aug 2026 • Kandy
+                          </span>
+                          <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400">
+                            2 Arrested in Kandy MC
+                          </span>
+                        </div>
+                        <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                          Thalathuoya Viral Cat Torture
+                        </h4>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                          AWC lodged a formal complaint on International Cat Day after a torture video circulated. Police traced and arrested two youths aged 18 and 19 under Penal Code 411, Police Ordinance 63, and 1907 Ordinance.
+                        </p>
+                        <div className="text-[11px] font-medium text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-3">
+                          Focus: Applying Penal Code 411 to bypass the 1907 Rs. 100 fine barrier.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            )}
+
+            {/* TAB: Know the Law */}
+            {activeTab === 'knowLaw' && (
+              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mb-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Statutory Knowledge Base</span>
+                  <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                    Sri Lankan Animal Law & Penal Framework
+                  </h2>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                    Comprehensive statutory breakdown distinguishing currently active colonial statutes from the newly gazetted 2026 Animal Welfare and Rabies Bills.
+                  </p>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Law Card 1: 1907 Ordinance */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                          Active Enforced Law
+                        </span>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-1">
+                          Prevention of Cruelty to Animals Ordinance No. 13 of 1907 (Cap. 573)
+                        </h3>
+                      </div>
+                      <span className="text-xs font-bold text-red-600 dark:text-red-400">
+                        Limitation: 3 Months (Sec 8)
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                        <div className="font-bold text-slate-900 dark:text-white mb-1">Section 2: Cruelty & Ill-Treatment</div>
+                        <p className="text-slate-600 dark:text-slate-400">Beating, over-driving, over-riding, abuse, torturing, or transporting in painful crates/vehicles.</p>
+                        <div className="mt-2 font-bold text-emerald-700 dark:text-emerald-400">Penalty: Fine up to Rs. 100 / 3 mos jail</div>
+                      </div>
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                        <div className="font-bold text-slate-900 dark:text-white mb-1">Section 4: Cruel Killing</div>
+                        <p className="text-slate-600 dark:text-slate-400">Unlawfully and cruelly killing any animal.</p>
+                        <div className="mt-2 font-bold text-emerald-700 dark:text-emerald-400">Penalty: Fine up to Rs. 100 / 6 mos jail</div>
+                      </div>
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                        <div className="font-bold text-slate-900 dark:text-white mb-1">Section 12: Cognizable Offence</div>
+                        <p className="text-slate-600 dark:text-slate-400">Cruelty offences are legally cognizable. Police officers hold the power to <strong>arrest suspects without a warrant</strong>.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Law Card 2: 2026 Animal Welfare Bill */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-emerald-300 dark:border-emerald-800/60 shadow-sm relative">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
+                          Gazetted Bill (July 17, 2026 — L.D. O 60/2025)
+                        </span>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-1">
+                          Animal Welfare Bill (Draft Bill 48/2026)
+                        </h3>
+                      </div>
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                        Pending Parliamentary Enactment
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                      Replaces the 1907 Ordinance. Broadens the definition of "animal" to any living being other than a human and mandates a statutory <strong>Duty of Care (Section 2)</strong>.
+                    </p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+                      <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                        <div className="font-bold text-slate-900 dark:text-white">General Cruelty (Sec 4)</div>
+                        <div className="mt-1 font-bold text-blue-600 dark:text-blue-400">Rs. 250,000 / 2 Yrs</div>
+                      </div>
+                      <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                        <div className="font-bold text-slate-900 dark:text-white">Cruel Killing (Sec 5)</div>
+                        <div className="mt-1 font-bold text-blue-600 dark:text-blue-400">Rs. 500,000 / 3 Yrs</div>
+                      </div>
+                      <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                        <div className="font-bold text-slate-900 dark:text-white">Pregnant Animals (Sec 6)</div>
+                        <div className="mt-1 font-bold text-blue-600 dark:text-blue-400">Rs. 500,000 / 4 Yrs</div>
+                      </div>
+                      <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                        <div className="font-bold text-slate-900 dark:text-white">Abandonment (Sec 18)</div>
+                        <div className="mt-1 font-bold text-blue-600 dark:text-blue-400">Rs. 250,000 / 1 Yr</div>
+                      </div>
+                    </div>
+
+                    {/* AWC Critical Audit Box */}
+                    <div className="mt-5 p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 text-xs">
+                      <div className="font-bold text-red-900 dark:text-red-300 mb-1 flex items-center space-x-1.5">
+                        <i data-lucide="alert-circle" className="w-4 h-4 text-red-600"></i>
+                        <span>AWC Legislative Audit (Champa Fernando, Oct 2026): Key Gaps & Concerns</span>
+                      </div>
+                      <ul className="list-disc list-inside space-y-1 text-slate-700 dark:text-slate-300 mt-2">
+                        <li><strong>Clause 19 Blanket Exemptions:</strong> Excludes livestock agriculture, religious/cultural events, and wildlife "reasonable measures" from Chapter I cruelty offenses.</li>
+                        <li><strong>Clause 3 DAPH Conflict of Interest:</strong> Places animal welfare administration under the DG of DAPH (mandated to expand meat/dairy production) rather than the Ministry of Justice.</li>
+                        <li><strong>Clause 48 Exclusion of Private Vets:</strong> Defines "Animal Welfare Officer" strictly as Government Veterinary Surgeons, excluding private, wildlife, and zoo veterinarians.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Law Card 3: Animals Act & Livestock Transport */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                      Animals Act No. 29 of 1958 & Extraordinary Gazette No. 1629/17
+                    </h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
+                      Regulates cattle vouchers, branding, transport permits, and bans slaughtering pregnant or lactating cows. (Amended on August 6, 2026, extending transport permit controls to <strong>pigs, sheep, and goats</strong>).
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700 dark:text-slate-300">
+                      <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800">
+                        <strong>Mandatory Cattle Vouchers:</strong> Ownership of cattle over 18 months must be proven with Cattle Vouchers (Schedule 06) signed before the GVS. Grama Niladhari certificates are NOT legally valid.
+                      </div>
+                      <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800">
+                        <strong>Vehicle Signboard Requirement:</strong> Transport lorries must carry a loading ramp and a 30" × 4" white board with bold red text: "සතුන් ප්‍රවාහනය කිරීම" / "Transport of Animals".
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Legal & Court Playbook */}
+            {activeTab === 'playbook' && (
+              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mb-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Citizen Court Handbook</span>
+                  <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                    Sri Lankan Criminal Procedure, Evidence & RTI Guide
+                  </h2>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                    Understanding how court cases are instituted, how to submit video evidence lawfully, and how to use the Right to Information Act.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
+                  {/* B-Report Explained */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
+                        B
+                      </div>
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white">
+                        What is a "B-Report" (B-වාර්තාව)?
+                      </h4>
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                      Under Sections 115 & 136(1)(b) of the Code of Criminal Procedure Act, a <strong>B-Report</strong> is the formal document police submit to the Magistrate. It transforms an internal police complaint into an active court case with a <strong>Case Number</strong>.
+                    </p>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      Why it matters: Once a B-Report is filed, animal welfare lawyers can file a motion, appear on behalf of victim animals, and stop animals from being released back to an abuser.
+                    </div>
+                  </div>
+
+                  {/* 3-CD Electronic Evidence Rule */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-600 flex items-center justify-center font-bold">
+                        CD
+                      </div>
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white">
+                        Submitting Video/Audio Evidence (3-CD Rule)
+                      </h4>
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                      Under the <strong>Evidence (Special Provisions) Act, No. 14 of 1995</strong>, mobile video or CCTV evidence cannot simply be sent via WhatsApp. To be admissible in court, you must prepare:
+                    </p>
+                    <ul className="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+                      <li><strong>Three (03) Identical CDs/DVDs:</strong> Disc 1 (Court Record), Disc 2 (Police Prosecution), Disc 3 (Defense Counsel).</li>
+                      <li><strong>Sworn Affidavit (දිවුරුම් ප්‍රකාශය):</strong> Signed before a Justice of the Peace (JP) stating device make/model, date, time, location, and swearing the footage is unedited.</li>
+                    </ul>
+                  </div>
+
+                  {/* Notice vs Summons vs Warrant */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm md:col-span-2">
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+                      Notice, Summons & Warrants: Understanding the Hierarchy
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800">
+                        <span className="font-bold text-slate-900 dark:text-white block mb-1">Notice (දැන්වීම)</span>
+                        <p className="text-slate-600 dark:text-slate-400">An administrative request by police asking a citizen to visit the station for an inquiry. It is not an order issued by a judge.</p>
+                      </div>
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800">
+                        <span className="font-bold text-slate-900 dark:text-white block mb-1">Summons (සිතාසිය)</span>
+                        <p className="text-slate-600 dark:text-slate-400">A formal judicial command signed by a Magistrate ordering a person to appear in court on a specific date. Ignoring it leads to an arrest warrant.</p>
+                      </div>
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800">
+                        <span className="font-bold text-slate-900 dark:text-white block mb-1">Warrant (වරෙන්තුව)</span>
+                        <p className="text-slate-600 dark:text-slate-400">A court order directing police to arrest the named person anywhere in Sri Lanka and bring them before court.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* RTI Guide */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm md:col-span-2">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                          Accountability Tool
+                        </span>
+                        <h4 className="text-xl font-bold text-slate-900 dark:text-white mt-1">
+                          Right to Information (RTI) Guide for Animal Welfare (Act No. 12 of 2016)
+                        </h4>
+                      </div>
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                        14-Day Statutory Response Deadline
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                      Citizens and activists have the legal right to request certified copies of public records from the Police, DAPH, DWC, and Local Councils.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
+                        <strong>Step 1: Form RTI 01</strong>
+                        <p className="text-slate-500 mt-1">Submit to the Information Officer (IO) requesting certified copies of police complaints, B-Reports, or GVS post-mortems.</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
+                        <strong>Step 2: 14 Days Window</strong>
+                        <p className="text-slate-500 mt-1">The public authority must provide the information within 14 working days.</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
+                        <strong>Step 3: First Appeal (RTI 10)</strong>
+                        <p className="text-slate-500 mt-1">If the IO fails or refuses, appeal within 30 days to the Designated Officer (DO).</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
+                        <strong>Step 4: RTI Commission</strong>
+                        <p className="text-slate-500 mt-1">Second appeal directly to the independent RTI Commission in Colombo.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Truth vs Myth */}
+            {activeTab === 'truthMyth' && (
+              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mb-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">De-escalation & Facts</span>
+                  <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                    Truth vs. Myth: Sri Lankan Animal Realities
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-xs font-bold text-red-600 dark:text-red-400 uppercase">Myth #1</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-1 mb-2">
+                      "The Animal Welfare Bill will ban elephants from Buddhist and Hindu peraheras."
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <strong>Truth:</strong> Completely false. The Bill does not ban elephants in cultural pageants. It introduces welfare safeguards against torturing animals with excessive force or denying adequate rest and medical care.
+                    </p>
+                  </div>
+
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-xs font-bold text-red-600 dark:text-red-400 uppercase">Myth #2</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-1 mb-2">
+                      "It is illegal to feed street dogs on public roads."
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <strong>Truth:</strong> No law in Sri Lanka prohibits feeding community animals. AWC has successfully defended street feeders in Malabe and Kaduwela. Feeders must ensure hygienic feeding using plates/bowls and clearing litter.
+                    </p>
+                  </div>
+
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-xs font-bold text-red-600 dark:text-red-400 uppercase">Myth #3</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-1 mb-2">
+                      "If an animal enters my private property, I have the legal right to shoot or poison it."
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <strong>Truth:</strong> Absolutely illegal. In <em>Mendis v. Hunucumbura (1928)</em>, the Supreme Court ruled shooting trespassing animals causes unnecessary pain. Poisoning also constitutes criminal Mischief under Penal Code 411/412 (up to 5 years prison).
+                    </p>
+                  </div>
+
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-xs font-bold text-red-600 dark:text-red-400 uppercase">Myth #4</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-1 mb-2">
+                      "Police officers cannot arrest an animal cruelty suspect without a Magistrate's warrant."
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <strong>Truth:</strong> Section 12 of the 1907 Ordinance explicitly declares cruelty offences to be <strong>cognizable</strong>. Police have full statutory power to arrest offenders without a warrant.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Our Work & Policy */}
+            {activeTab === 'ourWork' && (
+              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mb-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Scientific Advocacy</span>
+                  <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                    One Health Rabies Transfer & Anti-Corruption Campaign
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm text-center">
+                    <span className="text-3xl font-black text-emerald-600 dark:text-emerald-400">>90%</span>
+                    <div className="font-bold text-sm text-slate-900 dark:text-white mt-1">Domestic Pet Bite Share</div>
+                    <p className="text-xs text-slate-500 mt-2">Over 90% of animal bites in Sri Lanka involve owned domestic pets, not strays.</p>
+                  </div>
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm text-center">
+                    <span className="text-3xl font-black text-blue-600 dark:text-blue-400">Rs. 268M</span>
+                    <div className="font-bold text-sm text-slate-900 dark:text-white mt-1">Unspent Sterilization Funds</div>
+                    <p className="text-xs text-slate-500 mt-2">AWC petitioned the Bribery Commission over Rs. 268M unutilized sterilization funds in 2024–2025.</p>
+                  </div>
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm text-center">
+                    <span className="text-3xl font-black text-purple-600 dark:text-purple-400">700+ Vets</span>
+                    <div className="font-bold text-sm text-slate-900 dark:text-white mt-1">DAPH Field Capacity</div>
+                    <p className="text-xs text-slate-500 mt-2">DAPH possesses the professional veterinary network to manage national canine rabies effectively.</p>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
+                    Opposition to State Shelters & Municipal Crematorium Proposal
+                  </h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                    AWC actively opposes the establishment of government-run dog shelters (such as the failed Rs. 80M Trincomalee shelter and Wennappuwa Sunaka Sevana), where high density triggers fatal viral outbreaks and dog-on-dog trauma. Instead, AWC champions systematic sterilization, vaccination, and in May 2026 proposed municipal canine crematoriums in urban centers to provide dignified end-of-life care for companion and street animals.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: About & Team */}
+            {activeTab === 'about' && (
+              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mb-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Coalition Governance</span>
+                  <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                    About AWC & Verified Leadership Team
+                  </h2>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                    Documented leadership across veterinary science, legal counsel, and grassroots advocacy.
+                  </p>
+                </div>
+
+                {/* Team Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  
+                  {/* Member 1 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Committee</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Dr. Chamith Nanayakkara</h4>
+                    <p className="text-xs text-slate-500 font-medium">Veterinary Surgeon</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Lead spokesperson on national population management, One Health policy, and Bribery Commission petitioner on sterilization budgets.
+                    </p>
+                  </div>
+
+                  {/* Member 2 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Committee</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Champa Fernando</h4>
+                    <p className="text-xs text-slate-500 font-medium">Policy Analyst & Activist</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Involved with the Animal Welfare Bill since its inception; author of the clause-by-clause critique of Draft Bill 48/2026 exposing Clause 19 exemptions.
+                    </p>
+                  </div>
+
+                  {/* Member 3 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Committee</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Gihan Dinushka</h4>
+                    <p className="text-xs text-slate-500 font-medium">Field Population Analyst</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Grassroots population analytics spokesperson, critic of state-run dog shelters, and field coordinator.
+                    </p>
+                  </div>
+
+                  {/* Member 4 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Member</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Charuka Wickremesekera</h4>
+                    <p className="text-xs text-slate-500 font-medium">Public Engagement & Media</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Advocate for modernizing archaic penalties and leading public campaigns on social media legal awareness.
+                    </p>
+                  </div>
+
+                  {/* Member 5 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Executive Member</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Madushanka Fernando</h4>
+                    <p className="text-xs text-slate-500 font-medium">Council Liaison</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Participates in ministerial liaison and governmental discussions on advancing the Animal Welfare Bill.
+                    </p>
+                  </div>
+
+                  {/* Member 6: Legal Counsel */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">Legal Counsel</span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white mt-2">Sajeewa Gamage</h4>
+                    <p className="text-xs text-slate-500 font-medium">Attorney-at-Law</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Counsel leading criminal interventions in Sigiriya (Rani elephant) and Negombo (Pawtopia Tango case).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Cases & Updates */}
+            {activeTab === 'cases' && (
+              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mb-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Public Case Records</span>
+                  <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                    Moderated Legal Cases & Timelines
+                  </h2>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Case 1 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">Nov 2026 • Sigiriya, Central Province</span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Suspect Arrested</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Rani the Safari Elephant Bullhook Assault</h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Following viral footage of a captive elephant beaten with bullhooks to force tourist rides, AWC counsel Sajeewa Gamage intervened at Sigiriya Police. DWC officers arrested the main suspect for evening court production.
+                    </p>
+                  </div>
+
+                  {/* Case 2 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-bold text-purple-600 dark:text-purple-400">Oct 2026 • Negombo, Western Province</span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">Bail Monitored</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Tango at Pawtopia Pet Boarding</h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      Fatal shovel assault on a boarded dog. AWC legal team requested Katana police to frame charges for Criminal Breach of Trust and Harbouring an Offender alongside the 1907 Ordinance. Owner and employee arrested.
+                    </p>
+                  </div>
+
+                  {/* Case 3 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-bold text-amber-600 dark:text-amber-400">Aug 2026 • Kandy District</span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">2 Arrested</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Thalathuoya Viral Cat Abuse Prosecution</h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      AWC lodged a formal complaint on International Cat Day after a torture video circulated. Police traced and arrested two youths aged 18 and 19 under Penal Code 411, Police Ordinance 63, and 1907 Ordinance.
+                    </p>
+                  </div>
+
+                  {/* Case 4 */}
+                  <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Aug 2026 • Malabe / Kaduwela</span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">Legal Guidance Extended</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Malabe Street Dog Feeder Legal Defense</h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
+                      When a community feeder was harassed with stone-pelting, AWC intervened, citing prior complaints submitted to the Human Rights Commission of Sri Lanka (HRCSL) and clarifying that feeding street animals is not prohibited under any Sri Lankan law.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Contact & Police Directory */}
+            {activeTab === 'contact' && (
+              <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mb-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Official Directory</span>
+                  <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                    Contact AWC & Sri Lanka Police Directory
+                  </h2>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                    Find direct contact numbers for every police station and OIC across the island, along with official AWC coordination channels.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  
+                  {/* Official Police Telephone Index Card */}
+                  <div className="bg-gradient-to-br from-blue-900 to-slate-900 text-white rounded-2xl p-8 shadow-lg flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold">
+                          <i data-lucide="phone-call" className="w-5 h-5"></i>
+                        </div>
+                        <h3 className="text-xl font-bold">
+                          Sri Lanka Police Station & OIC Index
+                        </h3>
+                      </div>
+                      <p className="text-xs text-blue-200 leading-relaxed mb-6">
+                        Need to find your local Police Station's direct telephone number or speak to the Officer-in-Charge (OIC)? Access the official national police directory online:
+                      </p>
+                      <a
+                        href="https://police.lk/telephone-index/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm px-6 py-3.5 rounded-xl transition shadow-md"
+                      >
+                        <span>Open Police.lk Telephone Index</span>
+                        <i data-lucide="external-link" className="w-4 h-4"></i>
+                      </a>
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-blue-800 text-xs text-blue-300">
+                      <strong>Emergency Route:</strong> In active violent emergencies, immediately dial <strong>119</strong>.
+                    </div>
+                  </div>
+
+                  {/* AWC Official Communication Channels */}
+                  <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
+                        AWC Official Communication
+                      </h3>
+                      
+                      <div className="space-y-4 text-xs">
+                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800">
+                          <strong className="text-slate-900 dark:text-white block mb-1">Official Email Address:</strong>
+                          <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold text-sm">awcsrilanka@gmail.com</span>
+                          <p className="text-slate-500 mt-1">Use this to send incident evidence, photo/video attachments, and media or legal inquiries.</p>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800">
+                          <strong className="text-slate-900 dark:text-white block mb-1">Official Social Media:</strong>
+                          <a href="https://facebook.com/AWCSriLanka" target="_blank" rel="noreferrer" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                            facebook.com/AWCSriLanka (@AWCSriLanka)
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 text-xs text-red-800 dark:text-red-300">
+                      <strong>No Phone Hotline:</strong> AWC does not operate a telephone hotline. All case submissions must be made through this web portal or via email.
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            )}
+          </main>
+
+          {/* Footer */}
+          <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 text-xs">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                  <div className="flex items-center space-x-3 mb-3">
+                    <img src="assets/logo.png" alt="AWC Logo" className="h-8 w-auto object-contain brightness-200" onError={(e)=>{e.target.style.display='none'}} />
+                    <span className="font-extrabold text-white text-sm">{t.brandName}</span>
+                  </div>
+                  <p className="leading-relaxed">{t.footer.desc}</p>
+                </div>
+                <div>
+                  <h4 className="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Official Coordinates</h4>
+                  <p className="mb-2 font-mono">{t.footer.officialEmail}</p>
+                  <p className="mb-2">{t.footer.facebook}</p>
+                  <p className="text-amber-400 text-[11px] leading-relaxed">{t.footer.noHotline}</p>
+                </div>
+                <div>
+                  <h4 className="text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Emergency Numbers</h4>
+                  <p className="mb-1">Police Emergency: <strong className="text-white">119</strong></p>
+                  <p className="mb-1">Department of Wildlife Conservation: <strong className="text-white">1992</strong> / <strong className="text-white">011 2888 585</strong></p>
+                  <p className="mb-1">Forest Department: <strong className="text-white">1991</strong></p>
+                  <p className="mt-2 text-slate-500">Directory: <a href="https://police.lk/telephone-index/" target="_blank" rel="noreferrer" className="text-blue-400 hover:underline">police.lk/telephone-index/</a></p>
+                </div>
+              </div>
+              <div className="border-t border-slate-800 pt-6 text-center text-slate-500">
+                {t.footer.copyright}
+              </div>
+            </div>
+          </footer>
+
+          {/* ================= MODAL: REPORT CRUELTY / COMPLAINT ================= */}
+          {showReportModal && (
+            <ReportComplaintModal 
+              lang={lang} 
+              onClose={() => setShowReportModal(false)}
+              onShowSample={() => setShowSampleDraftModal(true)}
+            />
+          )}
+
+          {/* ================= MODAL: REQUEST LEGAL ASSISTANCE ================= */}
+          {showLegalModal && (
+            <LegalAssistanceModal 
+              lang={lang} 
+              onClose={() => setShowLegalModal(false)} 
+            />
+          )}
+
+          {/* ================= MODAL: TICKET TRACKER ================= */}
+          {showTrackModal && (
+            <TrackTicketModal 
+              lang={lang} 
+              onClose={() => setShowTrackModal(false)} 
+            />
+          )}
+
+          {/* ================= MODAL: EMERGENCY TRIAGE GATE ================= */}
+          {showTriageModal && (
+            <EmergencyTriageModal 
+              lang={lang} 
+              onClose={() => setShowTriageModal(false)} 
+            />
+          )}
+
+          {/* ================= MODAL: SAMPLE COMPLAINT DRAFT TEMPLATE ================= */}
+          {showSampleDraftModal && (
+            <SampleComplaintDraftModal 
+              lang={lang} 
+              onClose={() => setShowSampleDraftModal(false)} 
+            />
+          )}
+
+        </div>
+      );
+    }
+
+    // --- Sub-Component: Report Complaint Modal ---
+    function ReportComplaintModal({ lang, onClose, onShowSample }) {
+      const [category, setCategory] = useState('physical_abuse');
+      const [name, setName] = useState('');
+      const [phone, setPhone] = useState('');
+      const [email, setEmail] = useState('');
+      const [district, setDistrict] = useState('Colombo');
+      const [location, setLocation] = useState('');
+      const [details, setDetails] = useState('');
+      const [incidentDate, setIncidentDate] = useState('');
+      const [consentLaw, setConsentLaw] = useState(false);
+      const [consentSocial, setConsentSocial] = useState(false);
+      const [generatedToken, setGeneratedToken] = useState(null);
+
+      const isMedNegligence = category === 'medical_negligence';
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!phone || !email || !details) {
+          alert(lang === 'si' ? 'කරුණාකර දුරකථන අංකය, ඊමේල් ලිපිනය සහ විස්තර ඇතුළත් කරන්න.' : 'Please provide mandatory Phone Number, Email, and details.');
+          return;
+        }
+        // Generate Token
+        const token = 'AWC-TKT-' + Math.floor(100000 + Math.random() * 900000);
+        
+        // Save to LocalStorage mock DB
+        const newTicket = {
+          token,
+          type: 'COMPLAINT',
+          category,
+          name,
+          phone,
+          email,
+          district,
+          location,
+          details,
+          incidentDate,
+          consentSocial,
+          createdAt: new Date().toISOString(),
+          status: 'RECEIVED',
+          notes: []
+        };
+        const existing = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
+        existing.unshift(newTicket);
+        localStorage.setItem('awc_tickets', JSON.stringify(existing));
+
+        setGeneratedToken(token);
+      };
+
+      return (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
+            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+              <i data-lucide="x" className="w-6 h-6"></i>
+            </button>
+
+            {!generatedToken ? (
+              <div>
+                <div className="mb-6">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300">
+                    Cruelty & Abuse Intake
+                  </span>
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
+                    {lang === 'si' ? 'සත්ව හිංසනයක් පැමිණිලි කරන්න' : lang === 'ta' ? 'விலங்கு வதை முறைப்பாடு' : 'Report Animal Cruelty / Complaint'}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {lang === 'si' ? 'සියලු පැමිණිලි රහස්‍යභාවයෙන් යුතුව සමාලෝචනය කර නීතිමය ක්‍රියාමාර්ග සඳහා යොමු කෙරේ.' : 'All submissions enter a confidential queue for review and legal follow-up.'}
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+                  
+                  {/* Category Dropdown */}
+                  <div>
+                    <label className="block font-bold text-slate-700 dark:text-slate-200 mb-1">
+                      {lang === 'si' ? 'පැමිණිල්ලේ වර්ගය තෝරන්න *' : 'Select Concern Category *'}
+                    </label>
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-medium focus:ring-2 focus:ring-emerald-500 outline-none"
+                    >
+                      <option value="physical_abuse">{lang === 'si' ? 'ශාරීරික හිංසනය / පහරදීම (Physical Abuse / Beating)' : 'Physical Abuse / Violent Assault'}</option>
+                      <option value="starvation">{lang === 'si' ? 'කුසගින්නේ තැබීම / අතහැර දැමීම (Starvation / Abandonment)' : 'Starvation / Severe Neglect / Abandonment'}</option>
+                      <option value="illegal_transport">{lang === 'si' ? 'නීතිවිරෝධී සත්ව ප්‍රවාහනය (Illegal Cattle / Livestock Transport)' : 'Illegal Animal Transport / Cattle Smuggling'}</option>
+                      <option value="illegal_slaughter">{lang === 'si' ? 'නීතිවිරෝධී ඝාතනය / ගැබිනි එළදෙනුන් ඝාතනය (Illegal Slaughter)' : 'Illegal Slaughter / Pregnant Cow Slaughter'}</option>
+                      <option value="captive_wildlife">{lang === 'si' ? 'වනජීවී / අලි ඇතුන් හිංසනය (Captive Wildlife / Elephant Abuse)' : 'Captive Wildlife / Elephant Abuse (FFPO)'}</option>
+                      <option value="boarding_facility">{lang === 'si' ? 'සුරතල් සතුන් රඳවාගැනීමේ ස්ථාන / බෝකිරීමේ ස්ථාන (Pet Boarding / Breeding)' : 'Pet Boarding Kennel / Breeder Neglect'}</option>
+                      <option value="medical_negligence">{lang === 'si' ? '⚠️ පශු වෛද්‍ය නොසැලකිලිමත්කම (Veterinary Medical Negligence)' : '⚠️ Veterinary Medical Negligence (SLVC Protocol)'}</option>
+                      <option value="other">{lang === 'si' ? 'වෙනත් සත්ව අසාධාරණයක් (Other Animal Injustice)' : 'Other Animal Welfare Injustice'}</option>
+                    </select>
+                  </div>
+
+                  {/* SPECIAL CONDITIONAL BANNER: Medical Negligence */}
+                  {isMedNegligence && (
+                    <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 space-y-2">
+                      <div className="font-bold flex items-center space-x-1.5 text-sm">
+                        <i data-lucide="alert-triangle" className="w-4 h-4 text-amber-600"></i>
+                        <span>{lang === 'si' ? 'පශු වෛද්‍ය නොසැලකිලිමත්කම පිළිබඳ විශේෂ උපදෙස්' : 'Veterinary Medical Negligence Protocol (Out of Direct Scope)'}</span>
+                      </div>
+                      <p className="leading-relaxed">
+                        {lang === 'si' ? (
+                          <>
+                            පශු වෛද්‍ය ප්‍රතිකාර නොසැලකිලිමත්කම හෝ වෘත්තීය විෂමාචාරයන් විභාග කිරීමේ නෛතික බලතල හිමිවන්නේ <strong>ශ්‍රී ලංකා පශු වෛද්‍ය මණ්ඩලය (SLVC)</strong> වෙතය.
+                            <br />
+                            <strong>1.</strong> වහාම ලිඛිත පැමිණිල්ල සහ වෛද්‍ය වාර්තා SLVC ලේඛකාධිකාරී වෙත යොමු කරන්න: <strong className="underline">registrarslvetcouncil@gmail.com</strong>
+                            <br />
+                            <strong>2.</strong> ළඟම පොලිස් ස්ථානයේ පැමිණිල්ලක් සටහන් කරන්න.
+                            <br />
+                            <strong>3.</strong> SLVC හෝ පොලීසියෙන් නිසි ප්‍රතිචාරයක් නොලැබෙන්නේ නම්, අදාළ තොරතුරු AWC වෙත යොමු කරන්න.
+                          </>
+                        ) : (
+                          <>
+                            Veterinary clinical malpractice falls strictly under the statutory jurisdiction of the <strong>Sri Lanka Veterinary Council (SLVC)</strong>.
+                            <br />
+                            <strong>1.</strong> Send formal complaint & treatment slips directly to the SLVC Registrar: <strong className="underline">registrarslvetcouncil@gmail.com</strong>
+                            <br />
+                            <strong>2.</strong> Lodge a formal Information Book entry at your local police station.
+                            <br />
+                            <strong>3.</strong> If no official response or inquiry is conducted, forward your details to AWC for guidance.
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Contact Fields (Mandatory Phone & Email) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        {lang === 'si' ? 'ඔබගේ දුරකථන අංකය (Phone Number) *' : 'Contact Phone Number *'}
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="07X XXX XXXX"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        {lang === 'si' ? 'විද්‍යුත් තැපෑල (Email Address) *' : 'Email Address *'}
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="yourname@gmail.com"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        {lang === 'si' ? 'ඔබගේ නම (නොකියා සිටිය හැක)' : 'Your Name (Optional)'}
+                      </label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Full Name / Anonymous"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        {lang === 'si' ? 'දිස්ත්‍රික්කය (District)' : 'District'}
+                      </label>
+                      <select
+                        value={district}
+                        onChange={(e) => setDistrict(e.target.value)}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      >
+                        {['Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale', 'Nuwara Eliya', 'Galle', 'Matara', 'Hambantota', 'Jaffna', 'Kilinochchi', 'Mannar', 'Vavuniya', 'Mullaitivu', 'Batticaloa', 'Ampara', 'Trincomalee', 'Kurunegala', 'Puttalam', 'Anuradhapura', 'Polonnaruwa', 'Badulla', 'Monaragala', 'Ratnapura', 'Kegalle'].map(d => (
+                          <option key={d} value={d}>{d}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        {lang === 'si' ? 'ස්ථානය / නගරය / සලකුණ *' : 'Location / Landmark *'}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        placeholder="e.g. Near Temple Road, Maharagama"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        {lang === 'si' ? 'සිදුවූ දිනය (Incident Date)' : 'Date of Incident'}
+                      </label>
+                      <input
+                        type="date"
+                        value={incidentDate}
+                        onChange={(e) => setIncidentDate(e.target.value)}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Details Field + Sample Format Link */}
+                  <div>
+                    <div className="flex justify-between items-center mb-1">
+                      <label className="block font-bold text-slate-700 dark:text-slate-300">
+                        {lang === 'si' ? 'සිදුවීමේ සම්පූර්ණ විස්තරය *' : 'Full Incident Description *'}
+                      </label>
+                      <button
+                        type="button"
+                        onClick={onShowSample}
+                        className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
+                      >
+                        {lang === 'si' ? '💡 ආදර්ශ පැමිණිලි ආකෘතිය බලන්න' : '💡 View Sample Draft Format'}
+                      </button>
+                    </div>
+                    <textarea
+                      required
+                      rows="4"
+                      value={details}
+                      onChange={(e) => setDetails(e.target.value)}
+                      placeholder={lang === 'si' ? 'කරුණාකර සිදුවූ දේ, සැකකරුගේ තොරතුරු, සතාගේ තත්ත්වය සහ සාක්ෂිකරුවන් පිළිබඳ විස්තර මෙහි සටහන් කරන්න...' : 'Please describe what happened, suspect info, condition of the animal, and witnesses...'}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                    ></textarea>
+                  </div>
+
+                  {/* Evidence Attachment Instructions */}
+                  <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 text-blue-900 dark:text-blue-300">
+                    <strong className="block mb-1">{lang === 'si' ? '📸 ඡායාරූප සහ වීඩියෝ සාක්ෂි එවීම:' : '📸 Photo & Video Evidence Instructions:'}</strong>
+                    <p className="leading-relaxed">
+                      {lang === 'si' ? (
+                        <>පද්ධතියේ ආරක්ෂාව සහ වේගය උදෙසා, කරුණාකර ඔබ ලබාගත් ඡායාරූප හෝ වීඩියෝ මෙම පැමිණිල්ල ඉදිරිපත් කළ පසු ලැබෙන ටෝකන් අංකය (Token Number) සඳහන් කරමින් <strong>awcsrilanka@gmail.com</strong> වෙත ඊමේල් කරන්න.</>
+                      ) : (
+                        <>Please email all photo/video files directly to <strong>awcsrilanka@gmail.com</strong> quoting the unique ticket reference token generated upon submission.</>
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Consents */}
+                  <div className="space-y-2 pt-2">
+                    <label className="flex items-start space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={consentLaw}
+                        onChange={(e) => setConsentLaw(e.target.checked)}
+                        className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500"
+                      />
+                      <span className="text-slate-600 dark:text-slate-400">
+                        {lang === 'si' ? 'මා ඉදිරිපත් කරන තොරතුරු සත්‍ය බවත්, නීතිමය පියවර උදෙසා පොලීසිය හෝ බලධාරීන් සමඟ බෙදාගැනීමට එකඟ වෙමි.' : 'I confirm this information is truthful and consent to sharing with police or authorities for legal proceedings.'}
+                      </span>
+                    </label>
+
+                    <label className="flex items-start space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={consentSocial}
+                        onChange={(e) => setConsentSocial(e.target.checked)}
+                        className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500"
+                      />
+                      <span className="text-slate-600 dark:text-slate-400">
+                        {lang === 'si' ? '(විකල්ප) සමාජ දැනුවත්භාවය සඳහා සතාගේ අනන්‍යතාව නොකෙලෙසන අයුරින් මෙය පළකිරීමට එකඟ වෙමි.' : '(Optional) I consent to public awareness posts without exposing witness identities.'}
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="w-full py-3.5 rounded-xl font-bold text-white bg-orange-600 hover:bg-orange-700 shadow-md text-sm transition"
+                    >
+                      {lang === 'si' ? 'පැමිණිල්ල ඉදිරිපත් කරන්න' : 'Submit Formal Complaint'}
+                    </button>
+                  </div>
+
+                </form>
+              </div>
+            ) : (
+              /* Success / Token Generated View */
+              <div className="text-center py-8">
+                <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-4">
+                  <i data-lucide="check" className="w-8 h-8"></i>
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white">
+                  {lang === 'si' ? 'පැමිණිල්ල සාර්ථකව ලැබිණි!' : 'Report Received Successfully!'}
+                </h3>
+                <p className="text-xs text-slate-500 mt-2">
+                  {lang === 'si' ? 'ඔබගේ පැමිණිල්ල රහස්‍ය සමාලෝචන පද්ධතියට එක්විය. ඔබගේ ලුහුබැඳීමේ අංකය:' : 'Your report has been added to our queue. Your tracking token:'}
+                </p>
+
+                <div className="my-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 max-w-sm mx-auto">
+                  <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 block mb-1">REFERENCE TOKEN</span>
+                  <span className="text-2xl font-black font-mono text-slate-900 dark:text-white tracking-widest">{generatedToken}</span>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300 max-w-md mx-auto text-left space-y-2 mb-6">
+                  <div><strong>ඊළඟ පියවර (Next Step):</strong></div>
+                  <div>1. ඡායාරූප හෝ වීඩියෝ සාක්ෂි ඇත්නම්, මෙම <strong>{generatedToken}</strong> අංකය මාතෘකාවේ සඳහන් කර <strong>awcsrilanka@gmail.com</strong> වෙත ඊමේල් කරන්න.</div>
+                  <div>2. අපගේ වෙබ් අඩවියේ 'Track Ticket' මෙනුව හරහා ඕනෑම වේලාවක මෙහි ප්‍රගතිය පරීක්ෂා කළ හැක.</div>
+                </div>
+
+                <button
+                  onClick={onClose}
+                  className="px-6 py-2.5 rounded-xl font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs"
+                >
+                  Close Window
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // --- Sub-Component: Request Legal Assistance Modal ---
+    function LegalAssistanceModal({ lang, onClose }) {
+      const [name, setName] = useState('');
+      const [phone, setPhone] = useState('');
+      const [email, setEmail] = useState('');
+      const [legalIssue, setLegalIssue] = useState('');
+      const [caseNo, setCaseNo] = useState('');
+      const [generatedToken, setGeneratedToken] = useState(null);
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const token = 'AWC-LEG-' + Math.floor(100000 + Math.random() * 900000);
+        const newTicket = {
+          token,
+          type: 'LEGAL_ASSISTANCE',
+          name,
+          phone,
+          email,
+          caseNo,
+          details: legalIssue,
+          createdAt: new Date().toISOString(),
+          status: 'RECEIVED',
+          notes: []
+        };
+        const existing = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
+        existing.unshift(newTicket);
+        localStorage.setItem('awc_tickets', JSON.stringify(existing));
+        setGeneratedToken(token);
+      };
+
+      return (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
+            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+              <i data-lucide="x" className="w-6 h-6"></i>
+            </button>
+
+            {!generatedToken ? (
+              <div>
+                <div className="mb-6">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
+                    Legal Counsel & Court Support
+                  </span>
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
+                    {lang === 'si' ? 'නීති ආධාර හා නඩු උපදෙස් ඉල්ලුම් කිරීම' : 'Request Legal Assistance'}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {lang === 'si' ? 'පොලිස් පැමිණිලි, මහේස්ත්‍රාත් අධිකරණ නඩු හා සාක්ෂිකරුවන්ගේ ආරක්ෂාව වෙනුවෙන් නීතිඥ සහය.' : 'For pet owners, feeders, and witnesses involved in Magistrate Court or police matters.'}
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name *</label>
+                      <input type="text" required value={name} onChange={e=>setName(e.target.value)} className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number *</label>
+                      <input type="tel" required value={phone} onChange={e=>setPhone(e.target.value)} placeholder="07X XXX XXXX" className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address *</label>
+                      <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Police / Court Case # (If any)</label>
+                      <input type="text" value={caseNo} onChange={e=>setCaseNo(e.target.value)} placeholder="e.g. CIB 123/45 or MC 6789" className="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Nature of Legal Assistance Needed *</label>
+                    <textarea required rows="4" value={legalIssue} onChange={e=>setLegalIssue(e.target.value)} placeholder="Explain the legal dispute (e.g., Feeder harassment, police refusal, dog killed by neighbour, court hearing)..." className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"></textarea>
+                  </div>
+
+                  <button type="submit" className="w-full py-3.5 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md text-sm transition">
+                    Submit Legal Aid Request
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto mb-4">
+                  <i data-lucide="scale" className="w-8 h-8"></i>
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white">Legal Request Logged!</h3>
+                <p className="text-xs text-slate-500 mt-2">Your legal assistance inquiry reference token:</p>
+                <div className="my-6 p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-300 dark:border-blue-800 max-w-sm mx-auto">
+                  <span className="text-2xl font-black font-mono text-slate-900 dark:text-white tracking-widest">{generatedToken}</span>
+                </div>
+                <button onClick={onClose} className="px-6 py-2.5 rounded-xl font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs">Close</button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // --- Sub-Component: Track Ticket Modal ---
+    function TrackTicketModal({ lang, onClose }) {
+      const [token, setToken] = useState('');
+      const [result, setResult] = useState(null);
+      const [notFound, setNotFound] = useState(false);
+
+      const handleSearch = (e) => {
+        e.preventDefault();
+        const existing = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
+        const found = existing.find(t => t.token.trim().toUpperCase() === token.trim().toUpperCase());
+        if (found) {
+          setResult(found);
+          setNotFound(false);
+        } else {
+          setResult(null);
+          setNotFound(true);
+        }
+      };
+
+      return (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
+            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+              <i data-lucide="x" className="w-6 h-6"></i>
+            </button>
+
+            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">
+              Track Ticket / Status Lookup
+            </h3>
+            <p className="text-xs text-slate-500 mb-6">
+              Enter your reference token (e.g. AWC-TKT-XXXXXX) to view review progress and legal updates.
+            </p>
+
+            <form onSubmit={handleSearch} className="flex gap-2 mb-6">
+              <input
+                type="text"
+                required
+                value={token}
+                onChange={e => setToken(e.target.value)}
+                placeholder="AWC-TKT-123456"
+                className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 font-mono text-sm text-slate-900 dark:text-white uppercase outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+              <button type="submit" className="px-5 py-2.5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white text-xs shadow-md">
+                Search
+              </button>
+            </form>
+
+            {notFound && (
+              <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 text-xs text-red-600 dark:text-red-400">
+                No record found matching this token. Please check spelling or verify you submitted your report on this device.
+              </div>
+            )}
+
+            {result && (
+              <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs space-y-3">
+                <div className="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-2">
+                  <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">{result.token}</span>
+                  <span className="px-2.5 py-0.5 rounded-full font-extrabold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                    {result.status}
+                  </span>
+                </div>
+                <div><strong>Type:</strong> {result.type} ({result.category || 'General'})</div>
+                <div><strong>Logged Date:</strong> {new Date(result.createdAt).toLocaleString()}</div>
+                <div><strong>Location:</strong> {result.location || 'N/A'}, {result.district}</div>
+                <div className="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                  <strong>Latest Reviewer Update:</strong>
+                  <p className="text-slate-600 dark:text-slate-400 mt-1">
+                    {result.status === 'RECEIVED' ? 'Your complaint is in queue for initial triage by AWC legal reviewers.' : 'Review underway. Follow-up action scheduled.'}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // --- Sub-Component: Emergency Triage Modal ---
+    function EmergencyTriageModal({ lang, onClose }) {
+      return (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
+            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+              <i data-lucide="x" className="w-6 h-6"></i>
+            </button>
+
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950 text-red-600 flex items-center justify-center font-bold">
+                <i data-lucide="shield-alert" className="w-5 h-5"></i>
+              </div>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white">
+                Emergency & Safety Triage Protocol
+              </h3>
+            </div>
+
+            <div className="space-y-4 text-xs text-slate-600 dark:text-slate-300">
+              <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 text-red-900 dark:text-red-200">
+                <strong className="block mb-1 text-sm">🚨 Ongoing Violence or Serious Offence:</strong>
+                Immediately call <strong>Sri Lanka Police 119</strong>. Cruelty offences are cognizable under Section 12 of Ordinance No. 13 of 1907 (officers can arrest without a warrant).
+              </div>
+
+              <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900 text-emerald-900 dark:text-emerald-200">
+                <strong className="block mb-1 text-sm">🐘 Wildlife Crisis (Elephants, Leopards, Monkeys):</strong>
+                Contact Department of Wildlife Conservation (DWC) 24-hr hotline: <strong>1992</strong> or Head Office: <strong>+94 11 2 888 585</strong>.
+              </div>
+
+              <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 text-amber-900 dark:text-amber-200">
+                <strong className="block mb-1 text-sm">🩹 Suspected Rabies Animal Bite:</strong>
+                Immediately wash the wound thoroughly with soap and running water for <strong>at least 15 minutes</strong> (WHO guidance). Go to the nearest government hospital immediately for anti-rabies vaccination. Do not wait for a website response!
+              </div>
+            </div>
+
+            <button onClick={onClose} className="mt-6 w-full py-3 rounded-xl font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs">
+              Understood
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // --- Sub-Component: Sample Complaint Draft Modal (Trilingual) ---
+    function SampleComplaintDraftModal({ lang, onClose }) {
+      const [sampleLang, setSampleLang] = useState(lang || 'si');
+
+      return (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
+            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+              <i data-lucide="x" className="w-6 h-6"></i>
+            </button>
+
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+              <div>
+                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                  Drafting Guide
+                </span>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white mt-1">
+                  {sampleLang === 'si' ? 'පැමිණිල්ලක් සැකසිය යුතු ආදර්ශ ආකෘතිය' : sampleLang === 'ta' ? 'மாதிரி முறைப்பாடு படிவம்' : 'Sample Formal Complaint Format'}
+                </h3>
+              </div>
+
+              {/* Language Switcher for Sample */}
+              <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5 text-xs font-bold">
+                <button onClick={() => setSampleLang('si')} className={`px-2 py-1 rounded ${sampleLang === 'si' ? 'bg-white dark:bg-slate-700 text-emerald-600 shadow' : ''}`}>සිංහල</button>
+                <button onClick={() => setSampleLang('en')} className={`px-2 py-1 rounded ${sampleLang === 'en' ? 'bg-white dark:bg-slate-700 text-emerald-600 shadow' : ''}`}>English</button>
+                <button onClick={() => setSampleLang('ta')} className={`px-2 py-1 rounded ${sampleLang === 'ta' ? 'bg-white dark:bg-slate-700 text-emerald-600 shadow' : ''}`}>தமிழ்</button>
+              </div>
+            </div>
+
+            {/* Template Display */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 font-mono whitespace-pre-line leading-relaxed max-h-[60vh] overflow-y-auto">
+              {sampleLang === 'si' && `දිනය: 2026 අගෝස්තු 20
+
+ස්ථානාධිපතිතුමා, පොලිස් ස්ථානය / සත්ව සුබසාධන සන්ධානය (AWC)
+
+ගරු මහත්මයා/මහත්මිය,
+
+පැමිණිල්ල: වීදි සුනඛයෙකුට අමානුෂික ලෙස පහර දීම සම්බන්ධවයි.
+
+මහරගම, පන්සල පාර, අංක 15 ලිපිනයේ පදිංචි කේ. ඒ. නිමල් වන මා විසින් මෙම පැමිණිල්ල ඉදිරිපත් කරමි.
+
+සිදුවීමේ විස්තරය:
+2026 අගෝස්තු 20 වන දින උදෑසන 10.00 ට පමණ මහරගම, පන්සල පාරේදී මාගේ අසල්වැසි නිවසක පදිංචි පුද්ගලයෙකු විසින් පාරේ ගමන් කරමින් සිටි අසරණ වීදි සුනඛයෙකුට කිසිදු හේතුවක් නොමැතිව යකඩ පොල්ලකින් අමානුෂික ලෙස පහර දෙන ලදී. ඉන් සතාගේ පසුපස පාදයකට දැඩි ලෙස තුවාල සිදුවී ඇති අතර, සතා මේ වන විටත් නැගිටගත නොහැකිව එම ස්ථානයේම අසරණව සිටී.
+
+සැකකරු පිළිබඳ තොරතුරු:
+නම: සුනිල් ප්‍රනාන්දු (අල්ලපු ගෙදර පුද්ගලයා)
+ලිපිනය: අංක 17, පන්සල පාර, මහරගම.
+
+සාක්ෂි:
+මෙම පහරදීම සිදුවන අවස්ථාවේදී මාගේ ජංගම දුරකථනයෙන් පටිගත කරගත් වීඩියෝවක් සහ තුවාල වූ සතාගේ ඡායාරූප කිහිපයක් මෙම ටෝකන් අංකය සඳහන් කරමින් awcsrilanka@gmail.com වෙත යොමු කරමි. මීට අමතරව තවත් අසල්වැසියන් දෙදෙනෙකුද මෙම සිදුවීම දුටු බව වැඩිදුරටත් දන්වා සිටිමි.
+
+කරුණාකර මේ සම්බන්ධයෙන් සොයාබලා 1907 අංක 13 දරන සත්ව හිංසා ආඥාපනත යටතේ අදාළ නීතිමය පියවර ගැනීමට සහය වන ලෙස කාරුණිකව ඉල්ලා සිටිමි.
+
+මෙයට විශ්වාසී,
+(අත්සන)
+නම: කේ. ඒ. නිමල්
+දුරකථන අංකය: 07X XXX XXXX
+ලිපිනය: අංක 15, පන්සල පාර, මහරගම.`}
+
+              {sampleLang === 'en' && `Date: August 20, 2026
+
+To: Officer-in-Charge, Police Station / Animal Welfare Coalition (AWC)
+
+Dear Sir / Madam,
+
+Complaint: Inhumane and Cruel Assault on a Community Street Dog.
+
+I, K. A. Nimal, residing at No. 15, Pansala Road, Maharagama, hereby lodge this formal complaint.
+
+Incident Description:
+On August 20, 2026, at approximately 10:00 AM along Pansala Road, Maharagama, a resident from a neighbouring house brutally struck a helpless community street dog walking on the road with an iron rod without any provocation. As a direct result of this assault, the animal suffered severe traumatic injury to its left hind leg, and is currently unable to stand, lying helpless at the scene.
+
+Suspect Information:
+Name: Sunil Fernando (Neighbour)
+Address: No. 17, Pansala Road, Maharagama.
+
+Evidence:
+I am emailing video footage recorded on my smartphone during the incident, together with photographs of the injured animal, referencing my generated reference token to awcsrilanka@gmail.com. In addition, two other neighbours witnessed this assault and are willing to provide formal witness statements.
+
+I kindly request that you investigate this matter and take appropriate legal action under the Prevention of Cruelty to Animals Ordinance.
+
+Yours faithfully,
+(Signature)
+Name: K. A. Nimal
+Telephone: 07X XXX XXXX
+Address: No. 15, Pansala Road, Maharagama.`}
+
+              {sampleLang === 'ta' && `திகதி: 2026 ஆகஸ்ட் 20
+
+பெறுநர்: நிலையப் பொறுப்பதிகாரி, பொலிஸ் நிலையம் / விலங்கு நலக் கூட்டணி (AWC)
+
+மதிப்பிற்குரிய ஐயா / அம்மையீர்,
+
+முறைப்பாடு: வீதி நாய் ஒன்றுக்கு கொடூரமாக தாக்கியமை தொடர்பானது.
+
+மகரகம, பன்சல வீதி, இலக்கம் 15 இல் வசிக்கும் கே. ஏ. நிமால் ஆகிய நான் இம்முறைப்பாட்டை சமர்ப்பிக்கின்றேன்.
+
+சம்பவத்தின் விபரம்:
+2026 ஆகஸ்ட் 20 ஆம் திகதி காலை 10:00 மணியளவில் மகரகம, பன்சல வீதியில், எனது அயல் வீட்டில் வசிக்கும் நபர் ஒருவர், வீதியில் சென்று கொண்டிருந்த உதவியற்ற வீதி நாய் ஒன்றை எந்தவித காரணமும் இன்றி இரும்பு கம்பியினால் கொடூரமாக தாக்கினார். இதனால் அந்த நாயின் பின்னங்காலில் பலத்த காயம் ஏற்பட்டுள்ளதுடன், விலங்கு தற்போது வரை எழும்ப முடியாமல் அதே இடத்தில் உதவியற்ற நிலையில் உள்ளது.
+
+சந்தேகநபர் பற்றிய விபரங்கள்:
+பெயர்: சுனில் பெர்னாண்டோ (அயல் வீட்டு நபர்)
+முகவரி: இலக்கம் 17, பன்சல வீதி, மகரகம.
+
+சாட்சியங்கள்:
+இத்தாக்குதல் இடம்பெற்ற போது எனது கையடக்கத் தொலைபேசியில் பதிவு செய்யப்பட்ட வீடியோ மற்றும் காயமடைந்த விலங்கின் புகைப்படங்களை எனது டோக்கன் இலக்கத்தைக் குறிப்பிட்டு awcsrilanka@gmail.com இற்கு அனுப்பி வைக்கின்றேன். அத்துடன் மேலும் இரு அயலவர்கள் இச்சம்பவத்தை நேரில் கண்டனர் என்பதையும் தெரிவித்துக் கொள்கின்றேன்.
+
+தயவுசெய்து இது தொடர்பில் விசாரித்து உரிய சட்ட நடவடிக்கை எடுக்க உதவுமாறு கேட்டுக்கொள்கின்றேன்.
+
+இங்ஙனம்,
+(கையொப்பம்)
+பெயர்: கே. ஏ. நிமால்
+தொலைபேசி இலக்கம்: 07X XXX XXXX
+முகவரி: இலக்கம் 15, பன்சல வீதி, மகரகம.`}
+            </div>
+
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={onClose}
+                className="px-6 py-2 rounded-xl font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Render React to DOM
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

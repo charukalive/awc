@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWC Standalone Case Editor</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React 18 & Babel CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const STAGES = [
+      { key: 'RECEIVED', label: '1. Received' },
+      { key: 'UNDER_REVIEW', label: '2. Under Review' },
+      { key: 'ACTION_PLANNED', label: '3. Action Planned' },
+      { key: 'ESCALATED', label: '4. Court / Escalated' },
+      { key: 'RESOLVED', label: '5. Resolved' }
+    ];
+
+    function EditorApp() {
+      const [recordId, setRecordId] = useState('');
+      const [isDirty, setIsDirty] = useState(false);
+      const [isSaving, setIsSaving] = useState(false);
+      const [saveToast, setSaveToast] = useState(null);
+
+      // Record state
+      const [ticket, setTicket] = useState(null);
+      const [status, setStatus] = useState('RECEIVED');
+      const [policeStation, setPoliceStation] = useState('');
+      const [cibNumber, setCibNumber] = useState('');
+      const [bReportNo, setBReportNo] = useState('');
+      const [assignedLawyer, setAssignedLawyer] = useState('');
+      const [internalNotes, setInternalNotes] = useState('');
+      const [selectedStatutes, setSelectedStatutes] = useState([]);
+      const [publishToPublic, setPublishToPublic] = useState(false);
+      const [publicSummary, setPublicSummary] = useState('');
+
+      // Read recordId from URL query param
+      useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+          setRecordId(id);
+          loadRecord(id);
+        }
+      }, []);
+
+      // Unsaved Changes BeforeUnload Safeguard
+      useEffect(() => {
+        const handleBeforeUnload = (e) => {
+          if (isDirty) {
+            e.preventDefault();
+            e.returnValue = '';
+          }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+      }, [isDirty]);
+
+      // Load record from localStorage
+      const loadRecord = (id) => {
+        const tickets = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
+        const found = tickets.find(t => t.token === id);
+        if (found) {
+          setTicket(found);
+          setStatus(found.status || 'RECEIVED');
+          setPoliceStation(found.policeStation || '');
+          setCibNumber(found.cibNumber || '');
+          setBReportNo(found.bReportNo || '');
+          setAssignedLawyer(found.assignedLawyer || '');
+          setInternalNotes(found.internalNotes || '');
+          setSelectedStatutes(found.selectedStatutes || ['1907_SEC_2']);
+          setPublishToPublic(found.publishToPublic || false);
+          setPublicSummary(found.publicSummary || '');
+        } else {
+          // Check if it is a Master Case
+          const cases = JSON.parse(localStorage.getItem('awc_cases') || '[]');
+          const foundCase = cases.find(c => c.id === id);
+          if (foundCase) {
+            setTicket({
+              token: foundCase.id,
+              name: foundCase.title,
+              type: 'MASTER_CASE',
+              location: foundCase.location,
+              district: foundCase.district,
+              details: foundCase.summary
+            });
+            setStatus(foundCase.status || 'RECEIVED');
+            setPublicSummary(foundCase.summary || '');
+          }
+        }
+      };
+
+      // Handle Save & Cross-Window Dispatch
+      const handleSave = () => {
+        setIsSaving(true);
+        try {
+          const tickets = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
+          const idx = tickets.findIndex(t => t.token === recordId);
+          if (idx !== -1) {
+            tickets[idx] = {
+              ...tickets[idx],
+              status,
+              policeStation,
+              cibNumber,
+              bReportNo,
+              assignedLawyer,
+              internalNotes,
+              selectedStatutes,
+              publishToPublic,
+              publicSummary,
+              updatedAt: new Date().toISOString()
+            };
+            localStorage.setItem('awc_tickets', JSON.stringify(tickets));
+          } else {
+            // Update Master Case
+            const cases = JSON.parse(localStorage.getItem('awc_cases') || '[]');
+            const cIdx = cases.findIndex(c => c.id === recordId);
+            if (cIdx !== -1) {
+              cases[cIdx] = {
+                ...cases[cIdx],
+                status,
+                summary: publicSummary,
+                updatedAt: new Date().toISOString()
+              };
+              localStorage.setItem('awc_cases', JSON.stringify(cases));
+            }
+          }
+
+          setIsDirty(false);
+
+          // Broadcast postMessage to Parent admin.html
+          if (window.opener && !window.opener.closed) {
+            window.opener.postMessage({
+              type: 'RECORD_SAVED',
+              id: recordId,
+              status
+            }, '*');
+          }
+
+          setSaveToast('Record saved & synced to parent console!');
+          setTimeout(() => setSaveToast(null), 3500);
+        } catch (err) {
+          alert('Failed to save: ' + err.message);
+        } finally {
+          setIsSaving(false);
+        }
+      };
+
+      // Toggle statute selection
+      const toggleStatute = (key) => {
+        setIsDirty(true);
+        if (selectedStatutes.includes(key)) {
+          setSelectedStatutes(selectedStatutes.filter(s => s !== key));
+        } else {
+          setSelectedStatutes([...selectedStatutes, key]);
+        }
+      };
+
+      if (!ticket) {
+        return (
+          <div className="p-8 text-center text-slate-500">
+            Loading record or invalid ticket ID ({recordId})...
+          </div>
+        );
+      }
+
+      const currentIndex = STAGES.findIndex(s => s.key === status);
+
+      return (
+        <div className="max-w-5xl mx-auto p-6 space-y-6">
+          
+          {/* Top Bar */}
+          <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center shadow-lg">
+            <div>
+              <div className="flex items-center space-x-3">
+                <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                  {ticket.token}
+                </span>
+                <span className="text-xs text-slate-400">
+                  {ticket.type} ({ticket.district || 'National'})
+                </span>
+                {isDirty && (
+                  <span className="text-[10px] font-bold text-amber-400 bg-amber-950 px-2 py-0.5 rounded animate-pulse">
+                    Unsaved Edits
+                  </span>
+                )}
+              </div>
+              <h2 className="text-lg font-black text-white mt-1">{ticket.name || 'Anonymous Complainant'}</h2>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              {saveToast && (
+                <span className="text-xs font-bold text-emerald-400 bg-emerald-950 px-3 py-1.5 rounded-lg border border-emerald-800">
+                  ✓ {saveToast}
+                </span>
+              )}
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="px-6 py-2.5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-500 text-white text-xs shadow-md shadow-emerald-900/40 transition flex items-center space-x-1.5"
+              >
+                <span>{isSaving ? 'Saving...' : 'Save & Sync'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 5-Step Lifecycle Stepper */}
+          <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-md">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-4">
+              Case Lifecycle Progress Stepper
+            </span>
+
+            <div className="flex items-center justify-between relative py-2">
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-slate-800 -translate-y-1/2 -z-0"></div>
+              <div
+                className="absolute top-1/2 left-0 h-1 bg-emerald-500 -translate-y-1/2 transition-all duration-300"
+                style={{ width: `${(Math.max(0, currentIndex) / (STAGES.length - 1)) * 100}%` }}
+              ></div>
+
+              {STAGES.map((st, idx) => {
+                const isDone = idx <= currentIndex;
+                const isCurrent = idx === currentIndex;
+                return (
+                  <button
+                    key={st.key}
+                    type="button"
+                    onClick={() => { setStatus(st.key); setIsDirty(true); }}
+                    className="relative z-10 flex flex-col items-center group cursor-pointer"
+                  >
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                      isCurrent ? 'bg-emerald-500 text-white ring-4 ring-emerald-950 shadow-lg' :
+                      isDone ? 'bg-emerald-700 text-white' : 'bg-slate-800 text-slate-400 border border-slate-700'
+                    }`}>
+                      {isDone ? '✓' : idx + 1}
+                    </div>
+                    <span className={`text-[11px] font-bold mt-2 ${isCurrent ? 'text-emerald-400' : 'text-slate-400'}`}>
+                      {st.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Two-Column Editor Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+            
+            {/* Left Column: Complainant Dossier & Incident Details */}
+            <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+                Original Intake Dossier
+              </h3>
+
+              <div>
+                <strong className="text-slate-400 block">Complainant Name & Contact:</strong>
+                <div className="font-semibold text-white mt-0.5">{ticket.name || 'Anonymous'}</div>
+                <div className="text-slate-300">{ticket.phone} | {ticket.email}</div>
+              </div>
+
+              <div>
+                <strong className="text-slate-400 block">Incident Location:</strong>
+                <div className="text-slate-300 mt-0.5">{ticket.location || 'N/A'}, {ticket.district}</div>
+              </div>
+
+              <div>
+                <strong className="text-slate-400 block">Incident Narrative:</strong>
+                <p className="p-3 rounded-xl bg-slate-950 text-slate-300 leading-relaxed mt-1 border border-slate-800 font-mono">
+                  {ticket.details}
+                </p>
+              </div>
+
+              {/* Statutory Tagging Tool */}
+              <div className="pt-2">
+                <strong className="text-slate-400 block mb-2">Tag Applicable Legal Statutes:</strong>
+                <div className="grid grid-cols-1 gap-2 text-[11px]">
+                  {[
+                    { key: '1907_SEC_2', label: '1907 Ord Sec 2 (Cruelty / Beating / Transport)' },
+                    { key: '1907_SEC_4', label: '1907 Ord Sec 4 (Cruel Killing)' },
+                    { key: 'PENAL_411', label: 'Penal Code 411 / 412 (Mischief to Animal)' },
+                    { key: 'ANIMALS_ACT_1958', label: 'Animals Act 1958 / Gazette 1629/17 (Transport / Cattle Vouchers)' },
+                    { key: 'BUTCHERS_2008', label: 'Butchers Ord 1893 (Ban on Pregnant Cow Slaughter)' },
+                    { key: 'DANGEROUS_ANIMALS_2022', label: 'Dangerous Animals Act No. 40 of 2022 (Rs. 250k Fine)' },
+                    { key: 'FFPO_SEC_22A', label: 'FFPO Sec 22A (Captive Elephant Custody)' }
+                  ].map(stat => (
+                    <label key={stat.key} className="flex items-center space-x-2 p-2 rounded-lg bg-slate-950 border border-slate-800 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedStatutes.includes(stat.key)}
+                        onChange={() => toggleStatute(stat.key)}
+                        className="rounded text-emerald-600 focus:ring-emerald-500"
+                      />
+                      <span className="text-slate-300">{stat.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Confidential Legal Notes & Public Projection */}
+            <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+                Legal Actions & Police Tracking
+              </h3>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 font-bold mb-1">Police Station</label>
+                  <input
+                    type="text"
+                    value={policeStation}
+                    onChange={e => { setPoliceStation(e.target.value); setIsDirty(true); }}
+                    placeholder="e.g. Maharagama Police"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-700 bg-slate-950 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-bold mb-1">Police CIB / IB #</label>
+                  <input
+                    type="text"
+                    value={cibNumber}
+                    onChange={e => { setCibNumber(e.target.value); setIsDirty(true); }}
+                    placeholder="e.g. CIB 112/2026"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-700 bg-slate-950 text-white font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 font-bold mb-1">Court B-Report #</label>
+                  <input
+                    type="text"
+                    value={bReportNo}
+                    onChange={e => { setBReportNo(e.target.value); setIsDirty(true); }}
+                    placeholder="e.g. B/456/2026"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-700 bg-slate-950 text-white font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 font-bold mb-1">Assigned Legal Counsel</label>
+                  <input
+                    type="text"
+                    value={assignedLawyer}
+                    onChange={e => { setAssignedLawyer(e.target.value); setIsDirty(true); }}
+                    placeholder="e.g. Attorney Sajeewa Gamage"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-700 bg-slate-950 text-white"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 font-bold mb-1">Confidential Internal Legal Notes</label>
+                <textarea
+                  rows="4"
+                  value={internalNotes}
+                  onChange={e => { setInternalNotes(e.target.value); setIsDirty(true); }}
+                  placeholder="Record confidential witness safety notes, hearing dates, GVS post-mortem results..."
+                  className="w-full px-3 py-2 rounded-xl border border-slate-700 bg-slate-950 text-white font-mono"
+                ></textarea>
+              </div>
+
+              {/* Public Timeline Projection Section */}
+              <div className="pt-3 border-t border-slate-800 space-y-3">
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={publishToPublic}
+                    onChange={e => { setPublishToPublic(e.target.checked); setIsDirty(true); }}
+                    className="rounded text-emerald-600 focus:ring-emerald-500"
+                  />
+                  <span className="font-bold text-white">Publish Sanitized Timeline to Public Website & Tracker</span>
+                </label>
+
+                {publishToPublic && (
+                  <div>
+                    <label className="block text-slate-400 font-bold mb-1">Sanitized Public Milestone Summary (No witness names)</label>
+                    <textarea
+                      rows="3"
+                      value={publicSummary}
+                      onChange={e => { setPublicSummary(e.target.value); setIsDirty(true); }}
+                      placeholder="e.g. Complaint lodged at Katana Police; 2 suspects arrested under Penal Code 411; bail hearing scheduled."
+                      className="w-full px-3 py-2 rounded-xl border border-slate-700 bg-slate-950 text-emerald-300"
+                    ></textarea>
+                  </div>
+                )}
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<EditorApp />);
+  </script>
+</body>
+</html>

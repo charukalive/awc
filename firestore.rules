@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Admin Verification Function
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'awcsrilanka@gmail.com' ||
+        request.auth.token.admin == true ||
+        exists(/databases/$(database)/documents/artifacts/$(appId)/public/data/admins/$(request.auth.uid))
+      );
+    }
+
+    // 1. Private Incident Complaints & Legal Tickets (Public can CREATE with mandatory contact details; Read/Update Admin only)
+    match /data/complaints/{ticketId} {
+      allow create: if request.resource.data.keys().hasAll(['phone', 'email', 'details', 'token']);
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /data/legalRequests/{ticketId} {
+      allow create: if request.resource.data.keys().hasAll(['phone', 'email', 'details', 'token']);
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 2. Public Read-Only Case Projections & Timelines (Visible to public, writable only by admin)
+    match /public/data/cases/{caseId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 3. Public Ticket Status Tracker Projection (Only safe status fields exposed to public by token)
+    match /public/data/ticketStatus/{token} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 4. Admin whitelist and metadata
+    match /artifacts/{appId}/public/data/admins/{adminId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWC Admin Console | Incident Triage & Case Management</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d',
+              dark: '#0a1a14'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React 18 & Babel CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const ADMIN_EMAIL = 'awcsrilanka@gmail.com';
+
+    function AdminApp() {
+      const [isAuthenticated, setIsAuthenticated] = useState(false);
+      const [loginEmail, setLoginEmail] = useState('');
+      const [loginPassword, setLoginPassword] = useState('');
+      const [loginError, setLoginError] = useState('');
+      
+      const [tickets, setTickets] = useState([]);
+      const [cases, setCases] = useState([]);
+      const [activeTab, setActiveTab] = useState('complaints'); // complaints | legal | cases
+      const [searchQuery, setSearchQuery] = useState('');
+      const [filterStatus, setFilterStatus] = useState('ALL');
+      const [filterDistrict, setFilterDistrict] = useState('ALL');
+
+      // Modal state for creating a Master Case
+      const [showNewCaseModal, setShowNewCaseModal] = useState(false);
+      const [caseTitle, setCaseTitle] = useState('');
+      const [caseLocation, setCaseLocation] = useState('');
+      const [caseSummary, setCaseSummary] = useState('');
+
+      // Seed initial mock data if empty
+      useEffect(() => {
+        const storedTickets = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
+        if (storedTickets.length === 0) {
+          const sampleTickets = [
+            {
+              token: 'AWC-TKT-918234',
+              type: 'COMPLAINT',
+              category: 'physical_abuse',
+              name: 'K. A. Nimal',
+              phone: '071 234 5678',
+              email: 'nimal@gmail.com',
+              district: 'Colombo',
+              location: 'Pansala Road, Maharagama',
+              details: 'Community street dog brutally struck with an iron rod by neighbour Sunil Fernando. Dog has a fractured hind leg.',
+              incidentDate: '2026-08-20',
+              createdAt: '2026-08-20T10:15:00Z',
+              status: 'UNDER_REVIEW',
+              assignedCaseId: 'CASE-001'
+            },
+            {
+              token: 'AWC-TKT-552194',
+              type: 'COMPLAINT',
+              category: 'captive_wildlife',
+              name: 'Pradeep Silva',
+              phone: '077 889 9112',
+              email: 'pradeep@gmail.com',
+              district: 'Matale',
+              location: 'Sigiriya Tourist Safari Area',
+              details: 'Elephant Rani beaten with bullhooks by handlers to force tourist safari walks. Video captured.',
+              incidentDate: '2026-11-01',
+              createdAt: '2026-11-01T14:30:00Z',
+              status: 'ESCALATED',
+              assignedCaseId: 'CASE-002'
+            },
+            {
+              token: 'AWC-LEG-334102',
+              type: 'LEGAL_ASSISTANCE',
+              category: 'feeder_harassment',
+              name: 'R. Kanthi',
+              phone: '075 443 2190',
+              email: 'kanthi@gmail.com',
+              district: 'Colombo',
+              location: 'Malabe',
+              details: 'Neighbours pelting stones at my gate while feeding sterilized dogs on private plates. Seeking police notice support.',
+              caseNo: 'CIB 45/2026',
+              createdAt: '2026-08-15T09:00:00Z',
+              status: 'ACTION_PLANNED',
+              assignedCaseId: null
+            }
+          ];
+          localStorage.setItem('awc_tickets', JSON.stringify(sampleTickets));
+          setTickets(sampleTickets);
+        } else {
+          setTickets(storedTickets);
+        }
+
+        const storedCases = JSON.parse(localStorage.getItem('awc_cases') || '[]');
+        if (storedCases.length === 0) {
+          const sampleCases = [
+            {
+              id: 'CASE-001',
+              title: 'Maharagama Street Dog Assault',
+              district: 'Colombo',
+              location: 'Pansala Road, Maharagama',
+              status: 'UNDER_REVIEW',
+              summary: 'Assault on community dog under 1907 Ordinance Sec 2 & Penal Code 411.',
+              timeline: [
+                { date: '2026-08-20', status: 'REPORTED', note: 'Incident reported to AWC via portal.' },
+                { date: '2026-08-21', status: 'POLICE_COMPLAINT_LODGED', note: 'Formal CIB entry 112/2026 recorded at Maharagama Police.' }
+              ]
+            },
+            {
+              id: 'CASE-002',
+              title: 'Rani the Tourist Safari Elephant (Sigiriya)',
+              district: 'Matale',
+              location: 'Sigiriya',
+              status: 'ESCALATED',
+              summary: 'Bullhook assault on elephant Rani. Volunteer delivered demand letter to Sigiriya Police.',
+              timeline: [
+                { date: '2026-11-01', status: 'POLICE_COMPLAINT_LODGED', note: 'Demand letter hand-delivered to OIC Sigiriya.' },
+                { date: '2026-11-02', status: 'ARREST_REPORTED_BY_AWC', note: 'DWC officers arrested suspect for evening court production.' }
+              ]
+            }
+          ];
+          localStorage.setItem('awc_cases', JSON.stringify(sampleCases));
+          setCases(storedCases);
+        } else {
+          setCases(storedCases);
+        }
+
+        // Check if admin was previously logged in
+        if (sessionStorage.getItem('awc_admin_auth') === 'true') {
+          setIsAuthenticated(true);
+        }
+      }, []);
+
+      // Cross-Window postMessage Listener (from standalone editor.html)
+      useEffect(() => {
+        const handleCrossWindowMessage = (event) => {
+          if (event.data?.type === 'RECORD_SAVED') {
+            // Reload tickets & cases from storage
+            const updatedTickets = JSON.parse(localStorage.getItem('awc_tickets') || '[]');
+            const updatedCases = JSON.parse(localStorage.getItem('awc_cases') || '[]');
+            setTickets(updatedTickets);
+            setCases(updatedCases);
+          }
+        };
+        window.addEventListener('message', handleCrossWindowMessage);
+        return () => window.removeEventListener('message', handleCrossWindowMessage);
+      }, []);
+
+      // Refresh icons on state change
+      useEffect(() => {
+        if (window.lucide) window.lucide.createIcons();
+      });
+
+      // Login Handler
+      const handleLogin = (e) => {
+        e.preventDefault();
+        if (loginEmail.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+          setIsAuthenticated(true);
+          sessionStorage.setItem('awc_admin_auth', 'true');
+          setLoginError('');
+        } else {
+          setLoginError(`Unauthorized. You must sign in as ${ADMIN_EMAIL}.`);
+        }
+      };
+
+      const handleLogout = () => {
+        setIsAuthenticated(false);
+        sessionStorage.removeItem('awc_admin_auth');
+      };
+
+      // Open Dedicated Editor Window
+      const handleOpenEditor = (recordId) => {
+        window.open(`./editor.html?id=${encodeURIComponent(recordId)}`, '_blank', 'noopener,noreferrer');
+      };
+
+      // Create Master Case
+      const handleCreateCase = (e) => {
+        e.preventDefault();
+        const newCase = {
+          id: 'CASE-' + Math.floor(100 + Math.random() * 900),
+          title: caseTitle,
+          location: caseLocation,
+          district: 'Colombo',
+          status: 'RECEIVED',
+          summary: caseSummary,
+          timeline: [
+            { date: new Date().toISOString().split('T')[0], status: 'REPORTED', note: 'Master Case opened by AWC Coordinator.' }
+          ]
+        };
+        const updated = [newCase, ...cases];
+        setCases(updated);
+        localStorage.setItem('awc_cases', JSON.stringify(updated));
+        setShowNewCaseModal(false);
+        setCaseTitle('');
+        setCaseLocation('');
+        setCaseSummary('');
+      };
+
+      // Filtered Tickets
+      const filteredTickets = tickets.filter(t => {
+        if (activeTab === 'complaints' && t.type !== 'COMPLAINT') return false;
+        if (activeTab === 'legal' && t.type !== 'LEGAL_ASSISTANCE') return false;
+        if (filterStatus !== 'ALL' && t.status !== filterStatus) return false;
+        if (filterDistrict !== 'ALL' && t.district !== filterDistrict) return false;
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          return (
+            t.token.toLowerCase().includes(q) ||
+            (t.name && t.name.toLowerCase().includes(q)) ||
+            (t.location && t.location.toLowerCase().includes(q)) ||
+            (t.phone && t.phone.includes(q))
+          );
+        }
+        return true;
+      });
+
+      // Metrics
+      const totalComplaints = tickets.filter(t => t.type === 'COMPLAINT').length;
+      const totalLegal = tickets.filter(t => t.type === 'LEGAL_ASSISTANCE').length;
+      const underReviewCount = tickets.filter(t => t.status === 'UNDER_REVIEW').length;
+      const escalatedCount = tickets.filter(t => t.status === 'ESCALATED').length;
+
+      // Render Login Screen if not authenticated
+      if (!isAuthenticated) {
+        return (
+          <div className="min-h-screen flex items-center justify-center p-4 bg-slate-950">
+            <div className="max-w-md w-full bg-slate-900 rounded-3xl p-8 border border-slate-800 shadow-2xl">
+              <div className="text-center mb-8">
+                <img src="assets/logo.png" alt="AWC Logo" className="h-16 w-auto mx-auto mb-3 object-contain" onError={e=>e.target.style.display='none'} />
+                <h2 className="text-2xl font-black text-white">AWC Admin Console</h2>
+                <p className="text-xs text-slate-400 mt-1">Incident Triage & Magistrate Case Management</p>
+              </div>
+
+              {loginError && (
+                <div className="mb-4 p-3 rounded-xl bg-red-950/60 border border-red-800 text-xs text-red-300">
+                  {loginError}
+                </div>
+              )}
+
+              <form onSubmit={handleLogin} className="space-y-4 text-xs">
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">Administrator Email *</label>
+                  <input
+                    type="email"
+                    required
+                    value={loginEmail}
+                    onChange={e => setLoginEmail(e.target.value)}
+                    placeholder="awcsrilanka@gmail.com"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white font-mono outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Default admin account: {ADMIN_EMAIL}</span>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">Password</label>
+                  <input
+                    type="password"
+                    value={loginPassword}
+                    onChange={e => setLoginPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3.5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-900/30 transition text-sm"
+                >
+                  Access Triage Console
+                </button>
+              </form>
+
+              <div className="mt-6 text-center text-xs text-slate-500">
+                <a href="index.html" className="text-emerald-400 hover:underline">← Back to Public Website</a>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // Render Admin Dashboard
+      return (
+        <div className="min-h-screen flex flex-col">
+          
+          {/* Top Bar */}
+          <header className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div className="flex items-center space-x-3">
+              <img src="assets/logo.png" alt="AWC Logo" className="h-10 w-auto object-contain" onError={e=>e.target.style.display='none'} />
+              <div>
+                <h1 className="text-lg font-black text-white flex items-center space-x-2">
+                  <span>AWC Triage Command Console</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">Live</span>
+                </h1>
+                <p className="text-xs text-slate-400 font-mono">Logged in as: {ADMIN_EMAIL}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <a href="index.html" target="_blank" className="text-xs font-semibold text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-700">
+                View Public Site ↗
+              </a>
+              <button
+                onClick={handleLogout}
+                className="text-xs font-bold text-red-400 hover:text-red-300 px-3 py-1.5 rounded-lg bg-red-950/40 border border-red-800"
+              >
+                Sign Out
+              </button>
+            </div>
+          </header>
+
+          {/* Main Dashboard Area */}
+          <div className="max-w-7xl w-full mx-auto p-6 space-y-6 flex-1">
+            
+            {/* KPI Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                <span className="text-xs font-bold text-slate-400 uppercase">Complaints Queue</span>
+                <div className="text-3xl font-black text-white mt-1">{totalComplaints}</div>
+                <span className="text-[11px] text-emerald-400">Cruelty & neglect tickets</span>
+              </div>
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                <span className="text-xs font-bold text-slate-400 uppercase">Legal Aid Requests</span>
+                <div className="text-3xl font-black text-blue-400 mt-1">{totalLegal}</div>
+                <span className="text-[11px] text-blue-300">Court & police cases</span>
+              </div>
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                <span className="text-xs font-bold text-slate-400 uppercase">Under Review</span>
+                <div className="text-3xl font-black text-amber-400 mt-1">{underReviewCount}</div>
+                <span className="text-[11px] text-amber-300">Awaiting evidence check</span>
+              </div>
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                <span className="text-xs font-bold text-slate-400 uppercase">Court / Police Escalated</span>
+                <div className="text-3xl font-black text-purple-400 mt-1">{escalatedCount}</div>
+                <span className="text-[11px] text-purple-300">Active B-Reports / trials</span>
+              </div>
+            </div>
+
+            {/* Navigation Tabs & Actions */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
+              <div className="flex bg-slate-800 rounded-xl p-1 text-xs font-bold">
+                <button
+                  onClick={() => setActiveTab('complaints')}
+                  className={`px-4 py-2 rounded-lg transition ${activeTab === 'complaints' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                >
+                  Cruelty Complaints ({totalComplaints})
+                </button>
+                <button
+                  onClick={() => setActiveTab('legal')}
+                  className={`px-4 py-2 rounded-lg transition ${activeTab === 'legal' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                >
+                  Legal Aid Requests ({totalLegal})
+                </button>
+                <button
+                  onClick={() => setActiveTab('cases')}
+                  className={`px-4 py-2 rounded-lg transition ${activeTab === 'cases' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                >
+                  Master Cases ({cases.length})
+                </button>
+              </div>
+
+              {activeTab === 'cases' && (
+                <button
+                  onClick={() => setShowNewCaseModal(true)}
+                  className="px-4 py-2 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white text-xs shadow-md"
+                >
+                  + Create Master Case
+                </button>
+              )}
+            </div>
+
+            {/* Search & Filter Bar */}
+            {activeTab !== 'cases' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search token, name, phone, or landmark..."
+                  className="px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+                <select
+                  value={filterStatus}
+                  onChange={e => setFilterStatus(e.target.value)}
+                  className="px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white outline-none"
+                >
+                  <option value="ALL">All Statuses</option>
+                  <option value="RECEIVED">Received</option>
+                  <option value="UNDER_REVIEW">Under Review</option>
+                  <option value="ACTION_PLANNED">Action Planned</option>
+                  <option value="ESCALATED">Court / Police Escalated</option>
+                  <option value="CLOSED">Closed</option>
+                </select>
+                <select
+                  value={filterDistrict}
+                  onChange={e => setFilterDistrict(e.target.value)}
+                  className="px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white outline-none"
+                >
+                  <option value="ALL">All Districts</option>
+                  {['Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale', 'Galle', 'Matara', 'Hambantota', 'Kurunegala', 'Anuradhapura', 'Badulla', 'Ratnapura'].map(d => (
+                    <option key={d} value={d}>{d}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Ticket Stream Table */}
+            {activeTab !== 'cases' && (
+              <div className="bg-slate-800/60 rounded-2xl border border-slate-700 overflow-hidden shadow-lg">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-slate-800 text-slate-400 uppercase text-[10px] font-bold border-b border-slate-700">
+                      <tr>
+                        <th className="px-5 py-3.5">Token / Date</th>
+                        <th className="px-5 py-3.5">Category</th>
+                        <th className="px-5 py-3.5">Complainant / Contact</th>
+                        <th className="px-5 py-3.5">Location</th>
+                        <th className="px-5 py-3.5">Status</th>
+                        <th className="px-5 py-3.5">Master Case</th>
+                        <th className="px-5 py-3.5 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-700/60 font-medium">
+                      {filteredTickets.map(t => (
+                        <tr key={t.token} className="hover:bg-slate-750 transition">
+                          <td className="px-5 py-3.5">
+                            <span className="font-mono font-bold text-emerald-400 block">{t.token}</span>
+                            <span className="text-[10px] text-slate-500">{new Date(t.createdAt).toLocaleDateString()}</span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className="capitalize">{t.category ? t.category.replace('_', ' ') : 'General'}</span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <div className="font-bold text-white">{t.name || 'Anonymous'}</div>
+                            <div className="text-[11px] text-slate-400">{t.phone}</div>
+                            <div className="text-[10px] text-slate-500">{t.email}</div>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <div>{t.location}</div>
+                            <div className="text-[10px] text-slate-500">{t.district}</div>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold uppercase ${
+                              t.status === 'RECEIVED' ? 'bg-slate-700 text-slate-300' :
+                              t.status === 'UNDER_REVIEW' ? 'bg-amber-950 text-amber-300' :
+                              t.status === 'ESCALATED' ? 'bg-purple-950 text-purple-300' : 'bg-emerald-950 text-emerald-300'
+                            }`}>
+                              {t.status}
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            {t.assignedCaseId ? (
+                              <span className="font-mono text-[10px] bg-blue-950 text-blue-300 px-2 py-0.5 rounded font-bold">
+                                {t.assignedCaseId}
+                              </span>
+                            ) : (
+                              <span className="text-slate-500 text-[11px]">Unassigned</span>
+                            )}
+                          </td>
+                          <td className="px-5 py-3.5 text-right">
+                            <button
+                              onClick={() => handleOpenEditor(t.token)}
+                              className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow"
+                            >
+                              Open Editor ↗
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                      {filteredTickets.length === 0 && (
+                        <tr>
+                          <td colSpan="7" className="text-center py-8 text-slate-500">
+                            No tickets found matching your filter criteria.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Master Cases View */}
+            {activeTab === 'cases' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {cases.map(c => (
+                  <div key={c.id} className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-md flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="font-mono font-bold text-xs text-blue-400 bg-blue-950 px-2 py-0.5 rounded">
+                          {c.id}
+                        </span>
+                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-950 text-emerald-300">
+                          {c.status}
+                        </span>
+                      </div>
+                      <h4 className="text-base font-bold text-white mb-1">{c.title}</h4>
+                      <p className="text-xs text-slate-400 mb-3">{c.location} ({c.district})</p>
+                      <p className="text-xs text-slate-300 leading-relaxed mb-4">{c.summary}</p>
+                    </div>
+
+                    <div className="border-t border-slate-700 pt-3 flex justify-between items-center text-xs">
+                      <span className="text-slate-400">{c.timeline ? c.timeline.length : 0} Milestones Logged</span>
+                      <button
+                        onClick={() => handleOpenEditor(c.id)}
+                        className="font-bold text-emerald-400 hover:underline"
+                      >
+                        Manage Case & Milestones ↗
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+          </div>
+
+          {/* New Master Case Modal */}
+          {showNewCaseModal && (
+            <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+              <div className="bg-slate-900 rounded-3xl max-w-lg w-full p-6 border border-slate-800 shadow-2xl">
+                <h3 className="text-lg font-black text-white mb-1">Create New Master Case</h3>
+                <p className="text-xs text-slate-400 mb-4">Bundle multiple incoming complaints under an umbrella legal case.</p>
+
+                <form onSubmit={handleCreateCase} className="space-y-3 text-xs">
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">Case Title *</label>
+                    <input type="text" required value={caseTitle} onChange={e=>setCaseTitle(e.target.value)} placeholder="e.g. Negombo Boarding Kennel Dog Killing" className="w-full px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 text-white" />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">Location / Landmark *</label>
+                    <input type="text" required value={caseLocation} onChange={e=>setCaseLocation(e.target.value)} placeholder="e.g. Katana / Negombo" className="w-full px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 text-white" />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">Case Legal Summary *</label>
+                    <textarea required rows="3" value={caseSummary} onChange={e=>setCaseSummary(e.target.value)} placeholder="Summary of legal allegations, applicable statutes, and police station..." className="w-full px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 text-white"></textarea>
+                  </div>
+
+                  <div className="flex justify-end space-x-2 pt-2">
+                    <button type="button" onClick={()=>setShowNewCaseModal(false)} className="px-4 py-2 rounded-xl font-bold bg-slate-800 text-slate-300">Cancel</button>
+                    <button type="submit" className="px-5 py-2 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white">Create Case</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<AdminApp />);
+  </script>
+</body>
+</html>
