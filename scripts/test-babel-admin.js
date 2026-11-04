@@ -1,13 +1,14 @@
 // scripts/test-babel-admin.js
-// Preflight Static Verification Script for Zero-Build HTML files
+// Preflight Static Verification Script for Zero-Build HTML files using Babel Standalone
 
 const fs = require('fs');
 const path = require('path');
+const Babel = require('@babel/standalone');
 
 const filesToValidate = ['web/index.html', 'web/admin.html', 'web/editor.html'];
 let hasErrors = false;
 
-console.log('--- AWC Preflight HTML/JSX Syntax Validator ---');
+console.log('--- AWC Preflight HTML/JSX Babel Standalone Validator ---');
 
 filesToValidate.forEach((relPath) => {
   const filePath = path.resolve(__dirname, '..', relPath);
@@ -28,17 +29,15 @@ filesToValidate.forEach((relPath) => {
   scriptMatches.forEach((tag, idx) => {
     const js = tag.replace(/<script type="text\/babel">/i, '').replace(/<\/script>/i, '');
     
-    // Check balanced braces and parenthesis as basic sanity check
-    let openBrace = (js.match(/\{/g) || []).length;
-    let closeBrace = (js.match(/\}/g) || []).length;
-    let openParen = (js.match(/\(/g) || []).length;
-    let closeParen = (js.match(/\)/g) || []).length;
-
-    if (openBrace !== closeBrace || openParen !== closeParen) {
-      console.error(`[FAIL] ${relPath} (Script #${idx + 1}) Unbalanced tokens: { ${openBrace} vs ${closeBrace} }, ( ${openParen} vs ${closeParen} )`);
+    try {
+      Babel.transform(js, {
+        presets: ['react'],
+        filename: relPath
+      });
+      console.log(`[PASS] ${relPath} (Script #${idx + 1}) - Successfully compiled with Babel Standalone.`);
+    } catch (err) {
+      console.error(`[FAIL] ${relPath} (Script #${idx + 1}) Babel SyntaxError: ${err.message}`);
       hasErrors = true;
-    } else {
-      console.log(`[PASS] ${relPath} (Script #${idx + 1}) - Balanced syntax check passed (${openBrace} blocks).`);
     }
   });
 });
@@ -47,6 +46,6 @@ if (hasErrors) {
   console.error('\nPreflight check failed with errors.');
   process.exit(1);
 } else {
-  console.log('\nAll web files passed preflight validation successfully!');
+  console.log('\nAll web files passed real Babel compilation successfully!');
   process.exit(0);
 }
