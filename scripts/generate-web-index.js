@@ -308,52 +308,83 @@ const htmlContent = `<!DOCTYPE html>
                 {/* Quick Action Button in Header */}
                 <button
                   onClick={() => setShowReportModal(true)}
-                  className="inline-flex items-center space-x-1.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-extrabold text-xs uppercase tracking-wider px-3 sm:px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition whitespace-nowrap shrink-0"
+                  className="inline-flex items-center space-x-1 sm:space-x-1.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-extrabold text-xs uppercase tracking-wider px-2.5 sm:px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition whitespace-nowrap shrink-0"
                 >
-                  <i data-lucide="alert-triangle" className="w-3.5 h-3.5 text-amber-200"></i>
-                  <span>{lang === 'si' ? 'පැමිණිලි කරන්න' : lang === 'ta' ? 'முறைப்பாடு' : 'Report'}</span>
+                  <i data-lucide="alert-triangle" className="w-3.5 h-3.5 text-amber-200 shrink-0"></i>
+                  <span>{lang === 'si' ? 'පැමිණිලි' : lang === 'ta' ? 'முறைப்பாடு' : 'Report'}</span>
                 </button>
 
               </div>
             </div>
 
-            {/* Tier 2: Dedicated Navigation Tab Bar */}
-            <div className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-md">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav className="flex flex-wrap items-center justify-start sm:justify-center gap-1.5 sm:gap-2 py-2 text-xs sm:text-sm font-semibold">
-                  <button onClick={() => setActiveTab('home')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'home' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="home" className="w-4 h-4"></i>
-                    <span>{t.nav.home}</span>
+            {/* Tier 2: Dedicated Navigation Tab Bar - Balanced 2-Line Architecture */}
+            <div className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md py-2">
+              <div className="max-w-5xl mx-auto px-3 sm:px-6 space-y-1.5">
+                
+                {/* Line 1: Home, Know the Law, Legal Playbook, Cases & Updates */}
+                <nav className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
+                  <button 
+                    onClick={() => setActiveTab('home')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'home' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="home" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.home}</span>
                   </button>
-                  <button onClick={() => setActiveTab('knowLaw')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'knowLaw' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="scale" className="w-4 h-4"></i>
-                    <span>{t.nav.knowLaw}</span>
+                  <button 
+                    onClick={() => setActiveTab('knowLaw')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'knowLaw' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="scale" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.knowLaw}</span>
                   </button>
-                  <button onClick={() => setActiveTab('playbook')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'playbook' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="book-open" className="w-4 h-4"></i>
-                    <span>{t.nav.playbook}</span>
+                  <button 
+                    onClick={() => setActiveTab('playbook')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'playbook' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="book-open" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.playbook}</span>
                   </button>
-                  <button onClick={() => setActiveTab('cases')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'cases' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="folder-check" className="w-4 h-4"></i>
-                    <span>{t.nav.cases}</span>
-                  </button>
-                  <button onClick={() => setActiveTab('truthMyth')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'truthMyth' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="help-circle" className="w-4 h-4"></i>
-                    <span>{t.nav.truthMyth}</span>
-                  </button>
-                  <button onClick={() => setActiveTab('ourWork')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'ourWork' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="activity" className="w-4 h-4"></i>
-                    <span>{t.nav.ourWork}</span>
-                  </button>
-                  <button onClick={() => setActiveTab('about')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'about' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="users" className="w-4 h-4"></i>
-                    <span>{t.nav.about}</span>
-                  </button>
-                  <button onClick={() => setActiveTab('contact')} className={\`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition shrink-0 \${activeTab === 'contact' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800'}\`}>
-                    <i data-lucide="map-pin" className="w-4 h-4"></i>
-                    <span>{t.nav.contact}</span>
+                  <button 
+                    onClick={() => setActiveTab('cases')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'cases' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="folder-check" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.cases}</span>
                   </button>
                 </nav>
+
+                {/* Line 2: Truth vs Myth, Our Work & Policy, About & Team, Contact & Police */}
+                <nav className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
+                  <button 
+                    onClick={() => setActiveTab('truthMyth')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'truthMyth' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="help-circle" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.truthMyth}</span>
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('ourWork')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'ourWork' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="activity" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.ourWork}</span>
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('about')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'about' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="users" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.about}</span>
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('contact')} 
+                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'contact' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                  >
+                    <i data-lucide="map-pin" className="w-4 h-4 shrink-0"></i>
+                    <span className="truncate">{t.nav.contact}</span>
+                  </button>
+                </nav>
+
               </div>
             </div>
           </header>
@@ -922,17 +953,9 @@ const htmlContent = `<!DOCTYPE html>
                   {t.team.members.map((member, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition">
                       <div>
-                        {/* Distinguished Monogram Avatar Header */}
-                        <div className="flex items-center justify-between mb-4">
-                          <div className={\`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-base shadow-sm \${
-                            idx % 4 === 0 ? 'bg-gradient-to-br from-emerald-500 to-teal-700 text-white' :
-                            idx % 4 === 1 ? 'bg-gradient-to-br from-blue-500 to-indigo-700 text-white' :
-                            idx % 4 === 2 ? 'bg-gradient-to-br from-purple-500 to-violet-700 text-white' :
-                            'bg-gradient-to-br from-amber-500 to-orange-700 text-white'
-                          }\`}>
-                            {member.initials || member.name.substring(0, 2)}
-                          </div>
-                          <span className={\`text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md \${member.badgeColor}\`}>
+                        {/* Member Role Badge (Zero pictures / avatars) */}
+                        <div className="mb-4">
+                          <span className={'text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md ' + member.badgeColor}>
                             {member.badge}
                           </span>
                         </div>
@@ -1284,8 +1307,8 @@ const htmlContent = `<!DOCTYPE html>
       };
 
       return (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl max-w-2xl w-full p-4 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-auto sm:my-8 max-h-[92vh] overflow-y-auto">
             
             {/* Top-Right Clear Cancel Button */}
             <button 
@@ -1328,7 +1351,6 @@ const htmlContent = `<!DOCTYPE html>
                       <option value="illegal_transport">{lang === 'si' ? 'නීතිවිරෝධී සත්ව ප්‍රවාහනය (Illegal Cattle / Livestock Transport)' : lang === 'ta' ? 'சட்டவிரோத விலங்கு போக்குவரத்து' : 'Illegal Animal Transport / Cattle Smuggling'}</option>
                       <option value="illegal_slaughter">{lang === 'si' ? 'නීතිවිරෝධී ඝාතනය / ගැබිනි එළදෙනුන් ඝාතනය (Illegal Slaughter)' : lang === 'ta' ? 'சட்டவிரோத வதை / சினை மாடுகளை வதைத்தல்' : 'Illegal Slaughter / Pregnant Cow Slaughter'}</option>
                       <option value="captive_wildlife">{lang === 'si' ? 'වනජීවී / අලි ඇතුන් හිංසනය (Captive Wildlife / Elephant Abuse)' : lang === 'ta' ? 'வனவிலங்கு / யானை வதை' : 'Captive Wildlife / Elephant Abuse (FFPO)'}</option>
-                      <option value="boarding_facility">{lang === 'si' ? 'සුරතල් සතුන් රඳවාගැනීමේ ස්ථාන / බෝකිරීමේ ස්ථාන (Pet Boarding / Breeding)' : lang === 'ta' ? 'செல்லப்பிராணி தங்குமிட அலட்சியம்' : 'Pet Boarding Kennel / Breeder Neglect'}</option>
                       <option value="medical_negligence">{lang === 'si' ? '⚠️ පශු වෛද්‍ය නොසැලකිලිමත්කම (Veterinary Medical Negligence)' : lang === 'ta' ? '⚠️ கால்நடை மருத்துவ கவனக்குறைவு (SLVC Protocol)' : '⚠️ Veterinary Medical Negligence (SLVC Protocol)'}</option>
                       <option value="other">{lang === 'si' ? 'වෙනත් සත්ව අසාධාරණයක් (Other Animal Injustice)' : lang === 'ta' ? 'ஏனைய விலங்கு அநீதி' : 'Other Animal Welfare Injustice'}</option>
                     </select>
@@ -1530,28 +1552,28 @@ const htmlContent = `<!DOCTYPE html>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-between items-center gap-3">
+                  <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:justify-between items-stretch sm:items-center gap-3">
                     <button
                       type="button"
                       onClick={onShowSample}
-                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline"
+                      className="inline-flex items-center justify-center space-x-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline py-1"
                     >
                       <i data-lucide="file-text" className="w-4 h-4"></i>
                       <span>{lang === 'si' ? 'ආදර්ශ පැමිණිලි ආකෘතිය බලන්න ↗' : lang === 'ta' ? 'மாதிரி முறைப்பாடு படிவம் ↗' : 'View Sample Complaint Draft ↗'}</span>
                     </button>
 
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-2 w-full sm:w-auto">
                       <button
                         type="button"
                         onClick={onClose}
-                        className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition"
+                        className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs transition text-center"
                       >
                         {lang === 'si' ? 'අවලංගු කරන්න' : lang === 'ta' ? 'இரத்து' : 'Cancel'}
                       </button>
                       <button
                         type="submit"
                         disabled={isUploading}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold text-xs shadow-md transition flex items-center space-x-1.5"
+                        className="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 text-center"
                       >
                         {isUploading && <span className="animate-spin mr-1">⟳</span>}
                         <span>
@@ -1656,8 +1678,8 @@ const htmlContent = `<!DOCTYPE html>
       };
 
       return (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-8">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl max-w-2xl w-full p-4 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl relative my-auto sm:my-8 max-h-[92vh] overflow-y-auto">
             
             {/* Top-Right Clear Cancel Button */}
             <button 

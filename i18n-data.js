@@ -467,7 +467,7 @@ const awcData = {
           "bio": "Counsel leading criminal court interventions in landmark animal cruelty cases (including Sigiriya elephant Rani and Negombo Pawtopia)."
         },
         {
-          "name": "Charuka",
+          "name": "Charuka Wickramasekara",
           "role": "Animal Welfarist",
           "badge": "Executive Member",
           "badgeColor": "bg-slate-700 text-white",
@@ -1063,7 +1063,7 @@ const awcData = {
           "bio": "සීගිරියේ රාණි ඇතින්නගේ නඩුව සහ මීගමුවේ ටැංගෝ සුනඛ ඝාතන නඩුව ඇතුළු ප්‍රමුඛ මහේස්ත්‍රාත් අධිකරණ නඩු සඳහා සෘජුව මැදිහත්වී පෙනී සිටින නීතිඥ."
         },
         {
-          "name": "චාරුක",
+          "name": "චාරුක වික්‍රමසේකර",
           "role": "සත්ව සුබසාධන ක්‍රියාකාරී (Animal Welfarist)",
           "badge": "විධායක සාමාජික",
           "badgeColor": "bg-slate-700 text-white",
@@ -1659,7 +1659,7 @@ const awcData = {
           "bio": "சிகிரியா ராணி யானை வழக்கு மற்றும் நீர்கொழும்பு டாங்கோ நாய் கொலை வழக்கு உள்ளிட்ட முக்கிய நீதவான் நீதிமன்ற வழக்குகளில் நேரடியாக முன்னிலையாகும் சட்டத்தரணி."
         },
         {
-          "name": "சாருகா",
+          "name": "சாருகா விக்ரமசேகர",
           "role": "விலங்கு நல ஆர்வலர் (Animal Welfarist)",
           "badge": "நிர்வாக உறுப்பினர்",
           "badgeColor": "bg-slate-700 text-white",
