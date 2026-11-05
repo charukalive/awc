@@ -117,53 +117,53 @@ const mediaManagerHtml = `<!DOCTYPE html>
         defaultUrl: 'assets/og-preview.png',
         ratio: '1:1'
       },
-      // Statutes
+      // Know the Law (Statutory Cards)
       {
         key: 'statute_1907_ORD',
-        category: 'Statutes',
-        title: 'Prevention of Cruelty to Animals Ordinance No. 13 of 1907',
+        category: 'Know the Law',
+        title: 'Prevention of Cruelty to Animals Ordinance No. 13 of 1907 (Cap. 573)',
         desc: 'Card image for 1907 Ordinance under Know the Law.',
         defaultUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_PENAL_CODE',
-        category: 'Statutes',
-        title: 'Penal Code Sections 411 & 412 (Criminal Mischief)',
+        key: 'statute_PENAL_CODE_411',
+        category: 'Know the Law',
+        title: 'Penal Code Ordinance No. 2 of 1883 — Sections 411 & 412',
         desc: 'Card image for Penal Code under Know the Law.',
-        defaultUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80',
+        defaultUrl: 'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_DOG_REG',
-        category: 'Statutes',
-        title: 'Rabies Ordinance & Dog Registration Ordinance',
-        desc: 'Card image for Rabies and Dog Registration laws.',
-        defaultUrl: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80',
+        key: 'statute_AW_BILL_2026',
+        category: 'Know the Law',
+        title: 'Animal Welfare Bill (Draft Bill 48/2026)',
+        desc: 'Card image for the modern Animal Welfare Bill under Know the Law.',
+        defaultUrl: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_ANIMALS_ACT',
-        category: 'Statutes',
-        title: 'Animals Act No. 29 of 1958 (Cattle Slaughter & Transport)',
-        desc: 'Card image for Animals Act & cattle transport.',
+        key: 'statute_ANIMALS_ACT_1958',
+        category: 'Know the Law',
+        title: 'Animals Act No. 29 of 1958 & August 6, 2026 Amendment',
+        desc: 'Card image for Animals Act & cattle transport under Know the Law.',
         defaultUrl: 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_FFPO',
-        category: 'Statutes',
-        title: 'Fauna and Flora Protection Ordinance (FFPO)',
-        desc: 'Card image for Captive wildlife & elephant protection.',
+        key: 'statute_BUTCHERS_ORD_1893',
+        category: 'Know the Law',
+        title: 'The Butchers Ordinance No. 9 of 1893 & Public Slaughter Regulations',
+        desc: 'Card image for The Butchers Ordinance under Know the Law.',
         defaultUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_NEW_BILL',
-        category: 'Statutes',
-        title: 'Animal Welfare Bill (Landmark Legislative Reform)',
-        desc: 'Card image for the modern Animal Welfare Bill.',
-        defaultUrl: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=800&q=80',
+        key: 'statute_FFPO_1937',
+        category: 'Know the Law',
+        title: 'Fauna and Flora Protection Ordinance (FFPO No. 2 of 1937 & Act No. 7 of 2022)',
+        desc: 'Card image for Captive wildlife & elephant protection under Know the Law.',
+        defaultUrl: 'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       // Playbook
@@ -332,7 +332,7 @@ const mediaManagerHtml = `<!DOCTYPE html>
       });
 
       // Filtered Slots
-      const categories = ['All', 'Branding & Hero', 'Statutes', 'Playbook', 'Cases', 'Campaigns'];
+      const categories = ['All', 'Branding & Hero', 'Know the Law', 'Playbook', 'Cases', 'Campaigns'];
       const filteredSlots = useMemo(() => {
         if (selectedCategory === 'All') return DEFAULT_SLOTS;
         return DEFAULT_SLOTS.filter(s => s.category === selectedCategory);

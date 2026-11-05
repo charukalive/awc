@@ -83,10 +83,26 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&display=swap');
     
-    body {
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
       font-family: 'Plus Jakarta Sans', 'Noto Sans Sinhala', 'Noto Sans Tamil', sans-serif;
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-overflow-scrolling: touch;
     }
     
+    #root {
+      overflow-x: hidden !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+
     .scroll-smooth { scroll-behavior: smooth; }
 
     /* Custom thin scrollbar */
@@ -225,18 +241,18 @@
 
           {/* Sticky 2-Tier Navigation Header (Guarantees zero wrapping & clean layout on all screens) */}
           <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
-            {/* Tier 1: Brand & Top Utilities */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
+            {/* Tier 1: Brand & Top Utilities (Fully responsive for mobile & desktop) */}
+            <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-3 w-full">
               
               {/* Brand Logo & Name */}
-              <div className="flex items-center space-x-3 cursor-pointer shrink-0" onClick={() => setActiveTab('home')}>
-                <img src={getImage('site_logo', 'assets/logo.png')} alt="AWC Logo" className="h-10 sm:h-12 w-auto object-contain shrink-0" onError={(e)=>{e.target.style.display='none'}} />
-                <div className="shrink-0">
-                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight whitespace-nowrap">
+              <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0 flex-1 mr-1" onClick={() => setActiveTab('home')}>
+                <img src={getImage('site_logo', 'assets/logo.png')} alt="AWC Logo" className="h-8 sm:h-11 w-auto object-contain shrink-0" onError={(e)=>{e.target.style.display='none'}} />
+                <div className="min-w-0">
+                  <div className="text-xs sm:text-base md:text-lg font-black text-slate-900 dark:text-white leading-tight truncate">
                     {t.brandName}
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-[10px] sm:text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider whitespace-nowrap">
+                  <div className="flex items-center space-x-1.5">
+                    <span className="text-[9px] sm:text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider truncate">
                       {t.brandSub}
                     </span>
                     <span className="hidden md:inline-flex items-center px-1.5 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 rounded whitespace-nowrap">
@@ -246,131 +262,130 @@
                 </div>
               </div>
 
-              {/* Right Controls: Police Directory Button, Track, Theme, Language, Report */}
-              <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
+              {/* Right Controls: Police, Track, Theme, Language, Report */}
+              <div className="flex items-center space-x-1 sm:space-x-2 shrink-0">
                 
                 {/* Prominent Sri Lanka Police Index Link */}
                 <a 
                   href="https://police.lk/telephone-index/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/70 dark:hover:bg-blue-900 dark:text-blue-300 border border-blue-200 dark:border-blue-800 transition shadow-sm whitespace-nowrap"
-                  title="Direct Link to Sri Lanka Police Telephone Index & OIC Contacts"
+                  className="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/70 dark:hover:bg-blue-900 dark:text-blue-300 border border-blue-200 dark:border-blue-800 transition shadow-sm shrink-0"
+                  title={lang === 'si' ? 'ශ්‍රී ලංකා පොලිස් දුරකථන නාමාවලිය' : 'Sri Lanka Police Telephone Index'}
                 >
-                  <i data-lucide="phone" className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400"></i>
-                  <span className="hidden sm:inline">{lang === 'si' ? 'පොලිස් දුරකථන නාමාවලිය' : lang === 'ta' ? 'பொலிஸ் தொலைபேசி' : 'Police Directory (OIC)'}</span>
-                  <span className="sm:hidden">Police</span>
+                  <i data-lucide="phone" className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0"></i>
+                  <span className="hidden sm:inline ml-1">{lang === 'si' ? 'පොලිස් දුරකථන' : lang === 'ta' ? 'பொலிஸ்' : 'Police'}</span>
                 </a>
 
                 {/* Track Ticket Button */}
                 <button 
                   onClick={() => setShowTrackModal(true)}
-                  className="inline-flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition whitespace-nowrap shrink-0"
+                  className="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 transition shrink-0"
+                  title={t.nav.track}
                 >
-                  <i data-lucide="search" className="w-3.5 h-3.5"></i>
-                  <span className="hidden sm:inline">{t.nav.track}</span>
+                  <i data-lucide="search" className="w-3.5 h-3.5 shrink-0"></i>
+                  <span className="hidden md:inline ml-1">{t.nav.track}</span>
                 </button>
 
                 {/* Theme Toggle */}
                 <button
                   onClick={() => setDarkMode(!darkMode)}
-                  className="p-1.5 sm:p-2 rounded-xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition shrink-0"
-                  title="Toggle Light / Dark Mode"
+                  className="p-1.5 rounded-xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition shrink-0"
+                  title="Toggle Theme"
                 >
                   {darkMode ? (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
                     </svg>
                   ) : (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                     </svg>
                   )}
                 </button>
 
                 {/* Language Switcher */}
-                <div className="flex bg-slate-100 dark:bg-slate-800 rounded-xl p-0.5 border border-slate-200 dark:border-slate-700 text-xs font-bold shrink-0">
-                  <button onClick={() => setLang('en')} className={`px-2 py-1 rounded-lg transition ${lang === 'en' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>EN</button>
-                  <button onClick={() => setLang('si')} className={`px-2 py-1 rounded-lg transition ${lang === 'si' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>සිං</button>
-                  <button onClick={() => setLang('ta')} className={`px-2 py-1 rounded-lg transition ${lang === 'ta' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>த</button>
+                <div className="flex bg-slate-100 dark:bg-slate-800 rounded-xl p-0.5 border border-slate-200 dark:border-slate-700 text-[10px] sm:text-xs font-bold shrink-0">
+                  <button onClick={() => setLang('en')} className={'px-1.5 sm:px-2 py-1 rounded-lg transition ' + (lang === 'en' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white')}>EN</button>
+                  <button onClick={() => setLang('si')} className={'px-1.5 sm:px-2 py-1 rounded-lg transition ' + (lang === 'si' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white')}>සිං</button>
+                  <button onClick={() => setLang('ta')} className={'px-1.5 sm:px-2 py-1 rounded-lg transition ' + (lang === 'ta' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-400 shadow-sm font-extrabold' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white')}>த</button>
                 </div>
 
                 {/* Quick Action Button in Header */}
                 <button
                   onClick={() => setShowReportModal(true)}
-                  className="inline-flex items-center space-x-1 sm:space-x-1.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-extrabold text-xs uppercase tracking-wider px-2.5 sm:px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition whitespace-nowrap shrink-0"
+                  className="inline-flex items-center space-x-1 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-extrabold text-[11px] sm:text-xs uppercase tracking-wider px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl shadow-md transition whitespace-nowrap shrink-0"
                 >
                   <i data-lucide="alert-triangle" className="w-3.5 h-3.5 text-amber-200 shrink-0"></i>
                   <span>{lang === 'si' ? 'පැමිණිලි' : lang === 'ta' ? 'முறைப்பாடு' : 'Report'}</span>
                 </button>
-
               </div>
             </div>
 
             {/* Tier 2: Dedicated Navigation Tab Bar - Balanced 2-Line Architecture */}
-            <div className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md py-2">
-              <div className="max-w-5xl mx-auto px-3 sm:px-6 space-y-1.5">
+            <div className="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md py-2 w-full overflow-hidden">
+              <div className="max-w-5xl mx-auto px-2 sm:px-6 space-y-1 sm:space-y-1.5">
                 
                 {/* Line 1: Home, Know the Law, Legal Playbook, Cases & Updates */}
-                <nav className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
+                <nav className="grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-2">
                   <button 
                     onClick={() => setActiveTab('home')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'home' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'home' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="home" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="home" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.home}</span>
                   </button>
                   <button 
                     onClick={() => setActiveTab('knowLaw')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'knowLaw' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'knowLaw' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="scale" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="scale" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.knowLaw}</span>
                   </button>
                   <button 
                     onClick={() => setActiveTab('playbook')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'playbook' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'playbook' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="book-open" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="book-open" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.playbook}</span>
                   </button>
                   <button 
                     onClick={() => setActiveTab('cases')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'cases' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'cases' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="folder-check" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="folder-check" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.cases}</span>
                   </button>
                 </nav>
 
                 {/* Line 2: Truth vs Myth, Our Work & Policy, About & Team, Contact & Police */}
-                <nav className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
+                <nav className="grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-2">
                   <button 
                     onClick={() => setActiveTab('truthMyth')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'truthMyth' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'truthMyth' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="help-circle" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="help-circle" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.truthMyth}</span>
                   </button>
                   <button 
                     onClick={() => setActiveTab('ourWork')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'ourWork' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'ourWork' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="activity" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="activity" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.ourWork}</span>
                   </button>
                   <button 
                     onClick={() => setActiveTab('about')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'about' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'about' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="users" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="users" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.about}</span>
                   </button>
                   <button 
                     onClick={() => setActiveTab('contact')} 
-                    className={'flex items-center justify-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition text-center ' + (activeTab === 'contact' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
+                    className={'flex items-center justify-center space-x-1 sm:space-x-1.5 px-2 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold transition text-center min-w-0 ' + (activeTab === 'contact' ? 'bg-emerald-600 text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-300 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60')}
                   >
-                    <i data-lucide="map-pin" className="w-4 h-4 shrink-0"></i>
+                    <i data-lucide="map-pin" className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"></i>
                     <span className="truncate">{t.nav.contact}</span>
                   </button>
                 </nav>
@@ -1123,21 +1138,21 @@
             href="https://fb.com/awcsrilanka" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="fixed bottom-6 right-6 z-40 flex items-center space-x-2.5 bg-[#1877F2] hover:bg-[#0c63d4] text-white px-4 py-2.5 sm:py-3 rounded-full shadow-2xl shadow-blue-600/40 hover:shadow-blue-600/60 transition-all duration-200 transform hover:scale-105 border border-blue-400/30 group"
+            className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-40 flex items-center space-x-2 sm:space-x-2.5 bg-[#1877F2] hover:bg-[#0c63d4] text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-2xl shadow-blue-600/40 hover:shadow-blue-600/60 transition-all duration-200 border border-blue-400/30 max-w-[calc(100vw-1.5rem)] truncate"
             title="Follow AWC on Facebook for Recent Updates"
           >
-            <span className="relative flex h-3 w-3">
+            <span className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-white"></span>
             </span>
-            <svg className="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current shrink-0" viewBox="0 0 24 24">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
             </svg>
-            <div className="text-left font-bold text-xs pr-1 leading-tight">
-              <div className="text-[10px] uppercase font-extrabold tracking-wider text-blue-200">
+            <div className="text-left font-bold text-xs pr-1 leading-tight min-w-0">
+              <div className="text-[9px] sm:text-[10px] uppercase font-extrabold tracking-wider text-blue-200 truncate">
                 {lang === 'si' ? 'නවතම යාවත්කාලීන' : lang === 'ta' ? 'சமீபத்திய தகவல்' : 'Recent Updates'}
               </div>
-              <div className="text-xs font-black">fb.com/awcsrilanka ↗</div>
+              <div className="text-[11px] sm:text-xs font-black truncate">fb.com/awcsrilanka ↗</div>
             </div>
           </a>
 

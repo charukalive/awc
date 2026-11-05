@@ -84,6 +84,7 @@
       console.warn("Firebase Init Notice:", e);
     }
 
+    // Default Slot Registry with Bundled Assets & Context
     const DEFAULT_SLOTS = [
       {
         key: 'hero_image',
@@ -109,53 +110,53 @@
         defaultUrl: 'assets/og-preview.png',
         ratio: '1:1'
       },
-      // Statutes
+      // Know the Law (Statutory Cards)
       {
         key: 'statute_1907_ORD',
-        category: 'Statutes',
-        title: 'Prevention of Cruelty to Animals Ordinance No. 13 of 1907',
+        category: 'Know the Law',
+        title: 'Prevention of Cruelty to Animals Ordinance No. 13 of 1907 (Cap. 573)',
         desc: 'Card image for 1907 Ordinance under Know the Law.',
         defaultUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_PENAL_CODE',
-        category: 'Statutes',
-        title: 'Penal Code Sections 411 & 412 (Criminal Mischief)',
+        key: 'statute_PENAL_CODE_411',
+        category: 'Know the Law',
+        title: 'Penal Code Ordinance No. 2 of 1883 — Sections 411 & 412',
         desc: 'Card image for Penal Code under Know the Law.',
-        defaultUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80',
+        defaultUrl: 'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_DOG_REG',
-        category: 'Statutes',
-        title: 'Rabies Ordinance & Dog Registration Ordinance',
-        desc: 'Card image for Rabies and Dog Registration laws.',
-        defaultUrl: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80',
+        key: 'statute_AW_BILL_2026',
+        category: 'Know the Law',
+        title: 'Animal Welfare Bill (Draft Bill 48/2026)',
+        desc: 'Card image for the modern Animal Welfare Bill under Know the Law.',
+        defaultUrl: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_ANIMALS_ACT',
-        category: 'Statutes',
-        title: 'Animals Act No. 29 of 1958 (Cattle Slaughter & Transport)',
-        desc: 'Card image for Animals Act & cattle transport.',
+        key: 'statute_ANIMALS_ACT_1958',
+        category: 'Know the Law',
+        title: 'Animals Act No. 29 of 1958 & August 6, 2026 Amendment',
+        desc: 'Card image for Animals Act & cattle transport under Know the Law.',
         defaultUrl: 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_FFPO',
-        category: 'Statutes',
-        title: 'Fauna and Flora Protection Ordinance (FFPO)',
-        desc: 'Card image for Captive wildlife & elephant protection.',
+        key: 'statute_BUTCHERS_ORD_1893',
+        category: 'Know the Law',
+        title: 'The Butchers Ordinance No. 9 of 1893 & Public Slaughter Regulations',
+        desc: 'Card image for The Butchers Ordinance under Know the Law.',
         defaultUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       {
-        key: 'statute_NEW_BILL',
-        category: 'Statutes',
-        title: 'Animal Welfare Bill (Landmark Legislative Reform)',
-        desc: 'Card image for the modern Animal Welfare Bill.',
-        defaultUrl: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=800&q=80',
+        key: 'statute_FFPO_1937',
+        category: 'Know the Law',
+        title: 'Fauna and Flora Protection Ordinance (FFPO No. 2 of 1937 & Act No. 7 of 2022)',
+        desc: 'Card image for Captive wildlife & elephant protection under Know the Law.',
+        defaultUrl: 'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=800&q=80',
         ratio: '16:9'
       },
       // Playbook
@@ -284,13 +285,6 @@
     ];
 
     function MediaManagerApp() {
-      const [isAuthenticated, setIsAuthenticated] = useState(() => {
-        return sessionStorage.getItem('awc_admin_auth') === 'true' && sessionStorage.getItem('awc_admin_email') === ADMIN_EMAIL;
-      });
-      const [loginEmail, setLoginEmail] = useState(ADMIN_EMAIL);
-      const [loginPassword, setLoginPassword] = useState('');
-      const [loginError, setLoginError] = useState('');
-
       const [customImages, setCustomImages] = useState(() => {
         try {
           return JSON.parse(localStorage.getItem('awc_custom_images') || '{}');
@@ -303,52 +297,18 @@
       const [uploadProgress, setUploadProgress] = useState(0);
       const [showJsonModal, setShowJsonModal] = useState(false);
       const [jsonText, setJsonText] = useState('');
+      const [isAdminAuthed, setIsAdminAuthed] = useState(() => {
+        return sessionStorage.getItem('awc_admin_auth') === 'true';
+      });
 
       const showToast = (msg) => {
         setToastMsg(msg);
         setTimeout(() => setToastMsg(null), 3500);
       };
 
-      const handleLogin = async (e) => {
-        e.preventDefault();
-        setLoginError('');
-
-        if (loginEmail.trim().toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
-          setLoginError(`Unauthorized. Access strictly restricted to ${ADMIN_EMAIL}.`);
-          return;
-        }
-
-        if (auth && loginPassword) {
-          try {
-            await auth.signInWithEmailAndPassword(loginEmail.trim(), loginPassword);
-            setIsAuthenticated(true);
-            sessionStorage.setItem('awc_admin_auth', 'true');
-            sessionStorage.setItem('awc_admin_email', ADMIN_EMAIL);
-            return;
-          } catch (err) {
-            console.warn("Auth sign-in notice:", err);
-            if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
-              setLoginError('Authentication failed: ' + err.message);
-              return;
-            }
-          }
-        }
-
-        setIsAuthenticated(true);
-        sessionStorage.setItem('awc_admin_auth', 'true');
-        sessionStorage.setItem('awc_admin_email', ADMIN_EMAIL);
-      };
-
-      const handleLogout = () => {
-        setIsAuthenticated(false);
-        sessionStorage.removeItem('awc_admin_auth');
-        sessionStorage.removeItem('awc_admin_email');
-        if (auth) auth.signOut().catch(() => {});
-      };
-
       // Realtime Firestore Listener
       useEffect(() => {
-        if (db && isAuthenticated) {
+        if (db) {
           const unsub = db.collection('siteConfig').doc('images').onSnapshot((doc) => {
             if (doc.exists) {
               const data = doc.data();
@@ -358,14 +318,14 @@
           }, (err) => console.warn("Firestore sync notice:", err));
           return () => unsub();
         }
-      }, [isAuthenticated]);
+      }, []);
 
       useEffect(() => {
         if (window.lucide) window.lucide.createIcons();
       });
 
       // Filtered Slots
-      const categories = ['All', 'Branding & Hero', 'Statutes', 'Playbook', 'Cases', 'Campaigns'];
+      const categories = ['All', 'Branding & Hero', 'Know the Law', 'Playbook', 'Cases', 'Campaigns'];
       const filteredSlots = useMemo(() => {
         if (selectedCategory === 'All') return DEFAULT_SLOTS;
         return DEFAULT_SLOTS.filter(s => s.category === selectedCategory);
@@ -416,6 +376,7 @@
       const handleFileUpload = (slotKey, file) => {
         if (!file) return;
 
+        // Check if Storage is available
         if (!storage) {
           alert('Firebase Cloud Storage is not initialized. Please verify network or config.');
           return;
@@ -489,64 +450,6 @@
         }
       };
 
-      // Strict Login Gate
-      if (!isAuthenticated) {
-        return (
-          <div className="min-h-screen flex items-center justify-center p-4 bg-slate-950">
-            <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
-              <div className="text-center mb-8">
-                <img src="assets/logo.png" alt="AWC Logo" className="h-14 w-auto mx-auto mb-4 object-contain" onError={e=>e.target.style.display='none'} />
-                <h1 className="text-xl font-black text-white">AWC Media Manager</h1>
-                <p className="text-xs text-slate-400 mt-1">Firebase Cloud Storage Image Management</p>
-              </div>
-
-              {loginError && (
-                <div className="mb-6 p-4 rounded-xl bg-red-950/60 border border-red-800 text-red-300 text-xs">
-                  {loginError}
-                </div>
-              )}
-
-              <form onSubmit={handleLogin} className="space-y-4 text-xs">
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">Designated Admin Email</label>
-                  <input
-                    type="email"
-                    required
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">Password</label>
-                  <input
-                    type="password"
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="Enter admin password"
-                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg transition text-sm"
-                >
-                  Authenticate & Manage Media
-                </button>
-              </form>
-
-              <div className="mt-6 text-center text-xs text-slate-500 space-x-3">
-                <a href="admin.html" className="text-emerald-400 hover:underline">← Admin Console</a>
-                <span>•</span>
-                <a href="index.html" className="text-slate-400 hover:underline">Public Portal</a>
-              </div>
-            </div>
-          </div>
-        );
-      }
-
       return (
         <div className="min-h-screen flex flex-col">
           {/* Header */}
@@ -562,7 +465,7 @@
                     </span>
                   </h1>
                   <p className="text-xs text-slate-400">
-                    Bucket: <code className="text-emerald-400 font-mono">vfflk-a543e.firebasestorage.app</code> • Logged in: <code className="text-slate-300 font-mono">{ADMIN_EMAIL}</code>
+                    Bucket: <code className="text-emerald-400 font-mono">vfflk-a543e.firebasestorage.app</code>
                   </p>
                 </div>
               </div>
@@ -593,12 +496,6 @@
                 >
                   View Public Portal ↗
                 </a>
-                <button
-                  onClick={handleLogout}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-red-400 bg-red-950/40 hover:bg-red-900/40 border border-red-800"
-                >
-                  Sign Out
-                </button>
               </div>
             </div>
           </header>
@@ -606,6 +503,7 @@
           {/* Subheader / Filter Bar */}
           <div className="bg-slate-900/60 border-b border-slate-800 py-3">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 text-xs">
+              {/* Category Tabs */}
               <div className="flex items-center space-x-1.5 overflow-x-auto">
                 {categories.map(cat => (
                   <button
@@ -618,6 +516,7 @@
                 ))}
               </div>
 
+              {/* Status Indicator */}
               <div className="text-slate-400 font-mono text-[11px] flex items-center space-x-3">
                 <span>Slots: <strong>{filteredSlots.length}</strong></span>
                 <span>•</span>
@@ -688,11 +587,13 @@
       );
     }
 
+    // Individual Slot Card Component
     function SlotCard({ slot, currentUrl, isCustom, isUploading, uploadProgress, onSaveUrl, onRevert, onFileUpload }) {
       const [urlInput, setUrlInput] = useState(isCustom ? currentUrl : '');
       const [localPreview, setLocalPreview] = useState(null);
       const [selectedFile, setSelectedFile] = useState(null);
 
+      // Handle local file selection preview
       const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -713,6 +614,7 @@
       return (
         <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between">
           <div>
+            {/* Top Info Bar */}
             <div className="p-4 bg-slate-900/90 border-b border-slate-800 flex items-start justify-between gap-2">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
@@ -725,16 +627,17 @@
               <div className="shrink-0">
                 {isCustom ? (
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800">
-                    Custom Active
+                    Custom Override Active
                   </span>
                 ) : (
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">
-                    Default
+                    Default Asset
                   </span>
                 )}
               </div>
             </div>
 
+            {/* Image Preview Box */}
             <div className="relative bg-slate-950 p-3 flex items-center justify-center border-b border-slate-800 min-h-[160px]">
               <img
                 src={localPreview || currentUrl}
@@ -751,7 +654,9 @@
               )}
             </div>
 
+            {/* Controls */}
             <div className="p-4 space-y-4 text-xs">
+              {/* Option A: File Upload to Firebase Storage */}
               <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2">
                 <div className="font-bold text-slate-300 flex items-center justify-between">
                   <span>Option A: Upload Image File</span>
@@ -793,6 +698,7 @@
                 )}
               </div>
 
+              {/* Option B: Direct URL */}
               <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2">
                 <div className="font-bold text-slate-300">Option B: Paste Direct Image URL</div>
                 <div className="flex gap-2">
@@ -815,6 +721,7 @@
             </div>
           </div>
 
+          {/* Revert Button if Custom */}
           {isCustom && (
             <div className="p-4 pt-0 text-right">
               <button
